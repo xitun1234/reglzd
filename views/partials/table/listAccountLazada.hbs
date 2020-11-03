@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <h3 class="h4">
+                    Danh sách tài khoản</h3>
+            </div>
+            <div class="card-close">
+                <button class="btn btn-success btn-sm">Xuất excel</button>
+                <button class='btn btn-outline-danger btn-sm' id="selectAll" value="selectAll">
+                    Chọn tất cả
+                </button>
+
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm" id="tableListAccount" style="display:none">
+                        <thead>
+                            <th>STT</th>
+                            <th>Tài khoản</th>
+                            <th>Mật khẩu</th>
+                            <th>SDT</th>
+                            <th>Thiết bị</th>
+                            <th>Ngày tạo</th>
+                        </thead>
+                        <tbody style="color:black">
+                            {{#each listAccount}}
+                            <tr>
+                                <td>{{@index}}</td>
+                                <td>{{this.phone}}</td>
+                                <td>{{this.password}}</td>
+                                <td>{{this.phone}}</td>
+                                <td>{{this.deviceName}}</td>
+                                <td>{{date this.created "YYYY-MM-DD HH:MM:SS"}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
