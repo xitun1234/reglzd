@@ -45,7 +45,13 @@ router.post('/addUser', async(req,res) =>{
   });
 });
 
-router.get('/test',checkJWT,userController.getAllUser);
+router.get('/test', async(req,res)=>{
+  const user = await userModel.find();
+  res.status(200).json({
+    success:true,
+    data:user
+  });
+});
 router.get('/create',userController.createAccount);
 router.post('/Login',userController.LoginUser);
 

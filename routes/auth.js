@@ -10,6 +10,7 @@ const passport = require('passport');
 /* GET users listing. */
 
 router.post('/login', passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), function(req, res) {
+    console.log(req.body);
     res.redirect('/');
 });
 
