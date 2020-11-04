@@ -2,6 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session');
 var logger = require('morgan');
 const bodyParser = require('body-parser');
 const Handlebars = require('handlebars')
@@ -18,6 +19,15 @@ const userModel = require('./models/UserModel');
 
 var app = express();
 
+app.use(session({
+  cookie:{
+      secure: true,
+      maxAge:60000
+         },
+  secret: 'secret',
+  saveUninitialized: true,
+  resave: false
+  }));
 // passport setup
 app.use(session({
   secret:'noserect',
