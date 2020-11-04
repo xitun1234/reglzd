@@ -22,6 +22,7 @@ router.post('/addAccount', async (req,res) =>{
   newAccount.phone = req.body.phone;
   newAccount.deviceName = req.body.deviceName;
   newAccount.owner = idOwner._id;
+  newAccount.ipAddr = req.body.ipAddr;
 
   newAccount.save();
 

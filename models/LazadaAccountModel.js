@@ -7,6 +7,7 @@ const AccountSchema = new Schema({
     phone: {type:String},
     deviceName: {type:String},
     owner : {type:Schema.Types.ObjectId, ref:'User'},
+    ipAddr: {type:String},
     created:{type:Date, default:Date.now}
 });
 
