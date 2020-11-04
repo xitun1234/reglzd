@@ -6,7 +6,7 @@ dotenv.config({path: './config.env'});
 
 // config hort
 const port = process.env.PORT ||3000;
-const DB = process.env.DATABASE;
+const DB = process.env.MONGO_URL;
 
 
 const connectDB = async () => {
