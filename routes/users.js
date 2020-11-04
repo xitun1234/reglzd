@@ -5,7 +5,7 @@ const checkJWT = require('../middlewares/check-jwt');
 const deviceModel = require('../models/DeviceModel');
 const accountModel = require('../models/LazadaAccountModel');
 const userModel = require('../models/UserModel');
-
+const fs = require('fs');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -50,6 +50,26 @@ router.get('/test', async(req,res)=>{
   res.status(200).json({
     success:true,
     data:user
+  });
+});
+const readFilePro = file => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(file, (err, data) => {
+      if (err) reject('I could not find that file');
+      resolve(data);
+    });
+  });
+};
+
+router.get('/getfullname',async (req, res) => {
+  const fileData = await readFilePro(`${__dirname}/../config/output.json`);
+  const dataJson = JSON.parse(fileData);
+
+  let randomIndex = Math.floor(Math.random() * dataJson.length);
+
+  res.status(200).json({
+    status: 'success',
+    fullname: dataJson[randomIndex].full_name,
   });
 });
 router.get('/create',userController.createAccount);
