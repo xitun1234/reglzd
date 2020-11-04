@@ -19,15 +19,7 @@ const userModel = require('./models/UserModel');
 
 var app = express();
 
-app.use(session({
-  cookie:{
-      secure: true,
-      maxAge:60000
-         },
-  secret: 'secret',
-  saveUninitialized: true,
-  resave: false
-  }));
+
 // passport setup
 app.use(session({
   secret:'noserect',
