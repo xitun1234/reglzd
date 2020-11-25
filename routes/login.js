@@ -3,10 +3,12 @@ const router = express.Router();
 
 
 router.get('/', (req,res)=>{
-    console.log(req.body);
+    
     res.render('login',{
         title:'AAAA',
-        layout:false
+        layout:false,
+        loginMsg: req.flash('loginMsg'),
+        usernameDefault: req.flash('usernameDefault'),
     });
 });
 

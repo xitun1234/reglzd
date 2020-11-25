@@ -42,7 +42,7 @@
                             Account Login
                         </span>
                         <div class="formgroup wrap-input100 validate-input" data-validate="Username is required">
-                            <input class="input100" type="text" name="username" placeholder="Username">
+                            <input class="input100" type="text" name="username" placeholder="Username" value={{usernameDefault}}>
                             <span class="focus-input100-1"></span>
                             <span class="focus-input100-2"></span>
 
@@ -54,8 +54,9 @@
                             <span class="focus-input100-2"></span>
 
                         </div>
-
+                        
                         <div class="formgroup container-login100-form-btn m-t-20">
+                            <p class='text-danger'>{{loginMsg}}</p>
                             <button class="login100-form-btn" id="login" type="submit">
                                 Đăng nhập
                             </button>

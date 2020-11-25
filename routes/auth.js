@@ -9,13 +9,20 @@ const passport = require('passport');
 
 /* GET users listing. */
 
-router.post('/login', passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), function(req, res) {
+router.post(
+  '/login',
+  passport.authenticate('local', {
+    failureRedirect: '/login',
+    failureFlash: true,
+  }),
+  function(req, res) {
     console.log(req.body);
     res.redirect('/');
-});
+  }
+);
 
-router.get('/logout',(req,res,next) =>{
-    req.logout();
-    res.redirect('/login');
-})
+router.get('/logout', (req, res, next) => {
+  req.logout();
+  res.redirect('/login');
+});
 module.exports = router;

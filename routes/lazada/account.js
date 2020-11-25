@@ -10,7 +10,7 @@ router.use((req, res, next) => {
 router.get('/', async function(req, res) {
     console.log(req.user);
     const accounts = await accountModel.find({owner:req.user.id}).populate({path:'owner'}).populate('device','deviceName').exec((err,result)=>{
-        console.log(result);
+        
 
         res.render('lazada/account',{
             userData:req.user,
@@ -19,6 +19,7 @@ router.get('/', async function(req, res) {
             listAccount : result
         });
     });
+    console.log(accounts);
     
 });
 

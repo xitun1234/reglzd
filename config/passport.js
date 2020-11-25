@@ -27,17 +27,17 @@ module.exports = passport => {
   //   });
   // })));
 
-  passport.use(new LocalStrategy(
-    function(username, password, done) {
+  passport.use(new LocalStrategy({passReqToCallback:true},
+    function(req,username, password, done) {
       userModel.findOne({ username: username }, function (err, user) {
         if (err) { return done(err); }
-        if (!user) { return done(null, false); }
-        if (!user.comparePassword(password)) { return done(null, false); }
+        if (!user) { return done(null, false, req.flash('loginMsg', 'User not actived'), req.flash('usernameDefault',username)); }
+        if (!user.comparePassword(password)) { return done(null, false, req.flash('loginMsg','Wrong password!'), req.flash('usernameDefault',username)); }
         return done(null, user);
       });
     }
   ));
- 
+
   passport.serializeUser(userModel.serializeUser());
   passport.deserializeUser(userModel.deserializeUser());
 };

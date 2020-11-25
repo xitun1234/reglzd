@@ -1,0 +1,31 @@
+<section class="form no-padding-bottom">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        <h3 class="h4">Lọc</h3>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                            <div class="col-sm-8">
+                                <select name="deviceID" id="deviceId" >
+                                    <option value="all">Tất cả</option>
+                                    {{#each listDevice}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-primary btn-block">Lọc</button>
+                            </div>
+                            </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
