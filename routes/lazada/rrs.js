@@ -93,4 +93,52 @@ router.post('/deleteData', async(req,res)=>{
     });
 });
 
+router.post('/deleteDataByDevice', async(req,res) =>{
+  
+    const deviceName = req.body.deviceName;
+    const result = await rrsModel.deleteMany({deviceName:deviceName});
+
+    res.status(200).json({
+        success:true,
+        msg:'Đã xóa toàn bộ dữ liệu của ' +deviceName,
+        data:result
+    });
+
+});
+
+router.post('/statusRestore', async(req,res) =>{
+    const deviceName = req.body.deviceName;
+
+    if (deviceName == "all")
+    {
+      resultTest = await rrsModel.updateMany({isRestore: false});
+    }
+    else{
+      resultTest = await rrsModel.updateMany({deviceName:deviceName},{isRestore: false});
+    }
+    res.status(200).json({
+      success:true,
+      data:resultTest,
+      msg:'Cập nhật trạng thái cho ' +deviceName+' thành công'
+    });
+});
+
+router.post('/updateLink', async(req,res) =>{
+    const deviceName = req.body.deviceName;
+    const linkProduct = req.body.linkProduct;
+
+    if (deviceName == "all")
+    {
+      resultTest = await rrsModel.updateMany({linkProduct: linkProduct});
+    }
+    else{
+      resultTest = await rrsModel.updateMany({deviceName:deviceName},{linkProduct: linkProduct});
+    }
+    res.status(200).json({
+      success:true,
+      data:resultTest,
+      msg:'Cập nhật link sản phẩm cho ' +deviceName+' thành công'
+    });
+});
+
 module.exports = router;

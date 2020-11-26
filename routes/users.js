@@ -122,4 +122,25 @@ router.post('/updateRRS', async(req,res)=>{
   });
 });
 
+router.get('/restoreRRS&deviceName=:deviceName', async(req,res) =>{
+  const rrsData = await rrsModel.findOne({
+    deviceName: req.params.deviceName,
+    isBackUp: true,
+    ipAddr:{$ne: 'Dang nhap that bai'},
+  });
+
+  if (rrsData){
+    res.json({
+      status:'success',
+      data: rrsData
+    })
+  }
+  else{
+    res.json({
+      status:'fail',
+      data:null
+    });
+  }
+
+});
 module.exports = router;

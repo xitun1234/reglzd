@@ -8,7 +8,8 @@
                         <h3>Thêm dữ liệu RRS</h3>
                     </div>
                     <div class="card-close">
-                        <button type="button" class="btn btn-block btn-primary btn-sm" id="btnStart">Create Data</button>
+                        <button type="button" class="btn btn-block btn-primary btn-sm" id="btnStart">Create
+                                                                                    Data</button>
                     </div>
                     <div class="card-body">
                         <form>
@@ -24,158 +25,201 @@
                                             <label for="checkboxDeleteData">Xóa dữ liệu RRS cũ</label>
                                         </div>
                                     </div>
+
                                 </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center">
-                            <h3 class="h4">Kết quả</h3>
-                        </div>
-                        <div class="card-close">
-                            <div class="badge badge-pill badge-warning h5 text-light">
-                                <span id="proccessingCurrent">0</span>
-                                /
-                                <span id="proccessingAll">0</span>
+                                <div class="row">
+
+                                    <div class="col-8">
+                                        <div class="i-checks">
+                                            <input id="checkboxUpdateRRS" type="checkbox" class="checkbox-template">
+                                                <label for="checkboxUpdateRRS">Chỉ cập nhật RRS ở</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <select name="deviceID" id="deviceId">
+                                                
+                                                {{#each listDevice}}
+                                                    <option value="{{ this }}">{{ this }}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+
+                                </form>
                             </div>
                         </div>
-                        <div class="card-body" id="resultShow"></div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header d-flex align-items-center">
+                                <h3 class="h4">Kết quả</h3>
+                            </div>
+                            <div class="card-close">
+                                <div class="badge badge-pill badge-warning h5 text-light">
+                                    <span id="proccessingCurrent">0</span>
+                                    /
+                                    <span id="proccessingAll">0</span>
+                                </div>
+                            </div>
+                            <div class="card-body" id="resultShow"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </sections>
+        </sections>
 
-    <script>
+        <script>
 
-        let btnStart = "#btnStart";
-        let paramMain = "#paramMain";
-        let resultShow = "#resultShow";
-        let proccessingCurrent = "#proccessingCurrent";
-        let proccessingAll = "#proccessingAll";
-        let checkboxDeleteAllData = "#checkboxDeleteAllData";
+            let btnStart = "#btnStart";
+            let paramMain = "#paramMain";
+            let resultShow = "#resultShow";
+            let proccessingCurrent = "#proccessingCurrent";
+            let proccessingAll = "#proccessingAll";
+            let checkboxDeleteAllData = "#checkboxDeleteAllData";
+            let deviceId = "#deviceId";
+            let checkboxUpdateRRS = "#checkboxUpdateRRS";
 
-        $(paramMain).keyup(function () {
-            let input = $(this).val().trim().replace(/^\s*\n/gm, "");
-            if (input) {
-                let countInput = input.split('\n');
-                $(proccessingAll).text(countInput.length);
-            } else {
-                $(proccessingAll).text(0);
-            }
-        })
-
-        // xoa data RRS old
-        $(checkboxDeleteAllData).click (function () {
-                    if ($(checkboxDeleteAllData)[0].checked) {
-            let requestDelete = $.ajax({
-                type: "POST",
-                url: "deleteData",
-                dataType: "json",
-                contentType: "application/json",
-                success: function (result) {
-                    console.log(result);
+            $(paramMain).keyup(function () {
+                let input = $(this).val().trim().replace(/^\s*\n/gm, "");
+                if (input) {
+                    let countInput = input.split('\n');
+                    $(proccessingAll).text(countInput.length);
+                } else {
+                    $(proccessingAll).text(0);
                 }
             })
-        }
-        })
 
-
-
-        $(btnStart).click(function () {
-
-            $(proccessingCurrent).text(0);
-
-            let buttonDefaultText = $(this).text();
-            let buttonElement = $(this);
-            $(this).hide().html('<i class="fa fa-spinner fa-spin" style="font-size:20px"></i> Processing...').fadeIn("slow");
-
-            $(this).prop("disabled", true);
-
-            let listParamMain = $(paramMain).val().trim().replace(/^\s*\n/gm, "").split('\n');
-            let promises = [];
-
-
-            $.each(listParamMain, function (index, item) {
-                try {
-                    let dataParse = parseQueryString(item);
-
-                    let dataAjax = {
-                        username: dataParse.username,
-                        password: dataParse.password,
-                        phoneNumber: dataParse.phoneNumber,
-                        addressName: dataParse.addressName,
-                        linkProduct: dataParse.linkProduct,
-                        deviceName: dataParse.deviceName,
-                        isRestore: false,
-                        isBackUp: false,
-                        rrsName: "acc " + dataParse.username
-                    }
-
-                    let request = $.ajax({
+            // xoa data RRS old
+            $(checkboxDeleteAllData).click(function () {
+                if ($(checkboxDeleteAllData)[0].checked) {
+                    let requestDelete = $.ajax({
                         type: "POST",
-                        url: "addData",
+                        url: "deleteData",
                         dataType: "json",
                         contentType: "application/json",
-                        data: JSON.stringify(dataAjax),
                         success: function (result) {
-                            let resultRender = "";
-                            if (result.success) {
-                                let template = Handlebars.compile($(renderResultSuccess).html());
-                                resultRender = template({msg: result.msg})
-                            } else {
-                                let template = Handlebars.compile($(renderResultError).html());
-                                resultRender = template({
-                                    msg: result.msg,
-                                    error: JSON.stringify(result.detail)
-                                });
-                            }
-                            $(resultShow).append(resultRender);
+                            console.log(result);
                         }
-                    }).always(function () {
-                        let proccessingCurrentText = Number($(proccessingCurrent).text()) + 1;
-                        $(proccessingCurrent).text(proccessingCurrentText);
                     })
-
-                } catch (error) {
-                    console.log(error);
                 }
             })
 
-            $.when.apply(null, promises).done(function () {
-                $(buttonElement).removeAttr('disabled');
-                $(buttonElement).hide().text(buttonDefaultText).fadeIn();
-            });
+
+            $(btnStart).click(function () {
+
+                if ($(checkboxUpdateRRS)[0].checked) {
+                    
+                    var deviceName = $(deviceId).val();
+
+                    let dataAjax = {
+                        deviceName: deviceName
+                    }
+
+                    let requestDelete = $.ajax({
+                        type: "POST",
+                        url: "deleteDataByDevice",
+                        dataType: "json",
+                        contentType: "application/json",
+                        data:JSON.stringify(dataAjax),
+                        success: function (result) {
+                            console.log(result);
+                        },
+                        timeout:2000
+                    })
+                }
+
+                $(proccessingCurrent).text(0);
+
+                let buttonDefaultText = $(this).text();
+                let buttonElement = $(this);
+                $(this).hide().html('<i class="fa fa-spinner fa-spin" style="font-size:20px"></i> Processing...').fadeIn("slow");
+
+                $(this).prop("disabled", true);
+
+                let listParamMain = $(paramMain).val().trim().replace(/^\s*\n/gm, "").split('\n');
+                let promises = [];
 
 
-        })
-    </script>
+                $.each(listParamMain, function (index, item) {
+                    try {
+                        let dataParse = parseQueryString(item);
 
-    <script>
-        function parseQueryString(query) {
-            var obj = {},
-                qPos = query.indexOf("?"),
-                tokens = query.substr(qPos + 1).split('&')
-            i = tokens.length - 1;
-            if (qPos !== -1 || query.indexOf("=") !== -1) {
-                for (; i >= 0; i --) {
-                    var s = tokens[i].split('=');
-                    obj[unescape(s[0])] = s.hasOwnProperty(1) ? unescape(s[1]) : null;
-                };
+                        let dataAjax = {
+                            username: dataParse.username,
+                            password: dataParse.password,
+                            phoneNumber: dataParse.phoneNumber,
+                            addressName: dataParse.addressName,
+                            linkProduct: dataParse.linkProduct,
+                            deviceName: dataParse.deviceName,
+                            isRestore: false,
+                            isBackUp: false,
+                            rrsName: "acc " + dataParse.username
+                        }
+
+                        let request = $.ajax({
+                            type: "POST",
+                            url: "addData",
+                            dataType: "json",
+                            contentType: "application/json",
+                            data: JSON.stringify(dataAjax),
+                            success: function (result) {
+                                let resultRender = "";
+                                if (result.success) {
+                                    let template = Handlebars.compile($(renderResultSuccess).html());
+                                    resultRender = template({msg: result.msg})
+                                } else {
+                                    let template = Handlebars.compile($(renderResultError).html());
+                                    resultRender = template({
+                                        msg: result.msg,
+                                        error: JSON.stringify(result.detail)
+                                    });
+                                }
+                                $(resultShow).append(resultRender);
+                            }
+                        }).always(function () {
+                            let proccessingCurrentText = Number($(proccessingCurrent).text()) + 1;
+                            $(proccessingCurrent).text(proccessingCurrentText);
+                        })
+
+                    } catch (error) {
+                        console.log(error);
+                    }
+                })
+
+                $.when.apply(null, promises).done(function () {
+                    $(buttonElement).removeAttr('disabled');
+                    $(buttonElement).hide().text(buttonDefaultText).fadeIn();
+                });
+
+
+            })
+        </script>
+
+        <script>
+            function parseQueryString(query) {
+                var obj = {},
+                    qPos = query.indexOf("?"),
+                    tokens = query.substr(qPos + 1).split('&')
+                i = tokens.length - 1;
+                if (qPos !== -1 || query.indexOf("=") !== -1) {
+                    for (; i >= 0; i --) {
+                        var s = tokens[i].split('=');
+                        obj[unescape(s[0])] = s.hasOwnProperty(1) ? unescape(s[1]) : null;
+                    };
+                }
+                return obj;
             }
-            return obj;
-        }
-    </script>
+        </script>
 
-    <script id="renderResultError" type="text/x-handlebars-template">
-        <div class="alert alert-danger" role="alert">
-            \{{ msg }}
-            <hr/>
-            \{{ error }}
-        </div>
-    </script>
-    <script id="renderResultSuccess" type="text/x-handlebars-template">
-        <div class="alert alert-success" role="alert">\{{ msg }}</div>
-    </script>
+        <script id="renderResultError" type="text/x-handlebars-template">
+            <div class="alert alert-danger" role="alert">
+                \{{ msg }}
+                <hr/>
+                \{{ error }}
+            </div>
+        </script>
+        <script id="renderResultSuccess" type="text/x-handlebars-template">
+            <div class="alert alert-success" role="alert">\{{ msg }}</div>
+        </script>

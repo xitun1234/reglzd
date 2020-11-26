@@ -16,7 +16,7 @@ router.post(
     failureFlash: true,
   }),
   function(req, res) {
-    console.log(req.body);
+    
     res.redirect('/');
   }
 );
