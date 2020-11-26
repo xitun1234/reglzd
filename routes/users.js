@@ -126,6 +126,7 @@ router.get('/restoreRRS&deviceName=:deviceName', async(req,res) =>{
   const rrsData = await rrsModel.findOne({
     deviceName: req.params.deviceName,
     isBackUp: true,
+    isRestore:false,
     ipAddr:{$ne: 'Dang nhap that bai'},
   });
 
