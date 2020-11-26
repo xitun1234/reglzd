@@ -99,12 +99,15 @@ router.get('/getRRS&deviceName=:deviceName', async(req,res) =>{
 })
 
 router.post('/updateRRS', async(req,res)=>{
-  console.log(req.body.username)
+
   const filter = {
     username: req.body.username
   };
+
   const update = {
-    isBackUp: false
+    isBackUp: req.body.isBackUp,
+    isRestore: req.body.isRestore,
+    ipAddr: req.body.ipAddr
   };
 
   let resultUpdate = await rrsModel.findOneAndUpdate(filter,update);
@@ -115,7 +118,7 @@ router.post('/updateRRS', async(req,res)=>{
   res.status(200).json({
     success: true,
     data: resultUpdate
-  })
-})
+  });
+});
 
 module.exports = router;
