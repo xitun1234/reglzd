@@ -5,6 +5,7 @@ const checkJWT = require('../middlewares/check-jwt');
 const deviceModel = require('../models/DeviceModel');
 const accountModel = require('../models/LazadaAccountModel');
 const userModel = require('../models/UserModel');
+const rrsModel = require('../models/RrsModel');
 const fs = require('fs');
 
 /* GET users listing. */
@@ -75,5 +76,46 @@ router.get('/getfullname',async (req, res) => {
 });
 router.get('/create',userController.createAccount);
 router.post('/Login',userController.LoginUser);
+
+router.get('/getRRS&deviceName=:deviceName', async(req,res) =>{
+  const rrsData = await rrsModel.findOne({
+    deviceName: req.params.deviceName,
+    isBackUp: false
+  })
+
+  if (rrsData){
+    res.json({
+      status:'success',
+      data: rrsData
+    })
+  }
+  else{
+    res.json({
+      status:'fail',
+      data:null
+    })
+  }
+
+})
+
+router.post('/updateRRS', async(req,res)=>{
+  console.log(req.body.username)
+  const filter = {
+    username: req.body.username
+  };
+  const update = {
+    isBackUp: false
+  };
+
+  let resultUpdate = await rrsModel.findOneAndUpdate(filter,update);
+  
+  // let resultTest = await rrsModel.updateMany({deviceName:'May 2'},{isBackUp: false});
+
+
+  res.status(200).json({
+    success: true,
+    data: resultUpdate
+  })
+})
 
 module.exports = router;
