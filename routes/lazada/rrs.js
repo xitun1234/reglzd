@@ -8,12 +8,26 @@ router.use((req, res, next) => {
   });
 
 router.get('/', async function(req, res) {
+    const filter ={
+        ...req.query
+    };
+    const devicesName = await rrsModel.distinct('deviceName');
+
+    if (filter.deviceID == "all")
+    {
+        rrsData = await rrsModel.find();
+    }
+    else{
+        rrsData = await rrsModel.find({deviceName: filter.deviceID});
+    }
+
     res.render('lazada/rrs',{
         active:{
             CreateRRS: true
         },
         LazadaSlideBarActive:true,
         userData: req.user,
+        listDevice: devicesName
     });
     
 });

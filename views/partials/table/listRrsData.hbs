@@ -14,27 +14,64 @@
                 <div class="table-responsive">
                     <table class="table table-sm" id="tableListRRS" style="display:none">
                         <thead>
-                                <th>STT</th>
-                                <th>Tài khoản</th>
-                                <th>Mật khẩu</th>
-                                <th>Địa chỉ</th>
-                                <th>Số điện thoại</th>
-                                <th>Thiết bị</th>
-                                <th>Restore</th>
-                                <th>Back up</th>
+                            <th>STT</th>
+                            <th>Tài khoản</th>
+                            <th>Mật khẩu</th>
+                            <th>Địa chỉ</th>
+                            <th>Số điện thoại</th>
+                            <th>Thiết bị</th>
+                            <th>Restore</th>
+                            <th>Back up</th>
+                            <th>IP</th>
                         </thead>
                         <tbody>
                             {{#each listRRS}}
-                            <tr>
-                                <td>{{add @index 1}}</td>
-                                <td>{{this.username}}</td>
-                                <td>{{this.password}}</td>
-                                <td>{{this.addressName}}</td>
-                                <td>{{this.phoneNumber}}</td>
-                                <td>{{this.deviceName}}</td>
-                                <td>{{this.isRestore}}</td>
-                                <td>{{this.isBackUp}}</td>
-                            </tr>
+                                <tr>
+                                    <td>{{ add @index 1 }}</td>
+                                    <td>{{ this.username }}</td>
+                                    <td>{{ this.password }}</td>
+                                    <td>{{ this.addressName }}</td>
+                                    <td>{{ this.phoneNumber }}</td>
+                                    <td>{{ this.deviceName }}</td>
+                                    {{#if this.isRestore}}
+                                        <td>
+                                            <p class="text-success">
+                                                {{ this.isRestore }}
+                                            </p>
+                                        </td>
+                                    {{ else }}
+                                        <td>
+                                            <p class="text-danger">
+                                                {{ this.isRestore }}
+                                            </p>
+                                        </td>
+                                    {{/if}}
+                                    {{#if this.isBackUp}}
+                                        <td>
+                                            <p class="text-success">
+                                                {{ this.isBackUp }}
+                                            </p>
+                                        </td>
+                                    {{ else }}
+                                        <td>
+                                            <p class="text-danger">
+                                                {{ this.isBackUp }}
+                                            </p>
+                                        </td>
+                                    {{/if}}
+
+                                    <td>
+                                        {{#if (eq this.ipAddr "Dang nhap that bai")}}
+                                            <p class="text-danger">
+                                                {{ this.ipAddr }}
+                                            </p>
+                                        {{ else }}
+                                            <p class="text-info">
+                                                {{ this.ipAddr }}
+                                            </p>
+                                        {{/if}}
+                                    </td>
+                                </tr>
                             {{/each}}
                         </tbody>
                     </table>

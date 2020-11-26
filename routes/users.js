@@ -80,8 +80,9 @@ router.post('/Login',userController.LoginUser);
 router.get('/getRRS&deviceName=:deviceName', async(req,res) =>{
   const rrsData = await rrsModel.findOne({
     deviceName: req.params.deviceName,
-    isBackUp: false
-  })
+    isBackUp: false,
+    ipAddr:'',
+  });
 
   if (rrsData){
     res.json({
