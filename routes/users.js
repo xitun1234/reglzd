@@ -208,7 +208,7 @@ router.get('/datagmail',async (req, res) => {
   var password = removeVietnameseTones(dataJson[randomIndex].last_name_group) + removeVietnameseTones(dataJson[randomIndex].first_name).toLowerCase() + getRandomNumber(getRndInteger(4,6));
 
 
-  var gmail = removeVietnameseTones(dataJson[randomIndex].last_name_group) + removeVietnameseTones(dataJson[randomIndex].first_name).toLowerCase() +getRandomNumber(getRndInteger(2,4))+ getRandomString(getRndInteger(2,4)) +"@gmail.com";
+  var gmail = removeVietnameseTones(dataJson[randomIndex].last_name_group) + removeVietnameseTones(dataJson[randomIndex].first_name).toLowerCase() +getRandomNumber(getRndInteger(2,4))+ getRandomString(getRndInteger(2,4));
 
   res.status(200).json({
     status: 'success',
