@@ -2,12 +2,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const AccountSchema = new Schema({
-    account: {type:String},
+    username: {type:String},
     password: {type:String},
     phone: {type:String},
     deviceName: {type:String},
-    owner : {type:Schema.Types.ObjectId, ref:'User'},
+    gmail: {type:String},
+    fullname: {type:String},
+    first_name: {type:String},
+    last_name_group: {type:String},
     ipAddr: {type:String},
+    status: {type:Boolean},
     created:{type:Date, default:Date.now}
 });
 

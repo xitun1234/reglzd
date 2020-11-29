@@ -8,7 +8,7 @@ router.use((req, res, next) => {
   });
 
 router.get('/', async function(req, res) {
-    const accounts = await accountModel.find({owner:req.user.id}).populate({path:'owner'}).populate('device','deviceName').exec((err,result)=>{
+    const accounts = await accountModel.find().exec((err,result)=>{
         
         res.render('lazada/account',{
             userData:req.user,

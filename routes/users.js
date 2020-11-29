@@ -15,14 +15,18 @@ router.get('/', function(req, res, next) {
 
 router.post('/addAccount', async (req,res) =>{
 
-  const idOwner = await userModel.findOne({username: req.body.owner});
+  
 
   let newAccount = new accountModel();
-  newAccount.account = req.body.account;
+  newAccount.username = req.body.username;
   newAccount.password = req.body.password;
   newAccount.phone = req.body.phone;
   newAccount.deviceName = req.body.deviceName;
-  newAccount.owner = idOwner._id;
+  newAccount.gmail = req.body.gmail;
+  newAccount.fullname = req.body.fullname;
+  newAccount.first_name = req.body.first_name;
+  newAccount.last_name_group = req.body.last_name_group;
+  newAccount.status = req.body.status;
   newAccount.ipAddr = req.body.ipAddr;
 
   newAccount.save();
@@ -48,11 +52,8 @@ router.post('/addUser', async(req,res) =>{
 });
 
 router.get('/test', async(req,res)=>{
-  const user = await userModel.find();
-  res.status(200).json({
-    success:true,
-    data:user
-  });
+  // const user = await accountModel.deleteMany();
+  // res.send(user);
 });
 const readFilePro = file => {
   return new Promise((resolve, reject) => {

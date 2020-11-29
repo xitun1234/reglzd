@@ -22,18 +22,28 @@
                             <th>SDT</th>
                             <th>Thiết bị</th>
                             <th>Ip Address</th>
-                            <th>Ngày tạo</th>
+                            <th>Trạng thái</th>
                         </thead>
                         <tbody style="color:black">
                             {{#each listAccount}}
                             <tr>
                                 <td>{{add @index 1}}  </td>
-                                <td>{{this.phone}}</td>
+                                <td>{{this.username}}</td>
                                 <td>{{this.password}}</td>
                                 <td>{{this.phone}}</td>
                                 <td>{{this.deviceName}}</td>
-                                <td>{{this.ipAddr}}</td>
-                                <td>{{date this.created "YYYY-MM-DD HH:MM:SS"}}</td>
+                                <td>
+                                    <p class="text-info">
+                                        {{this.ipAddr}}
+                                    </p>
+                                </td>
+                                <td>
+                                    {{#if this.status}}
+                                        <p class="text-success">Reg Done</p>
+                                    {{else}}
+                                        <p class="text-danfer">Reg Fail</p>
+                                    {{/if}}
+                                </td>
                             </tr>
                             {{/each}}
                         </tbody>
