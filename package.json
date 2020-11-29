@@ -35,6 +35,6 @@
     "passport-local-mongoose": "^6.0.1"
   },
   "devDependencies": {
-    "handlebars": "^4.5.0"
+    "handlebars": "^4.7.6"
   }
 }
