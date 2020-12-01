@@ -6,6 +6,7 @@ const deviceModel = require('../models/DeviceModel');
 const accountModel = require('../models/LazadaAccountModel');
 const userModel = require('../models/UserModel');
 const rrsModel = require('../models/RrsModel');
+const gmailModel = require('../models/GmailModel');
 const fs = require('fs');
 
 /* GET users listing. */
@@ -217,6 +218,55 @@ router.get('/datagmail',async (req, res) => {
     password: password,
     first_name: dataJson[randomIndex].first_name,
     last_name_group: dataJson[randomIndex].last_name_group
+  });
+});
+
+router.post('/addAccountLZD', async (req,res) =>{
+
+  let newAccount = new accountModel();
+  newAccount.username = req.body.username;
+  newAccount.password = req.body.password;
+  newAccount.phone = req.body.phone;
+  newAccount.deviceName = req.body.deviceName;
+  newAccount.gmail = req.body.gmail;
+  newAccount.fullname = req.body.fullname;
+  newAccount.first_name = req.body.first_name;
+  newAccount.last_name_group = req.body.last_name_group;
+  newAccount.status = req.body.status;
+  newAccount.ipAddr = req.body.ipAddr;
+
+  newAccount.save();
+
+  res.json({
+      success:true,
+      data:newAccount
+  });
+});
+
+router.post('/addAccountGmail', async (req,res) =>{
+
+  
+
+  let newAccountGmail = new gmailModel();
+  newAccountGmail.gmail = req.body.gmail;
+  newAccountGmail.password = req.body.password;
+  newAccountGmail.phone = req.body.phone;
+  newAccountGmail.deviceName = req.body.deviceName;
+  newAccountGmail.gmail = req.body.gmail;
+  newAccountGmail.fullname = req.body.fullname;
+  newAccountGmail.first_name = req.body.first_name;
+  newAccountGmail.last_name_group = req.body.last_name_group;
+  newAccountGmail.ipAddr = req.body.ipAddr;
+  newAccountGmail.dateOfBirth = req.body.dateOfBirth;
+  newAccountGmail.monthOfBirth = req.body.monthOfBirth;
+  newAccountGmail.yearOfBirth = req.body.yearOfBirth;
+  newAccountGmail.status = req.body.status;
+
+  newAccountGmail.save();
+
+  res.json({
+      success:true,
+      data:newAccountGmail
   });
 });
 

@@ -1,49 +1,63 @@
-<div
-    class="page-content d-flex align-items-stretch">
+<div class="page-content d-flex align-items-stretch">
     <!-- Side Navbar -->
-    <nav
-        class="side-navbar">
+    <nav class="side-navbar">
         <!-- Sidebar Header -->
         <div class="sidebar-header d-flex align-items-center">
             <div class="avatar">
                 <img src="/img/avatar-admin.png" alt="..." class="img-fluid rounded-circle"></div>
-                <div class="title">
-                    <h1 class="h4">{{ userData.fullname }}</h1>
-                </div>
+            <div class="title">
+                <h1 class="h4">{{ userData.fullname }}</h1>
             </div>
-            <!-- Sidebar Navidation Menus -->
-            <span class="heading">Main</span>
-            <ul class="list-unstyled">
-                <li {{#if dashboardSlideBarActive}} class="active" {{/if}}>
-                    <a href="/">
-                        <i class="icon-home"></i>Home
-                    </a>
-                </li>
-                <li>
-                    <a href="#lazadadropdownDropdown" aria-expanded="false" data-toggle="collapse" class="collapsed">
-                        <i class="icon-interface-windows"></i>Lazada
-                    </a>
+        </div>
+        <!-- Sidebar Navidation Menus -->
+        <span class="heading">Main</span>
+        <ul class="list-unstyled">
+            <li {{#if dashboardSlideBarActive}} class="active" {{/if}}>
+                <a href="/">
+                    <i class="icon-home"></i>Home
+                </a>
+            </li>
+            <li>
+                <a href="#lazadadropdownDropdown" aria-expanded="false" data-toggle="collapse" class="collapsed">
+                    <i class="icon-interface-windows"></i>Lazada
+                </a>
 
-                    <ul id="lazadadropdownDropdown" class="collapse list-unstyled {{#if LazadaSlideBarActive}}show{{/if}}">
-                        <li {{#if active.CreateRRS}} class="active" {{/if}}>
-                            <a href="/lazada/rrs/">
-                                <i class="fa fa-rocket"></i>
-                                Thêm dữ liệu RRS</a>
-                        </li>
-                        <li {{#if active.ViewRRS}} class="active" {{/if}}>
-                            <a href="/lazada/rrs/view">
-                                <i class="fa fa-database"></i>
-                                Xem dữ liệu RRS</a>
-                        </li>
-                        <li {{#if lazadaSubMenuAccountActive}} class="active" {{/if}}>
-                            <a href="/lazada/account/">
-                                <i class="fa fa-shield"></i>
-                                Quản lý tài khoản</a>
-                        </li>
+                <ul id="lazadadropdownDropdown" class="collapse list-unstyled {{#if LazadaSlideBarActive}}show{{/if}}">
+                    <li {{#if active.CreateRRS}} class="active" {{/if}}>
+                        <a href="/lazada/rrs/">
+                            <i class="fa fa-rocket"></i>
+                            Thêm dữ liệu RRS</a>
+                    </li>
+                    <li {{#if active.ViewRRS}} class="active" {{/if}}>
+                        <a href="/lazada/rrs/view">
+                            <i class="fa fa-database"></i>
+                            Xem dữ liệu RRS</a>
+                    </li>
+                    <li {{#if lazadaSubMenuAccountActive}} class="active" {{/if}}>
+                        <a href="/lazada/account/">
+                            <i class="fa fa-shield"></i>
+                            Quản lý tài khoản</a>
+                    </li>
 
 
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </div>
+                </ul>
+            </li>
+            <li>
+                <a href="#gmaildropdownDropdown" aria-expanded="false" data-toggle="collapse" class="collapsed">
+                    <i class="fa fa-google"></i>Gmail
+                </a>
+
+                <ul id="gmaildropdownDropdown" class="collapse list-unstyled {{#if GmailSlideBarActive}}show{{/if}}">
+                    <li {{#if active.ViewData}} class="active" {{/if}}>
+                        <a href="/gmail/account/">
+                            <i class="fa fa-shield"></i>
+                            Quản lý Gmail</a>
+                    </li>
+
+
+
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</div>

@@ -1,0 +1,66 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <h3 class="h4">
+                    Danh sách tài khoản gmail</h3>
+            </div>
+            <div class="card-close">
+                <button class="btn btn-success btn-sm">Xuất excel</button>
+                <button class='btn btn-outline-danger btn-sm' id="selectAll" value="selectAll">
+                    Chọn tất cả
+                </button>
+
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm" id="tableListAccount" style="display:none">
+                        <thead>
+                            <th>STT</th>
+                            <th>Gmail</th>
+                            <th>Mật khẩu</th>
+                            <th>Năm Sinh</th>
+                            <th>SĐT</th>
+                            <th>Thiết bị</th>
+                            <th>Ip Address</th>
+                            <th>Trạng thái</th>
+                        </thead>
+                        <tbody style="color:black">
+                            {{#each listAccount}}
+                            <tr>
+                                <td>{{add @index 1}}  </td>
+                                
+                                <td>{{this.gmail}}</td>
+
+                                <td>{{this.password}}</td>
+
+                                <td>
+                                    {{this.dateOfBirth}}/{{this.monthOfBirth}}/{{this.yearOfBirth}}
+                                </td>
+
+                                <td>{{this.phone}}</td>
+                                
+                                <td>{{this.deviceName}}</td>
+                                <td>
+                                    <p class="text-info">
+                                        {{this.ipAddr}}
+                                    </p>
+                                </td>
+                                <td>
+                                    {{#if this.status}}
+                                        <p class="text-success">Reg Done</p>
+                                    {{else}}
+                                        <p class="text-danger">Reg Fail</p>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

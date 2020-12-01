@@ -1,0 +1,42 @@
+<section class="tables">
+    <div class="container-fluid">
+        {{>table/listAccountGmail}}
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+
+        $('#tableListAccount').DataTable({
+            responsive: true,
+            "lengthMenu": [
+                [50, 100, 1000, -1],
+                [50, 100, 1000, "Tất cả"]
+            ],
+  
+            "language": {
+                "lengthMenu": "Hiển thị _MENU_ kết quả",
+                "paginate": {
+                    "first": "Đầu",
+                    "last": "Cuối",
+                    "next": "Tiếp",
+                    "previous": "Trước"
+                },
+                "search": "Tìm kiếm:",
+                "loadingRecords": "Đang tải...",
+                "processing": "Đang xử lý...",
+                "emptyTable": "Không có dữ liệu",
+                "info": "Hiển thị _START_/_END_ (_TOTAL_ kết quả)",
+                "infoEmpty": "Không có dữ liệu để hiển thị",
+                "thousands": ".",
+                "zeroRecords": "Không tìm thấy kết quả tìm kiếm",
+                "infoFiltered": "(lọc từ _MAX_ kết quả)",
+                "aria": {
+                    "sortAscending": ": Sắp xếp tăng dần",
+                    "sortDescending": ": Sắp xếp giảm dần"
+                }
+            }
+        });
+        $("#tableListAccount").show()
+    });
+</script>
