@@ -24,22 +24,27 @@
                             <th>Thiết bị</th>
                             <th>Ip Address</th>
                             <th>Trạng thái</th>
+                            <th>Thời gian tạo</th>
                         </thead>
                         <tbody style="color:black">
                             {{#each listAccount}}
                             <tr>
-                                <td>{{add @index 1}}  </td>
-                                
-                                <td>{{this.gmail}}</td>
+                                <td>{{add @index 1}} </td>
 
-                                <td>{{this.password}}</td>
+                                <td>{{this.gmail}}@gmail.com</td>
+
+                                <td>
+                                    <p class="text-bold">
+                                        {{this.password}}
+                                    </p>
+                                </td>
 
                                 <td>
                                     {{this.dateOfBirth}}/{{this.monthOfBirth}}/{{this.yearOfBirth}}
                                 </td>
 
                                 <td>{{this.phone}}</td>
-                                
+
                                 <td>{{this.deviceName}}</td>
                                 <td>
                                     <p class="text-info">
@@ -48,10 +53,13 @@
                                 </td>
                                 <td>
                                     {{#if this.status}}
-                                        <p class="text-success">Reg Done</p>
+                                    <p class="text-success">Reg Done</p>
                                     {{else}}
-                                        <p class="text-danger">Reg Fail</p>
+                                    <p class="text-danger">Reg Fail</p>
                                     {{/if}}
+                                </td>
+                                <td>
+                                    {{date  this.created "DD-MM-YYYY HH:MM:SS"}}
                                 </td>
                             </tr>
                             {{/each}}
