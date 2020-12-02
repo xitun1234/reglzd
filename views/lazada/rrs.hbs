@@ -147,7 +147,8 @@
                         let dataParse = parseQueryString(item);
                         
 
-
+                        const indexGmail = dataParse.username.search("@gmail.com");
+                        const rrsGmail = dataParse.username.substring(0,indexGmail);
 
                         let dataAjax = {
                             username: dataParse.username,
@@ -158,7 +159,7 @@
                             deviceName: dataParse.deviceName,
                             isRestore: false,
                             isBackUp: dataParse.isBackUp,
-                            rrsName: "acc " + dataParse.username,
+                            rrsName: "gmail " + rrsGmail,
                             fullname: dataParse.fullname
                         }
 
