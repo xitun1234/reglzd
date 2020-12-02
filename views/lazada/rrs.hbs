@@ -145,6 +145,9 @@
                 $.each(listParamMain, function (index, item) {
                     try {
                         let dataParse = parseQueryString(item);
+                        
+
+
 
                         let dataAjax = {
                             username: dataParse.username,
@@ -154,8 +157,14 @@
                             linkProduct: dataParse.linkProduct,
                             deviceName: dataParse.deviceName,
                             isRestore: false,
-                            isBackUp: false,
-                            rrsName: "acc " + dataParse.username
+                            isBackUp: dataParse.isBackUp,
+                            rrsName: "acc " + dataParse.username,
+                            fullname: dataParse.fullname
+                        }
+
+                        if (dataAjax.isBackUp != null)
+                        {
+                            dataAjax.isBackUp = dataAjax.isBackUp.toLowerCase();
                         }
 
                         let request = $.ajax({

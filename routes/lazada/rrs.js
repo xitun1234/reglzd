@@ -65,6 +65,7 @@ router.post('/addData', async(req,res) =>{
     newRrs.password = req.body.password;
     newRrs.addressName = req.body.addressName;
     newRrs.deviceName = req.body.deviceName;
+    newRrs.fullname = req.body.fullname;
     newRrs.linkProduct = req.body.linkProduct;
     newRrs.phoneNumber = req.body.phoneNumber;
     newRrs.isRestore = req.body.isRestore;

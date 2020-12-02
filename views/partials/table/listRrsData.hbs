@@ -23,6 +23,7 @@
                             <th>Restore</th>
                             <th>Back up</th>
                             <th>IP</th>
+                            <th>RRS Name</th>
                         </thead>
                         <tbody>
                             {{#each listRRS}}
@@ -30,7 +31,12 @@
                                     <td>{{ add @index 1 }}</td>
                                     <td>{{ this.username }}</td>
                                     <td>{{ this.password }}</td>
-                                    <td>{{ this.addressName }}</td>
+                                    <td>{{#if this.addressName}}
+                                            <p>{{this.addressName}}</p>
+                                        {{else}}
+                                            <p>{{this.fullname}}</p>
+                                        {{/if}}
+                                    </td>
                                     <td>{{ this.phoneNumber }}</td>
                                     <td>{{ this.deviceName }}</td>
                                     {{#if this.isRestore}}
@@ -70,6 +76,9 @@
                                                 {{ this.ipAddr }}
                                             </p>
                                         {{/if}}
+                                    </td>
+                                    <td>
+                                        {{this.rrsName}}
                                     </td>
                                 </tr>
                             {{/each}}

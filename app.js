@@ -60,7 +60,7 @@ app.use(express.static(__dirname + '/public'));
 
 
 // check login
-app.use('/:or(|dashboard|lazada)/',(req,res,next)=>{
+app.use('/:or(|dashboard|lazada|gmail)/',(req,res,next)=>{
   if (req.isUnauthenticated()) return res.redirect('/login');
   next();
 });

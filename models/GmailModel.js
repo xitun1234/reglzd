@@ -14,6 +14,8 @@ const GmailSchema = new Schema({
     monthOfBirth:{type:Number},
     yearOfBirth: {type:Number},
     status: {type:Boolean},
+    isRestore: {type:Boolean},
+    isBackUp: {type:Boolean},
     created:{type:Date, default:Date.now}
 });
 

@@ -5,6 +5,7 @@ const RrsSchema = new Schema({
     username: {type:String},
     password: {type:String},
     addressName: {type:String},
+    fullname: {type:String},
     deviceName: {type:String},
     linkProduct: {type:String},
     phoneNumber: {type:String},
