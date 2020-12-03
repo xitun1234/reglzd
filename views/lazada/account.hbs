@@ -10,10 +10,14 @@
         $('#tableListAccount').DataTable({
             responsive: true,
             "lengthMenu": [
-                [50, 100, 1000, -1],
-                [50, 100, 1000, "Tất cả"]
+                [
+                    50, 100, 1000, -1
+                ],
+                [
+                    50, 100, 1000, "Tất cả"
+                ]
             ],
-  
+
             "language": {
                 "lengthMenu": "Hiển thị _MENU_ kết quả",
                 "paginate": {
@@ -39,4 +43,53 @@
         });
         $("#tableListAccount").show()
     });
+
+    let selectAll = "#selectAll";
+    let exportExcel = "#exportExcel";
+    let checkBoxSelected = ".checkBoxSelected";
+    let copyAllSelected = "#copyAllSelected";
+
+    $(selectAll).click(function () {
+        if ($(this).val() == "selectAll") {
+            $(checkBoxSelected).prop("checked", true);
+
+            $(this).text("Hủy chọn tất cả");
+
+            $(this).val('deselectAll');
+
+            $(this).removeClass("btn btn-danger btn-sm").addClass("btn btn-outline-danger btn-sm");
+        }
+        else {
+            $(checkBoxSelected).prop("checked", false);
+
+            $(this).text("Chọn tất cả");
+
+            $(this).val('selectAll');
+
+            $(this).removeClass("btn btn-outline-danger btn-sm").addClass("btn btn-danger btn-sm");
+        }
+    });
+
+    $(copyAllSelected).click(function () {
+
+        let clipboardSelected = "";
+        $(`${checkBoxSelected}:checkbox:checked`).each(function () {
+            clipboardSelected += "\r\n" + $(this).attr("datacopy");
+        });
+
+        copyToClipboard(clipboardSelected.replace(/^\s*\n/gm, ""));
+        setTimeout(() => {
+            $(this).html('Copy');
+        }, 5000)
+
+    });
+
+    function copyToClipboard(text) {
+        var $txt = $('<textarea />');    
+            $txt.val(text).css({ width: "1px", height: "1px" }).appendTo('body');
+            $txt.select();    
+            if (document.execCommand('copy')) {
+                $txt.remove();
+            }
+    }
 </script>

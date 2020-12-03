@@ -6,12 +6,12 @@ const AccountSchema = new Schema({
     password: {type:String},
     phone: {type:String},
     deviceName: {type:String},
-    gmail: {type:String},
-    fullname: {type:String},
-    first_name: {type:String},
-    last_name_group: {type:String},
     ipAddr: {type:String},
+
     status: {type:Boolean},
+    isRestore: {type:Boolean},
+    isBackUp: {type:Boolean},
+    isVeryPhone: {type:Boolean},
     created:{type:Date, default:Date.now}
 });
 

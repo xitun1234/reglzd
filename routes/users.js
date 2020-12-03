@@ -260,14 +260,14 @@ router.post('/addAccountLZD', async (req, res) => {
   let newAccount = new accountModel();
   newAccount.username = req.body.username;
   newAccount.password = req.body.password;
-  newAccount.phone = req.body.phone;
+  newAccount.phone = req.body.phoneLZD;
   newAccount.deviceName = req.body.deviceName;
-  newAccount.gmail = req.body.gmail;
-  newAccount.fullname = req.body.fullname;
-  newAccount.first_name = req.body.first_name;
-  newAccount.last_name_group = req.body.last_name_group;
-  newAccount.status = req.body.status;
   newAccount.ipAddr = req.body.ipAddr;
+  newAccount.status = req.body.status;
+  newAccount.isRestore = req.body.isRestore;
+  newAccount.isBackUp = req.body.isBackUp;
+  newAccount.isVeryPhone = req.body.isVeryPhone;
+
 
   newAccount.save();
 
