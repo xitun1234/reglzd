@@ -149,7 +149,26 @@ router.post('/updateRRS', async (req, res) => {
 
   let resultUpdate = await rrsModel.findOneAndUpdate(filter, update);
 
-  // let resultTest = await rrsModel.updateMany({deviceName:'May 2'},{isBackUp: false});
+
+  res.status(200).json({
+    success: true,
+    data: resultUpdate
+  });
+});
+
+router.post('/updateVeryphone', async (req, res) => {
+
+  const filter = {
+    username: req.body.username
+  };
+
+  const update = {
+    isVeryPhone: req.body.isVeryPhone,
+    phone: req.body.phoneLZD,
+    ipAddr: req.body.ipAddr
+  };
+
+  let resultUpdate = await accountModel.findOneAndUpdate(filter, update);
 
 
   res.status(200).json({
