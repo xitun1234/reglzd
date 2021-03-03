@@ -77,6 +77,7 @@ app.use('/auth',require('./routes/auth'));
 app.use('/lazada/account', require('./routes/lazada/account'));
 app.use('/lazada/rrs', require('./routes/lazada/rrs'));
 app.use('/gmail/account', require('./routes/gmail/account'));
+app.use('/telegram/account', require('./routes/telegram/account'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

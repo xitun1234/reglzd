@@ -1,0 +1,121 @@
+<section class="tables">
+    <div class="container-fluid">
+        {{>table/listAccountTelegram}}
+    </div>
+</section>
+
+
+<script>
+    $(document).ready(function () {
+
+        $('#tableListAccount').DataTable({
+            responsive: true,
+            "lengthMenu": [
+                [50, 100, 1000, -1],
+                [50, 100, 1000, "Tất cả"]
+            ],
+
+            "language": {
+                "lengthMenu": "Hiển thị _MENU_ kết quả",
+                "paginate": {
+                    "first": "Đầu",
+                    "last": "Cuối",
+                    "next": "Tiếp",
+                    "previous": "Trước"
+                },
+                "search": "Tìm kiếm:",
+                "loadingRecords": "Đang tải...",
+                "processing": "Đang xử lý...",
+                "emptyTable": "Không có dữ liệu",
+                "info": "Hiển thị _START_/_END_ (_TOTAL_ kết quả)",
+                "infoEmpty": "Không có dữ liệu để hiển thị",
+                "thousands": ".",
+                "zeroRecords": "Không tìm thấy kết quả tìm kiếm",
+                "infoFiltered": "(lọc từ _MAX_ kết quả)",
+                "aria": {
+                    "sortAscending": ": Sắp xếp tăng dần",
+                    "sortDescending": ": Sắp xếp giảm dần"
+                }
+            },
+
+
+        });
+        $("#tableListAccount").show()
+    });
+
+    let selectAll = "#selectAll";
+    let exportExcel = "#exportExcel";
+    let checkBoxSelected = ".checkBoxSelected";
+    let copyAllSelected = "#copyAllSelected";
+
+
+    $(selectAll).click(function () {
+        if ($(this).val() == "selectAll") {
+            $(checkBoxSelected).prop("checked", true);
+
+            $(this).text("Hủy chọn tất cả");
+
+            $(this).val('deselectAll');
+
+            $(this).removeClass("btn btn-danger btn-sm").addClass("btn btn-outline-danger btn-sm");
+        }
+        else {
+            $(checkBoxSelected).prop("checked", false);
+
+            $(this).text("Chọn tất cả");
+
+            $(this).val('selectAll');
+
+            $(this).removeClass("btn btn-outline-danger btn-sm").addClass("btn btn-danger btn-sm");
+        }
+    });
+
+    $(copyAllSelected).click(function () {
+
+        let clipboardSelected = "";
+        $(`${checkBoxSelected}:checkbox:checked`).each(function () {
+            clipboardSelected += "\r\n" + $(this).attr("datacopy");
+        });
+
+        copyToClipboard(clipboardSelected.replace(/^\s*\n/gm, ""));
+        setTimeout(() => {
+            $(this).html('Copy');
+        }, 5000)
+
+    });
+
+    function copyToClipboard(text) {
+        var $txt = $('<textarea />');    
+            $txt.val(text).css({ width: "1px", height: "1px" }).appendTo('body');
+            $txt.select();    
+            if (document.execCommand('copy')) {
+                $txt.remove();
+            }
+    }
+
+    $(exportExcel).click(function(){
+        let buttonDefautText = $(this).text();
+        let buttonElement = this;
+
+        $(this).prop("disabled", true);
+
+        $.ajax({
+            type:"POST",
+            url:"export",
+            dataType:"json",
+            contentType:"application/json",
+            data: JSON.stringify({
+                limit:Number($("input#limit").val())
+            }),
+            success: function(result){
+                if (result.success)
+                    window.location = ("/" + result.pathExcel)
+            },
+        }).always(function(){
+            $(buttonElement).removeAttr('disabled');
+            $(buttonElement).text(buttonDefaultText).fadeIn();
+        })
+    })
+
+
+</script>

@@ -7,6 +7,7 @@ const accountModel = require('../models/LazadaAccountModel');
 const userModel = require('../models/UserModel');
 const rrsModel = require('../models/RrsModel');
 const gmailModel = require('../models/GmailModel');
+const telegramModel = require('../models/TelegramModel');
 const utilsHelper = require('../utils/UtilsHelper');
 const fs = require('fs');
 
@@ -16,8 +17,6 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/addAccount', async (req, res) => {
-
-
 
   let newAccount = new accountModel();
   newAccount.username = req.body.username;
@@ -104,12 +103,28 @@ router.get('/getfullname', async (req, res) => {
   const dataJson = JSON.parse(fileData);
 
   let randomIndex = Math.floor(Math.random() * dataJson.length);
+  console.log(dataJson[randomIndex]);
 
   res.status(200).json({
     status: 'success',
     fullname: dataJson[randomIndex].full_name,
   });
 });
+
+router.get('/nametelegram', async (req, res) => {
+  const fileData = await readFilePro(`${__dirname}/../config/output.json`);
+  const dataJson = JSON.parse(fileData);
+
+  let randomIndex = Math.floor(Math.random() * dataJson.length);
+  console.log(dataJson[randomIndex]);
+
+  res.status(200).json({
+    status: 'success',
+    firstName: dataJson[randomIndex].first_name,
+    lastName: dataJson[randomIndex].last_name,
+  });
+});
+
 router.get('/create', userController.createAccount);
 router.post('/Login', userController.LoginUser);
 
@@ -402,9 +417,6 @@ router.post('/addAccountLZD', async (req, res) => {
 });
 
 router.post('/addAccountGmail', async (req, res) => {
-
-
-
   let newAccountGmail = new gmailModel();
   newAccountGmail.gmail = req.body.gmail;
   newAccountGmail.password = req.body.password;
@@ -535,6 +547,22 @@ router.get('/nghia', async (req, res) => {
     success: true,
     data: arrayPhone[randomIndex]
   });
-})
+});
+
+router.post('/addAccountTelegram', async (req, res) => {
+  let newAccountTelegram = new telegramModel();
+  newAccountTelegram.firstName = req.body.firstName;
+  newAccountTelegram.lastName = req.body.lastName;
+  newAccountTelegram.phoneNumber = req.body.phoneNumber;
+  newAccountTelegram.ipAddr = req.body.ipAddr;
+  newAccountTelegram.status = req.body.status;
+  console.log(newAccountTelegram);
+  newAccountTelegram.save();
+
+  res.json({
+    success: true,
+    data: newAccountTelegram
+  });
+});
 
 module.exports = router;
