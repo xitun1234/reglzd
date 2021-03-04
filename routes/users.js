@@ -555,6 +555,7 @@ router.post('/addAccountTelegram', async (req, res) => {
   newAccountTelegram.lastName = req.body.lastName;
   newAccountTelegram.phoneNumber = req.body.phoneNumber;
   newAccountTelegram.ipAddr = req.body.ipAddr;
+  newAccountTelegram.rrsName = req.body.rrsName;
   newAccountTelegram.status = req.body.status;
   console.log(newAccountTelegram);
   newAccountTelegram.save();

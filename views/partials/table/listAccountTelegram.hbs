@@ -55,6 +55,7 @@
                                         <th>Last Name</th>
                                         <th>Ip Address</th>
                                         <th>Trạng thái</th>
+                                        <th>RRS Name</th>
                                         <th>Thời gian tạo</th>
                                     </thead>
                                     <tbody style="color:black">
@@ -78,6 +79,7 @@
                                                 <p class="text-danger">Reg Failed</p>
                                                 {{/if}}
                                             </td>
+                                            <td>{{this.rrsName}}</td>
                                             <td>{{date  this.created "DD-MM-YYYY hh:mm:ss"}}</td>
                                         </tr>
                                         {{/each}}
