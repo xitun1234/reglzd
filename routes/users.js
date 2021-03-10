@@ -4,6 +4,7 @@ const userController = require('../controllers/User.controller');
 const checkJWT = require('../middlewares/check-jwt');
 const deviceModel = require('../models/DeviceModel');
 const accountModel = require('../models/LazadaAccountModel');
+const dataAccountModel = require('../models/DataAccountModel');
 const userModel = require('../models/UserModel');
 const rrsModel = require('../models/RrsModel');
 const gmailModel = require('../models/GmailModel');
@@ -543,9 +544,10 @@ router.get('/nghia', async (req, res) => {
   ];
 
   let randomIndexPhone = Math.floor(Math.random() * arrayPhone.length);
+  console.log(arrayPhone[randomIndexPhone]);
   res.json({
     success: true,
-    data: arrayPhone[randomIndex]
+    data: arrayPhone[randomIndexPhone]
   });
 });
 
@@ -564,6 +566,67 @@ router.post('/addAccountTelegram', async (req, res) => {
     success: true,
     data: newAccountTelegram
   });
+});
+
+async function randomFullname(){
+  const fileData = await readFilePro(`${__dirname}/../config/output.json`);
+  const dataJson = JSON.parse(fileData);
+
+  let randomIndex = Math.floor(Math.random() * dataJson.length);
+  console.log(dataJson[randomIndex])
+  const fullName = dataJson[randomIndex].last_name_group +" " +dataJson[randomIndex].first_name ;
+  return fullName;
+}
+
+function randomAddress(){
+  const firstAddr = getRndInteger(10,300) + "/" + getRndInteger(1,30);
+  const arrStreet = ["To Hien Thanh", "Hoa Hung"];
+  const finalAddr = firstAddr + " " + arrStreet[getRndInteger(0,1)];
+  return finalAddr;
+}
+
+router.post('/setinfo', async (req,res) =>{
+  let newdataAccountModel = new dataAccountModel();
+
+  //init
+  const fullName = await randomFullname();
+  const phoneNumber = req.body.phoneNumber;
+  const address = randomAddress();
+  const deviceName = req.body.deviceName;
+
+  //set
+  newdataAccountModel.fullName = fullName;
+  newdataAccountModel.phoneNumber = phoneNumber;
+  newdataAccountModel.address = address;
+  newdataAccountModel.deviceName = deviceName;
+
+  //save
+  newdataAccountModel.save();
+
+  res.json({
+    success:true,
+    data: newdataAccountModel
+  });
+});
+
+router.get('/getInfo&deviceName=:deviceName', async (req, res) => {
+  const infoData = await dataAccountModel.findOne({
+    deviceName: req.params.deviceName,
+  },{},{sort:{'_id': -1}});
+
+  if (infoData) {
+    res.json({
+      status: 'success',
+      data: infoData
+    });
+  }
+  else {
+    res.json({
+      status: 'fail',
+      data: null
+    });
+  }
+
 });
 
 module.exports = router;
