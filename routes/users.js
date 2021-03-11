@@ -593,12 +593,17 @@ router.post('/setinfo', async (req,res) =>{
   const phoneNumber = req.body.phoneNumber;
   const address = randomAddress();
   const deviceName = req.body.deviceName;
+  const username = req.body.username;
+  const password = req.body.password;
 
   //set
   newdataAccountModel.fullName = fullName;
   newdataAccountModel.phoneNumber = phoneNumber;
   newdataAccountModel.address = address;
   newdataAccountModel.deviceName = deviceName;
+  newdataAccountModel.username = username;
+  newdataAccountModel.password = password;
+
 
   //save
   newdataAccountModel.save();

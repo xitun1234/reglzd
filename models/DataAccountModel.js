@@ -6,6 +6,8 @@ const  DataAccountSchema = new Schema({
     phoneNumber: {type:String},
     address: {type:String},
     deviceName: {type:String},
+    username: {type:String},
+    password: {type:String}
 });
 
 const DataAccount = mongoose.model('DataAccount', DataAccountSchema, 'infoacc');
