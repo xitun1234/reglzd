@@ -675,10 +675,9 @@ router.get('/getNapTien', async (req, res) => {
   const infoDataNapTien = await napTienModel.find().sort({_id: -1});
 
   if (infoDataNapTien) {
-    res.json({
-      status: 'success',
-      data: infoDataNapTien,
-    });
+    res.json(
+      infoDataNapTien
+    );
   } else {
     res.json({
       status: 'fail',
