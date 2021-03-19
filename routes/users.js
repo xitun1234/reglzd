@@ -113,6 +113,16 @@ router.get('/getfullname', async (req, res) => {
   });
 });
 
+router.get('/fullname', async (req, res) => {
+  const fileData = await readFilePro(`${__dirname}/../config/output.json`);
+  const dataJson = JSON.parse(fileData);
+
+  let randomIndex = Math.floor(Math.random() * dataJson.length);
+  console.log(dataJson[randomIndex]);
+
+  res.status(200).json(dataJson[randomIndex].full_name);
+});
+
 router.get('/nametelegram', async (req, res) => {
   const fileData = await readFilePro(`${__dirname}/../config/output.json`);
   const dataJson = JSON.parse(fileData);
