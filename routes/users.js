@@ -12,6 +12,7 @@ const telegramModel = require('../models/TelegramModel');
 const napTienModel = require('../models/NapTienModel');
 const utilsHelper = require('../utils/UtilsHelper');
 const fs = require('fs');
+const multer = require("multer");
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -693,6 +694,22 @@ router.get('/getNapTien', async (req, res) => {
       status: 'fail',
       data: null,
     });
+  }
+});
+
+var storage = multer.diskStorage({
+  destination: function(req, file, cb){
+    cb(null,path.join(__dirname,"/uploads"));
+  }
+});
+
+var upload = multer({storage: storage});
+
+router.post("/upload", upload.single("samplefile"), (req, res) =>{
+  let uploadedfile = req.file.fieldname;
+
+  if (uploadedfile){
+    res.json("File uploaded successfully");
   }
 });
 

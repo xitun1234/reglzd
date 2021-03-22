@@ -76,6 +76,7 @@ app.use('/login',require('./routes/login'));
 app.use('/auth',require('./routes/auth'));
 app.use('/lazada/account', require('./routes/lazada/account'));
 app.use('/lazada/rrs', require('./routes/lazada/rrs'));
+app.use('/lazada/upload', require('./routes/lazada/upload'));
 app.use('/gmail/account', require('./routes/gmail/account'));
 app.use('/telegram/account', require('./routes/telegram/account'));
 
