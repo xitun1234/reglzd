@@ -10,9 +10,13 @@ const rrsModel = require('../models/RrsModel');
 const gmailModel = require('../models/GmailModel');
 const telegramModel = require('../models/TelegramModel');
 const napTienModel = require('../models/NapTienModel');
+const scriptModel = require('../models/ScriptModel');
 const utilsHelper = require('../utils/UtilsHelper');
 const fs = require('fs');
 const multer = require("multer");
+const path = require("path");
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -698,19 +702,88 @@ router.get('/getNapTien', async (req, res) => {
 });
 
 var storage = multer.diskStorage({
-  destination: function(req, file, cb){
-    cb(null,path.join(__dirname,"/uploads"));
+  destination: function (req, file, callback) {
+      callback(null, './public/scripts');
+  },
+  filename: function (req, file, callback) {
+      callback(null, file.originalname);
   }
 });
 
 var upload = multer({storage: storage});
 
-router.post("/upload", upload.single("samplefile"), (req, res) =>{
-  let uploadedfile = req.file.fieldname;
+router.post("/upload", upload.single("avatar"), (req, res) =>{
+  console.log(req.file);
 
-  if (uploadedfile){
-    res.json("File uploaded successfully");
+  res.json({
+    success: true,
+
+  });
+});
+
+
+
+router.post('/setKichBan', async (req, res) => {
+  let newKichBan = new scriptModel();
+
+
+  //init
+  const scriptName = req.body.scriptName;
+  const deviceName = req.body.deviceName;
+
+  if (deviceName == 'all')
+  {
+    const insertMany = await scriptModel.insertMany([
+      {'scriptName': scriptName, deviceName: "1"},
+      {'scriptName': scriptName, deviceName: "2"},
+      {'scriptName': scriptName, deviceName: "3"},
+      {'scriptName': scriptName, deviceName: "4"},
+      {'scriptName': scriptName, deviceName: "5"},
+      {'scriptName': scriptName, deviceName: "6"},
+      {'scriptName': scriptName, deviceName: "7"},
+      {'scriptName': scriptName, deviceName: "8"},
+      {'scriptName': scriptName, deviceName: "9"},
+      {'scriptName': scriptName, deviceName: "10"},
+
+    ]);
+
+  }
+
+  else{
+    newKichBan.scriptName = scriptName;
+    newKichBan.deviceName = deviceName;
+    newKichBan.save();
+  }
+
+
+  res.json({
+    success: true,
+    data: newKichBan,
+  });
+});
+
+router.get('/getKichBan&deviceName=:deviceName', async (req, res) => {
+  const infoKichBan = await scriptModel.findOne(
+    {
+      deviceName: req.params.deviceName,
+    },
+    {},
+    {sort: {_id: -1}}
+  );
+
+  if (infoKichBan) {
+    res.json({
+      status: 'success',
+      data: infoKichBan,
+    });
+  } else {
+    res.json({
+      status: 'fail',
+      data: null,
+    });
   }
 });
+
+
 
 module.exports = router;

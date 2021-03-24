@@ -1,5 +1,6 @@
 <sections class="forms">
     <div class="container-fluid pt-3">
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -8,10 +9,176 @@
                     </div>
                     <div class="card-close"></div>
                     <div class="card-body">
-                        <form action=""></form>
+                        <form enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label class="form-label" for="customFile">Chọn File hoặc kéo File để tải lên</label>
+                                <input type="file" class="form-control" name="avatar" id="avatar"/>
+                            </div>
+                            <button type="button" class="btn btn-primary" id="btnUpload">Upload</button>
+                        </form>
+                        <div class="col-lg-12">
+                            <div class="card-body" id="resultShow"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        <h3>Nap Kich Ban</h3>
+                    </div>
+                    <div class="card-close"></div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Kich Ban</label>
+                                <input type="text" class="form-control" id="scriptName" placeholder="script">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputDevice">Máy số</label>
+                                <input type="text" class="form-control" id="deviceName" value="all">
+                            </div>
+                            <button type="button" class="btn btn-block btn-primary btn-sm" id="btnStart1">Start</button>
+                        </form>
+                        <div class="col-lg-12">
+                            <div class="card-body" id="resultShow1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        <h3>List File</h3>
+                    </div>
+                    <div class="card-close"></div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm" id="tableListFile">
+                                <thead>
+                                    <th>#</th>
+                                    <th>Filename</th>
+                                    <th>Path</th>
+                                </thead>
+                                <tbody style="color:black">
+                                    {{#each listFile}}
+                                        <tr>
+                                            <td>{{add @index 1}}</td>
+                                            <td>{{this}}</td>
+                                            <td>http://reglzd.herokuapp.com/scripts/{{this}}</td>
+                                        </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </sections>
+<script>
+    let btnUpload = "#btnUpload";
+    let myFile = "#avatar";
+    let resultShow = "#resultShow";
+    let resultShow1 = "#resultShow1";
+    let btnStart = "#btnStart1"
+    let scriptName = "#scriptName";
+    let deviceName = "#deviceName";
+
+    $(btnUpload).click(function () {
+        console.log('hello');
+        var fileUpload = $(myFile)[0].files[0];
+        console.log($(myFile)[0].files[0].name);
+
+        var formData = new FormData();
+
+        formData.append('avatar', fileUpload, fileUpload.name)
+
+        let requestPost = $.ajax({
+            type: "POST",
+            url: "../../api/upload",
+            enctype: "multipart/form-data",
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function (result) {
+                let resultRender = "";
+                if (result.success) {
+                    let template = Handlebars.compile($(renderResultSuccess).html());
+                    resultRender = template({msg: "Upload file thanh cong"})
+                } else {
+                    let template = Handlebars.compile($(renderResultError).html());
+                    resultRender = template({msg: "Upload fail"});
+                }
+                $(resultShow).append(resultRender);
+            }
+        })
+    })
+
+    $(btnStart).click(function () {
+        let dataAjax = {
+            scriptName: $(scriptName).val(),
+            deviceName: $(deviceName).val()
+        }
+
+        let requestPost = $.ajax({
+            type: "POST",
+            url: "../../api/setKichBan",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(dataAjax),
+            success: function (result) {
+                let resultRender = "";
+                console.log(result);
+                if (result.success) {
+                    let template = Handlebars.compile($(renderResultSuccess).html());
+                    resultRender = template({
+                            msg: `Đã them kich ban ${
+                            result.data.scriptName
+                        } vào máy ${
+                            result.data.deviceName
+                        } thành công`
+                    })
+                } else {
+                    let template = Handlebars.compile($(renderResultError).html());
+                    resultRender = template({
+                        msg: result.data,
+                        error: JSON.stringify(result.data)
+                    });
+                }
+                $(resultShow1).append(resultRender);
+            }
+        })
+    })
+</script>
+
+<script id="renderResultError" type="text/x-handlebars-template">
+    <div class="alert alert-danger" role="alert">
+        \{{ msg }}
+        <hr/>
+        \{{ error }}
+    </div>
+</script>
+<script id="renderResultSuccess1" type="text/x-handlebars-template">
+    <div class="alert alert-success" role="alert">\{{ msg }}</div>
+</script>
+
+
+<script id="renderResultError1" type="text/x-handlebars-template">
+    <div class="alert alert-danger" role="alert">
+        \{{ msg }}
+        <hr/>
+        \{{ error }}
+    </div>
+</script>
+<script id="renderResultSuccess" type="text/x-handlebars-template">
+    <div class="alert alert-success" role="alert">\{{ msg }}</div>
+</script>
