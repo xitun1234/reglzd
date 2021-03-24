@@ -139,7 +139,7 @@
                 let resultRender = "";
                 console.log(result);
                 if (result.success) {
-                    let template = Handlebars.complie($(renderResultSuccess).html());
+                    let template = Handlebars.compile($(renderResultSuccess).html());
                     resultRender = template({
                             msg: `Đã thêm tài khoản ${
                             result.data.username
