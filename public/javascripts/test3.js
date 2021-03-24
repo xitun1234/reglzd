@@ -1,5 +1,5 @@
-const Utils = require('./Utils.js');
-const dataAccount = require('./DataAccountModel.js');
+const Utils = require('https://reglzd.herokuapp.com/javascripts/Utils.js');
+const dataAccount = require('https://reglzd.herokuapp.com/javascripts/DataAccountModel.js');
 const Config = require('./Config.js');
 const { touchDown, touchMove, touchUp, usleep, appActivate, keyDown, keyUp } = at
 
@@ -11,8 +11,8 @@ function main() {
     const newdataAccount = new dataAccount();
 
     const ip = "192.168.1.2";
-    const port = "5001";
-    const deviceName = "1";
+    const port = "5001" + Config.port;
+    const deviceName = Config.deviceName;
 
     const label = { type: CONTROLLER_TYPE.LABEL, text: "Tool Lazada" }
     const deviceNameInput = { type: CONTROLLER_TYPE.INPUT, title: "Máy:", key: "deviceName", value: deviceName }
