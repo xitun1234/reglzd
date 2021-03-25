@@ -5,6 +5,7 @@ const  DataAccountSchema = new Schema({
     fullName: {type:String},
     phoneNumber: {type:String},
     address: {type:String},
+    gmail:{type:String},
     deviceName: {type:String},
     username: {type:String},
     password: {type:String}

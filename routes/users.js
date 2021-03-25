@@ -619,6 +619,7 @@ router.post('/setinfo', async (req, res) => {
   const deviceName = req.body.deviceName;
   const username = req.body.username;
   const password = req.body.password;
+  var gmail = removeVietnameseTones(fullName).toLowerCase() +getRandomNumber(getRndInteger(2, 4)) + getRandomString(getRndInteger(2, 4));
 
   //set
   newdataAccountModel.fullName = fullName;
@@ -627,6 +628,7 @@ router.post('/setinfo', async (req, res) => {
   newdataAccountModel.deviceName = deviceName;
   newdataAccountModel.username = username;
   newdataAccountModel.password = password;
+  newdataAccountModel.gmail = gmail.replace(/\s/g, '') + "@gmail.com";
 
 
   //save
