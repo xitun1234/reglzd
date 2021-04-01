@@ -16,7 +16,7 @@ router.get('/', async function(req, res) {
     userData: req.user,
     buffSublideBarActive: true,
     buffSubSubMenuAccountActive: true,
-    
+    //
   });
 });
 
