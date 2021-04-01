@@ -79,8 +79,8 @@ app.use('/lazada/rrs', require('./routes/lazada/rrs'));
 app.use('/lazada/upload', require('./routes/lazada/upload'));
 app.use('/gmail/account', require('./routes/gmail/account'));
 app.use('/telegram/account', require('./routes/telegram/account'));
-//app.use('/telegram/buffsub', require('./routes/telegram/buffsub'));
-app.use('/telegram/buffsub', require('./routes/telegram/buffsub'));
+app.use('/telegram/buffsub', require('./routes/telegram/buffSub'));
+//app.use('/telegram/buffsub', require('./routes/telegram/buffSub'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
