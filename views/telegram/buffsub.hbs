@@ -1,0 +1,89 @@
+<sections class="forms">
+    <div class="container-fluid pt-3">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        <h3>Thêm dữ liệu Link Channel Can Sub</h3>
+                    </div>
+                    <div class="card-close"></div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Link</label>
+                                <input type="text" class="form-control" id="linkSub" aria-describedby="linkSubHelp"></div>
+                                <button type="button" class="btn btn-block btn-primary btn-sm" id="btnStart">Start</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center">
+                            <h3 class="h4">Kết quả</h3>
+                        </div>
+                        <div class="card-close">
+                            <div class="badge badge-pill badge-warning h5 text-light">
+                                <span id="proccessingCurrent">0</span>
+                                /
+                                <span id="proccessingAll">0</span>
+                            </div>
+                        </div>
+                        <div class="card-body" id="resultShow"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </sections>
+
+    <script>
+        let btnStart = "#btnStart";
+        let linkSub = "#linkSub";
+
+        
+
+        $(btnStart).click(function (){
+            let dataAjax = {
+                linkSub: $(linkSub).val()
+            }
+
+            let requestPost = $.ajax({
+                type:"POST",
+                url:"../../api/setLinkSub",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(dataAjax),
+                success: function(result){
+                    let resultRender = "";
+                    console.log(result);
+                    if (result.success){
+                        let template = Handlebars.compile($(renderResultSuccess).html());
+                        resultRender = template({
+                            msg: `Đã thêm links vào database`
+                        })
+                    }
+                    else{
+                        let template = Handlebars.compile($(renderResultError).html());
+                        resultRender = template({
+                            msg: result.data,
+                            error: JSON.stringify(result.data)
+                        });
+                    }
+                    $(resultShow).append(resultRender);
+                }
+            })
+        })
+    </script>
+
+    <script id="renderResultError" type="text/x-handlebars-template">
+        <div class="alert alert-danger" role="alert">
+            \{{ msg }}
+            <hr/>
+            \{{ error }}
+        </div>
+    </script>
+    <script id="renderResultSuccess" type="text/x-handlebars-template">
+        <div class="alert alert-success" role="alert">\{{ msg }}</div>
+    </script>

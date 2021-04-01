@@ -11,10 +11,11 @@ const gmailModel = require('../models/GmailModel');
 const telegramModel = require('../models/TelegramModel');
 const napTienModel = require('../models/NapTienModel');
 const scriptModel = require('../models/ScriptModel');
+const linkSubModel = require('../models/LinkSubModel');
 const utilsHelper = require('../utils/UtilsHelper');
 const fs = require('fs');
-const multer = require("multer");
-const path = require("path");
+const multer = require('multer');
+const path = require('path');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -619,7 +620,10 @@ router.post('/setinfo', async (req, res) => {
   const deviceName = req.body.deviceName;
   const username = req.body.username;
   const password = req.body.password;
-  var gmail = removeVietnameseTones(fullName).toLowerCase() +getRandomNumber(getRndInteger(2, 4)) + getRandomString(getRndInteger(2, 4));
+  var gmail =
+    removeVietnameseTones(fullName).toLowerCase() +
+    getRandomNumber(getRndInteger(2, 4)) +
+    getRandomString(getRndInteger(2, 4));
 
   //set
   newdataAccountModel.fullName = fullName;
@@ -628,8 +632,7 @@ router.post('/setinfo', async (req, res) => {
   newdataAccountModel.deviceName = deviceName;
   newdataAccountModel.username = username;
   newdataAccountModel.password = password;
-  newdataAccountModel.gmail = gmail.replace(/\s/g, '') + "@gmail.com";
-
+  newdataAccountModel.gmail = gmail.replace(/\s/g, '') + '@gmail.com';
 
   //save
   newdataAccountModel.save();
@@ -662,21 +665,19 @@ router.get('/getInfo&deviceName=:deviceName', async (req, res) => {
   }
 });
 
-
 router.post('/setnaptien', async (req, res) => {
   let newDataNapTien = new napTienModel();
 
   //init
   const deviceName = req.body.deviceName;
   const phoneNumber = req.body.phoneNumber;
-  const noiDung = "So " + phoneNumber + " cua may " + deviceName + " can nap tien";
-
+  const noiDung =
+    'So ' + phoneNumber + ' cua may ' + deviceName + ' can nap tien';
 
   //set
   newDataNapTien.deviceName = deviceName;
   newDataNapTien.phoneNumber = phoneNumber;
   newDataNapTien.noiDung = noiDung;
-
 
   //save
   newDataNapTien.save();
@@ -687,14 +688,11 @@ router.post('/setnaptien', async (req, res) => {
   });
 });
 
-
 router.get('/getNapTien', async (req, res) => {
   const infoDataNapTien = await napTienModel.find().sort({_id: -1});
 
   if (infoDataNapTien) {
-    res.json(
-      infoDataNapTien
-    );
+    res.json(infoDataNapTien);
   } else {
     res.json({
       status: 'fail',
@@ -704,59 +702,49 @@ router.get('/getNapTien', async (req, res) => {
 });
 
 var storage = multer.diskStorage({
-  destination: function (req, file, callback) {
-      callback(null, './public/scripts');
+  destination: function(req, file, callback) {
+    callback(null, './public/scripts');
   },
-  filename: function (req, file, callback) {
-      callback(null, file.originalname);
-  }
+  filename: function(req, file, callback) {
+    callback(null, file.originalname);
+  },
 });
 
 var upload = multer({storage: storage});
 
-router.post("/upload", upload.single("avatar"), (req, res) =>{
+router.post('/upload', upload.single('avatar'), (req, res) => {
   console.log(req.file);
 
   res.json({
     success: true,
-
   });
 });
 
-
-
 router.post('/setKichBan', async (req, res) => {
   let newKichBan = new scriptModel();
-
 
   //init
   const scriptName = req.body.scriptName;
   const deviceName = req.body.deviceName;
 
-  if (deviceName == 'all')
-  {
+  if (deviceName == 'all') {
     const insertMany = await scriptModel.insertMany([
-      {'scriptName': scriptName, deviceName: "1"},
-      {'scriptName': scriptName, deviceName: "2"},
-      {'scriptName': scriptName, deviceName: "3"},
-      {'scriptName': scriptName, deviceName: "4"},
-      {'scriptName': scriptName, deviceName: "5"},
-      {'scriptName': scriptName, deviceName: "6"},
-      {'scriptName': scriptName, deviceName: "7"},
-      {'scriptName': scriptName, deviceName: "8"},
-      {'scriptName': scriptName, deviceName: "9"},
-      {'scriptName': scriptName, deviceName: "10"},
-
+      {scriptName: scriptName, deviceName: '1'},
+      {scriptName: scriptName, deviceName: '2'},
+      {scriptName: scriptName, deviceName: '3'},
+      {scriptName: scriptName, deviceName: '4'},
+      {scriptName: scriptName, deviceName: '5'},
+      {scriptName: scriptName, deviceName: '6'},
+      {scriptName: scriptName, deviceName: '7'},
+      {scriptName: scriptName, deviceName: '8'},
+      {scriptName: scriptName, deviceName: '9'},
+      {scriptName: scriptName, deviceName: '10'},
     ]);
-
-  }
-
-  else{
+  } else {
     newKichBan.scriptName = scriptName;
     newKichBan.deviceName = deviceName;
     newKichBan.save();
   }
-
 
   res.json({
     success: true,
@@ -786,6 +774,34 @@ router.get('/getKichBan&deviceName=:deviceName', async (req, res) => {
   }
 });
 
+router.post('/setLinkSub', async (req, res) => {
+  let newLinkSub = new linkSubModel();
 
+  //init
+  const linkSub = req.body.linkSub;
+  newLinkSub.linkSub = linkSub;
+
+  //save
+
+  newLinkSub.save();
+
+  res.json({
+    success: true,
+    data: newLinkSub,
+  });
+});
+
+router.get('/getLinkSub', async (req, res) => {
+  const infoDataLinkSub = await linkSubModel.find().sort({_id: -1});
+
+  if (infoDataLinkSub) {
+    res.json(infoDataLinkSub);
+  } else {
+    res.json({
+      status: 'fail',
+      data: null,
+    });
+  }
+});
 
 module.exports = router;

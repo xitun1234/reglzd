@@ -12,338 +12,334 @@
                         <form>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Username</label>
-                                <input type="email" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Password</label>
-                                <input type="text" class="form-control" id="password" placeholder="Password">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputSDT">SDT</label>
-                                <input type="text" class="form-control" id="phoneNumber" placeholder="SĐT">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputDevice">Máy số</label>
-                                <input type="text" class="form-control" id="deviceName" placeholder="1">
-                            </div>
-                            <button type="button" class="btn btn-block btn-primary btn-sm" id="btnStart1">CreateData</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-header d-flex align-items-center">
-                        <h3>Thêm dữ liệu Nhiều Account</h3>
-                    </div>
-                    <div class="card-close"></div>
-                    <div class="card-body">
-                        <form>
-                            <div class="row">
-                                <div class="col-lg-12 pt-3">
+                                <input type="email" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username"></div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Password</label>
+                                    <input type="text" class="form-control" id="password" placeholder="Password"></div>
                                     <div class="form-group">
-                                        <textarea class="form-control" name="" id="listAccount" rows="12"></textarea>
+                                        <label for="exampleInputSDT">SDT</label>
+                                        <input type="text" class="form-control" id="phoneNumber" placeholder="SĐT"></div>
+                                        <div class="form-group">
+                                            <label for="exampleInputDevice">Máy số</label>
+                                            <input type="text" class="form-control" id="deviceName" placeholder="1"></div>
+                                            <button type="button" class="btn btn-block btn-primary btn-sm" id="btnStart1">CreateData</button>
+                                        </form>
                                     </div>
                                 </div>
-                                <div class="col-lg-12">
-                                    <button type="button" class="btn btn-block btn-primary btn-sm" id="btnCreate">Start</button>
+                            </div>
+
+
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header d-flex align-items-center">
+                                        <h3>Thêm dữ liệu Nhiều Account</h3>
+                                    </div>
+                                    <div class="card-close"></div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-lg-12 pt-3">
+                                                    <div class="form-group">
+                                                        <textarea class="form-control" name="" id="listAccount" rows="12"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <button type="button" class="btn btn-block btn-primary btn-sm" id="btnCreate">Start</button>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
 
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-header d-flex align-items-center">
-                        <h3 class="h4">Kết quả</h3>
-                    </div>
-                    <div class="card-close">
-                        <div class="badge badge-pill badge-warning h5 text-light">
-                            <span id="proccessingCurrent">0</span>
-                            /
-                            <span id="proccessingAll">0</span>
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header d-flex align-items-center">
+                                        <h3 class="h4">Kết quả</h3>
+                                    </div>
+                                    <div class="card-close">
+                                        <div class="badge badge-pill badge-warning h5 text-light">
+                                            <span id="proccessingCurrent">0</span>
+                                            /
+                                            <span id="proccessingAll">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" id="resultShow"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-body" id="resultShow"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</sections>
+                </sections>
 
-<script>
+                <script>
 
-    let btnStart = "#btnStart";
-    let btnStart1 = "#btnStart1";
-    let btnCreate = "#btnCreate";
-    let paramMain = "#paramMain";
-    let resultShow = "#resultShow";
-    let proccessingCurrent = "#proccessingCurrent";
-    let proccessingAll = "#proccessingAll";
-    let checkboxDeleteAllData = "#checkboxDeleteAllData";
-    let deviceId = "#deviceId";
-    let checkboxUpdateRRS = "#checkboxUpdateRRS";
-    let listAccount = "#listAccount";
+                    let btnStart = "#btnStart";
+                    let btnStart1 = "#btnStart1";
+                    let btnCreate = "#btnCreate";
+                    let paramMain = "#paramMain";
+                    let resultShow = "#resultShow";
+                    let proccessingCurrent = "#proccessingCurrent";
+                    let proccessingAll = "#proccessingAll";
+                    let checkboxDeleteAllData = "#checkboxDeleteAllData";
+                    let deviceId = "#deviceId";
+                    let checkboxUpdateRRS = "#checkboxUpdateRRS";
+                    let listAccount = "#listAccount";
 
 
-    let username = "#username";
-    let password = "#password";
-    let phoneNumber = "#phoneNumber";
-    let deviceName = "#deviceName";
+                    let username = "#username";
+                    let password = "#password";
+                    let phoneNumber = "#phoneNumber";
+                    let deviceName = "#deviceName";
 
-    $(paramMain).keyup(function () {
-        let input = $(this).val().trim().replace(/^\s*\n/gm, "");
-        if (input) {
-            let countInput = input.split('\n');
-            $(proccessingAll).text(countInput.length);
-        } else {
-            $(proccessingAll).text(0);
-        }
-    })
-
-    // xoa data RRS old
-    $(checkboxDeleteAllData).click(function () {
-        if ($(checkboxDeleteAllData)[0].checked) {
-            let requestDelete = $.ajax({
-                type: "POST",
-                url: "deleteData",
-                dataType: "json",
-                contentType: "application/json",
-                success: function (result) {
-                    console.log(result);
-                }
-            })
-        }
-    })
-
-    $(btnStart1).click(function () {
-        let dataAjax = {
-            username: $(username).val(),
-            password: $(password).val(),
-            phoneNumber: $(phoneNumber).val(),
-            deviceName: $(deviceName).val()
-        }
-
-        let requestPost = $.ajax({
-            type: "POST",
-            url: "../../api/setinfo",
-            dataType: "json",
-            contentType: "application/json",
-            data: JSON.stringify(dataAjax),
-            success: function (result) {
-                let resultRender = "";
-                console.log(result);
-                if (result.success) {
-                    let template = Handlebars.compile($(renderResultSuccess).html());
-                    resultRender = template({
-                            msg: `Đã thêm tài khoản ${
-                            result.data.username
-                        } vào máy ${
-                            result.data.deviceName
-                        } thành công`
+                    $(paramMain).keyup(function () {
+                        let input = $(this).val().trim().replace(/^\s*\n/gm, "");
+                        if (input) {
+                            let countInput = input.split('\n');
+                            $(proccessingAll).text(countInput.length);
+                        } else {
+                            $(proccessingAll).text(0);
+                        }
                     })
-                } else {
-                    let template = Handlebars.compile($(renderResultError).html());
-                    resultRender = template({
-                        msg: result.data,
-                        error: JSON.stringify(result.data)
-                    });
-                }
-                $(resultShow).append(resultRender);
-            }
-        })
-    })
 
-
-    $(btnStart).click(function () {
-
-        if ($(checkboxUpdateRRS)[0].checked) {
-
-            var deviceName = $(deviceId).val();
-
-            let dataAjax = {
-                deviceName: deviceName
-            }
-
-            let requestDelete = $.ajax({
-                type: "POST",
-                url: "deleteDataByDevice",
-                dataType: "json",
-                contentType: "application/json",
-                data: JSON.stringify(dataAjax),
-                success: function (result) {
-                    console.log(result);
-                },
-                timeout: 2000
-            })
-        }
-
-        $(proccessingCurrent).text(0);
-
-        let buttonDefaultText = $(this).text();
-        let buttonElement = $(this);
-        $(this).hide().html('<i class="fa fa-spinner fa-spin" style="font-size:20px"></i> Processing...').fadeIn("slow");
-
-        $(this).prop("disabled", true);
-
-        let listParamMain = $(paramMain).val().trim().replace(/^\s*\n/gm, "").split('\n');
-        let promises = [];
-
-
-        $.each(listParamMain, function (index, item) {
-            try {
-                let dataParse = parseQueryString(item);
-
-
-                const indexGmail = dataParse.username.search("@gmail.com");
-                const rrsGmail = dataParse.username.substring(0, indexGmail);
-
-                let dataAjax = {
-                    username: dataParse.username,
-                    password: dataParse.password,
-                    phoneNumber: dataParse.phoneNumber,
-                    addressName: dataParse.addressName,
-                    linkProduct: dataParse.linkProduct,
-                    deviceName: dataParse.deviceName,
-                    isRestore: dataParse.isRestore.toLowerCase(),
-                    isBackUp: dataParse.isBackUp,
-                    rrsName: "gmail " + rrsGmail,
-                    fullname: dataParse.fullname
-                }
-
-                if (dataAjax.isBackUp != null) {
-                    dataAjax.isBackUp = dataAjax.isBackUp.toLowerCase();
-                }
-
-                let request = $.ajax({
-                    type: "POST",
-                    url: "addData",
-                    dataType: "json",
-                    contentType: "application/json",
-                    data: JSON.stringify(dataAjax),
-                    success: function (result) {
-                        let resultRender = "";
-                        if (result.success) {
-                            let template = Handlebars.compile($(renderResultSuccess).html());
-                            resultRender = template({msg: result.msg})
-                        } else {
-                            let template = Handlebars.compile($(renderResultError).html());
-                            resultRender = template({
-                                msg: result.msg,
-                                error: JSON.stringify(result.detail)
-                            });
-                        }
-                        $(resultShow).append(resultRender);
-                    }
-                }).always(function () {
-                    let proccessingCurrentText = Number($(proccessingCurrent).text()) + 1;
-                    $(proccessingCurrent).text(proccessingCurrentText);
-                })
-
-            } catch (error) {
-                console.log(error);
-            }
-        })
-
-        $.when.apply(null, promises).done(function () {
-            $(buttonElement).removeAttr('disabled');
-            $(buttonElement).hide().text(buttonDefaultText).fadeIn();
-        });
-    })
-
-    function getCountAll() {
-        let input = $(listAccount).val().trim().replace(/^\s*\n/gm, "");
-        if (input) {
-            let countInput = input.split('\n');
-            $(proccessingAll).text(countInput.length)
-        } else {
-            $(proccessingAll).text(0)
-        }
-    }
-
-    $(btnCreate).click(function () {
-        getCountAll();
-        $(proccessingCurrent).text(0);
-
-        let listAccountCreate = $(listAccount).val().trim().replace(/^\s*\n/gm, "").split("\n");
-
-        $.each(listAccountCreate, function (index, item) {
-            try {
-                let dataParse = parseQueryString(item);
-
-
-                let dataAjax = {
-                    username: dataParse.username,
-                    password: dataParse.password,
-                    phoneNumber: dataParse.phoneNumber,
-                    deviceName: dataParse.deviceName
-                }
-
-                let requestPost = $.ajax({
-                    type: "POST",
-                    url: "../../api/setinfo",
-                    dataType: "json",
-                    contentType: "application/json",
-                    data: JSON.stringify(dataAjax),
-                    success: function (result) {
-                        let resultRender = "";
-                        if (result.success) {
-                            let template = Handlebars.compile($(renderResultSuccess).html());
-                            resultRender = template({
-                                    msg: `Đã thêm tài khoản ${
-                                    result.data.username
-                                } vào máy ${
-                                    result.data.deviceName
-                                } thành công`
+                    // xoa data RRS old
+                    $(checkboxDeleteAllData).click(function () {
+                        if ($(checkboxDeleteAllData)[0].checked) {
+                            let requestDelete = $.ajax({
+                                type: "POST",
+                                url: "deleteData",
+                                dataType: "json",
+                                contentType: "application/json",
+                                success: function (result) {
+                                    console.log(result);
+                                }
                             })
-                        } else {
-                            let template = Handlebars.compile($(renderResultError).html());
-                            resultRender = template({
-                                msg: result.data,
-                                error: JSON.stringify(result.data)
-                            });
                         }
-                        $(resultShow).append(resultRender);
+                    })
+
+                    $(btnStart1).click(function () {
+                        let dataAjax = {
+                            username: $(username).val(),
+                            password: $(password).val(),
+                            phoneNumber: $(phoneNumber).val(),
+                            deviceName: $(deviceName).val()
+                        }
+
+                        let requestPost = $.ajax({
+                            type: "POST",
+                            url: "../../api/setinfo",
+                            dataType: "json",
+                            contentType: "application/json",
+                            data: JSON.stringify(dataAjax),
+                            success: function (result) {
+                                let resultRender = "";
+                                console.log(result);
+                                if (result.success) {
+                                    let template = Handlebars.compile($(renderResultSuccess).html());
+                                    resultRender = template({
+                                            msg: `Đã thêm tài khoản ${
+                                            result.data.username
+                                        } vào máy ${
+                                            result.data.deviceName
+                                        } thành công`
+                                    })
+                                } else {
+                                    let template = Handlebars.compile($(renderResultError).html());
+                                    resultRender = template({
+                                        msg: result.data,
+                                        error: JSON.stringify(result.data)
+                                    });
+                                }
+                                $(resultShow).append(resultRender);
+                            }
+                        })
+                    })
+
+
+                    $(btnStart).click(function () {
+
+                        if ($(checkboxUpdateRRS)[0].checked) {
+
+                            var deviceName = $(deviceId).val();
+
+                            let dataAjax = {
+                                deviceName: deviceName
+                            }
+
+                            let requestDelete = $.ajax({
+                                type: "POST",
+                                url: "deleteDataByDevice",
+                                dataType: "json",
+                                contentType: "application/json",
+                                data: JSON.stringify(dataAjax),
+                                success: function (result) {
+                                    console.log(result);
+                                },
+                                timeout: 2000
+                            })
+                        }
+
+                        $(proccessingCurrent).text(0);
+
+                        let buttonDefaultText = $(this).text();
+                        let buttonElement = $(this);
+                        $(this).hide().html('<i class="fa fa-spinner fa-spin" style="font-size:20px"></i> Processing...').fadeIn("slow");
+
+                        $(this).prop("disabled", true);
+
+                        let listParamMain = $(paramMain).val().trim().replace(/^\s*\n/gm, "").split('\n');
+                        let promises = [];
+
+
+                        $.each(listParamMain, function (index, item) {
+                            try {
+                                let dataParse = parseQueryString(item);
+
+
+                                const indexGmail = dataParse.username.search("@gmail.com");
+                                const rrsGmail = dataParse.username.substring(0, indexGmail);
+
+                                let dataAjax = {
+                                    username: dataParse.username,
+                                    password: dataParse.password,
+                                    phoneNumber: dataParse.phoneNumber,
+                                    addressName: dataParse.addressName,
+                                    linkProduct: dataParse.linkProduct,
+                                    deviceName: dataParse.deviceName,
+                                    isRestore: dataParse.isRestore.toLowerCase(),
+                                    isBackUp: dataParse.isBackUp,
+                                    rrsName: "gmail " + rrsGmail,
+                                    fullname: dataParse.fullname
+                                }
+
+                                if (dataAjax.isBackUp != null) {
+                                    dataAjax.isBackUp = dataAjax.isBackUp.toLowerCase();
+                                }
+
+                                let request = $.ajax({
+                                    type: "POST",
+                                    url: "addData",
+                                    dataType: "json",
+                                    contentType: "application/json",
+                                    data: JSON.stringify(dataAjax),
+                                    success: function (result) {
+                                        let resultRender = "";
+                                        if (result.success) {
+                                            let template = Handlebars.compile($(renderResultSuccess).html());
+                                            resultRender = template({msg: result.msg})
+                                        } else {
+                                            let template = Handlebars.compile($(renderResultError).html());
+                                            resultRender = template({
+                                                msg: result.msg,
+                                                error: JSON.stringify(result.detail)
+                                            });
+                                        }
+                                        $(resultShow).append(resultRender);
+                                    }
+                                }).always(function () {
+                                    let proccessingCurrentText = Number($(proccessingCurrent).text()) + 1;
+                                    $(proccessingCurrent).text(proccessingCurrentText);
+                                })
+
+                            } catch (error) {
+                                console.log(error);
+                            }
+                        })
+
+                        $.when.apply(null, promises).done(function () {
+                            $(buttonElement).removeAttr('disabled');
+                            $(buttonElement).hide().text(buttonDefaultText).fadeIn();
+                        });
+                    })
+
+                    function getCountAll() {
+                        let input = $(listAccount).val().trim().replace(/^\s*\n/gm, "");
+                        if (input) {
+                            let countInput = input.split('\n');
+                            $(proccessingAll).text(countInput.length)
+                        } else {
+                            $(proccessingAll).text(0)
+                        }
                     }
-                }).always(function () {
-                    let processingCurrentText = Number($(proccessingCurrent).text()) + 1;
-                    $(proccessingCurrent).text(processingCurrentText);
-                })
-            } catch (error) {
-                console.log(error);
-            }
-        })
-    })
-</script>
 
-<script>
-    function parseQueryString(query) {
-        var obj = {},
-            qPos = query.indexOf("?"),
-            tokens = query.substr(qPos + 1).split('&')
-        i = tokens.length - 1;
-        if (qPos !== -1 || query.indexOf("=") !== -1) {
-            for (; i >= 0; i --) {
-                var s = tokens[i].split('=');
-                obj[unescape(s[0])] = s.hasOwnProperty(1) ? unescape(s[1]) : null;
-            };
-        }
-        return obj;
-    }
-</script>
+                    $(btnCreate).click(function () {
+                        getCountAll();
+                        $(proccessingCurrent).text(0);
 
-<script id="renderResultError" type="text/x-handlebars-template">
-    <div class="alert alert-danger" role="alert">
-        \{{ msg }}
-        <hr/>
-        \{{ error }}
-    </div>
-</script>
-<script id="renderResultSuccess" type="text/x-handlebars-template">
-    <div class="alert alert-success" role="alert">\{{ msg }}</div>
-</script>
+                        let listAccountCreate = $(listAccount).val().trim().replace(/^\s*\n/gm, "").split("\n");
+
+                        $.each(listAccountCreate, function (index, item) {
+                            try {
+                                let dataParse = parseQueryString(item);
+
+
+                                let dataAjax = {
+                                    username: dataParse.username,
+                                    password: dataParse.password,
+                                    phoneNumber: dataParse.phoneNumber,
+                                    deviceName: dataParse.deviceName
+                                }
+
+                                let requestPost = $.ajax({
+                                    type: "POST",
+                                    url: "../../api/setinfo",
+                                    dataType: "json",
+                                    contentType: "application/json",
+                                    data: JSON.stringify(dataAjax),
+                                    success: function (result) {
+                                        let resultRender = "";
+                                        if (result.success) {
+                                            let template = Handlebars.compile($(renderResultSuccess).html());
+                                            resultRender = template({
+                                                    msg: `Đã thêm tài khoản ${
+                                                    result.data.username
+                                                } vào máy ${
+                                                    result.data.deviceName
+                                                } thành công`
+                                            })
+                                        } else {
+                                            let template = Handlebars.compile($(renderResultError).html());
+                                            resultRender = template({
+                                                msg: result.data,
+                                                error: JSON.stringify(result.data)
+                                            });
+                                        }
+                                        $(resultShow).append(resultRender);
+                                    }
+                                }).always(function () {
+                                    let processingCurrentText = Number($(proccessingCurrent).text()) + 1;
+                                    $(proccessingCurrent).text(processingCurrentText);
+                                })
+                            } catch (error) {
+                                console.log(error);
+                            }
+                        })
+                    })
+                </script>
+
+                <script>
+                    function parseQueryString(query) {
+                        var obj = {},
+                            qPos = query.indexOf("?"),
+                            tokens = query.substr(qPos + 1).split('&')
+                        i = tokens.length - 1;
+                        if (qPos !== -1 || query.indexOf("=") !== -1) {
+                            for (; i >= 0; i --) {
+                                var s = tokens[i].split('=');
+                                obj[unescape(s[0])] = s.hasOwnProperty(1) ? unescape(s[1]) : null;
+                            };
+                        }
+                        return obj;
+                    }
+                </script>
+
+                <script id="renderResultError" type="text/x-handlebars-template">
+                    <div class="alert alert-danger" role="alert">
+                        \{{ msg }}
+                        <hr/>
+                        \{{ error }}
+                    </div>
+                </script>
+                <script id="renderResultSuccess" type="text/x-handlebars-template">
+                    <div class="alert alert-success" role="alert">\{{ msg }}</div>
+                </script>
