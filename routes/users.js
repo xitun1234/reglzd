@@ -574,13 +574,18 @@ router.get('/nghia', async (req, res) => {
 });
 
 router.post('/addAccountTelegram', async (req, res) => {
+
+  const fileData = await readFilePro(`${__dirname}/../config/output.json`);
+  const dataJson = JSON.parse(fileData);
+
+  let randomIndex = Math.floor(Math.random() * dataJson.length);
+
   let newAccountTelegram = new telegramModel();
-  newAccountTelegram.firstName = req.body.firstName;
-  newAccountTelegram.lastName = req.body.lastName;
+  newAccountTelegram.firstName = dataJson[randomIndex].first_name;
+  newAccountTelegram.lastName = dataJson[randomIndex].last_name;
   newAccountTelegram.phoneNumber = req.body.phoneNumber;
-  newAccountTelegram.ipAddr = req.body.ipAddr;
-  newAccountTelegram.rrsName = req.body.rrsName;
-  newAccountTelegram.status = req.body.status;
+  newAccountTelegram.otp = req.body.otp;
+  newAccountTelegram.deviceName = req.body.deviceName;
   console.log(newAccountTelegram);
   newAccountTelegram.save();
 
@@ -589,6 +594,28 @@ router.post('/addAccountTelegram', async (req, res) => {
     data: newAccountTelegram,
   });
 });
+
+router.get('/getTelegram&deviceName=:deviceName', async (req, res) => {
+  const infoData = await telegramModel.findOne(
+    {
+      deviceName: req.params.deviceName,
+    },
+    {},
+    {sort: {_id: -1}}
+  );
+
+  if (infoData) {
+    res.json({
+      status: 'success',
+      data: infoData,
+    });
+  } else {
+    res.json({
+      status: 'fail',
+      data: null,
+    });
+  }
+})
 
 async function randomFullname() {
   const fileData = await readFilePro(`${__dirname}/../config/output.json`);

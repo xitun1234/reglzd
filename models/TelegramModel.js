@@ -5,8 +5,9 @@ const TelegramSchema = new Schema({
     firstName: {type:String},
     lastName: {type:String},
     phoneNumber: {type:String},
-    ipAddr: {type:String},
+    otp: {type:String},
     rrsName: {type:String},
+    deviceName: {type:String},
     status: {type:Boolean},
     created:{type:Date, default:Date.now}
 });

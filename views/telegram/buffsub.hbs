@@ -12,78 +12,185 @@
                         <form>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Link</label>
-                                <input type="text" class="form-control" id="linkSub" aria-describedby="linkSubHelp"></div>
-                                <button type="button" class="btn btn-block btn-primary btn-sm" id="btnStart">Start</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center">
-                            <h3 class="h4">Kết quả</h3>
-                        </div>
-                        <div class="card-close">
-                            <div class="badge badge-pill badge-warning h5 text-light">
-                                <span id="proccessingCurrent">0</span>
-                                /
-                                <span id="proccessingAll">0</span>
+                                <input type="text" class="form-control" id="linkSub" aria-describedby="linkSubHelp">
                             </div>
-                        </div>
-                        <div class="card-body" id="resultShow"></div>
+                            <button type="button" class="btn btn-block btn-primary btn-sm" id="btnStart">Start</button>
+                        </form>
                     </div>
                 </div>
             </div>
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        <h3>Thêm dữ liệu PhoneNumber - OTP</h3>
+                    </div>
+                    <div class="card-close"></div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-12 pt-3">
+                                    <div class="form-group">
+                                        <textarea class="form-control" name="" id="listAccount" rows="12"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <button type="button" class="btn btn-block btn-primary btn-sm"
+                                        id="btnCreate">Start</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        <h3 class="h4">Kết quả</h3>
+                    </div>
+                    <div class="card-close">
+                        <div class="badge badge-pill badge-warning h5 text-light">
+                            <span id="proccessingCurrent">0</span>
+                            /
+                            <span id="proccessingAll">0</span>
+                        </div>
+                    </div>
+                    <div class="card-body" id="resultShow"></div>
+                </div>
+            </div>
         </div>
-    </sections>
+    </div>
+</sections>
 
-    <script>
-        let btnStart = "#btnStart";
-        let linkSub = "#linkSub";
+<script>
+    let btnStart = "#btnStart";
+    let linkSub = "#linkSub";
+    let btnCreate = "#btnCreate";
+    let listAccount = "#listAccount";
 
-        
 
-        $(btnStart).click(function (){
-            let dataAjax = {
-                linkSub: $(linkSub).val()
-            }
+    $(btnStart).click(function () {
+        let dataAjax = {
+            linkSub: $(linkSub).val()
+        }
 
-            let requestPost = $.ajax({
-                type:"POST",
-                url:"../../api/setLinkSub",
-                dataType: "json",
-                contentType: "application/json",
-                data: JSON.stringify(dataAjax),
-                success: function(result){
-                    let resultRender = "";
-                    console.log(result);
-                    if (result.success){
-                        let template = Handlebars.compile($(renderResultSuccess).html());
-                        resultRender = template({
-                            msg: `Đã thêm links vào database`
-                        })
-                    }
-                    else{
-                        let template = Handlebars.compile($(renderResultError).html());
-                        resultRender = template({
-                            msg: result.data,
-                            error: JSON.stringify(result.data)
-                        });
-                    }
-                    $(resultShow).append(resultRender);
+        let requestPost = $.ajax({
+            type: "POST",
+            url: "../../api/setLinkSub",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(dataAjax),
+            success: function (result) {
+                let resultRender = "";
+                console.log(result);
+                if (result.success) {
+                    let template = Handlebars.compile($(renderResultSuccess).html());
+                    resultRender = template({
+                        msg: `Đã thêm links vào database`
+                    })
                 }
-            })
+                else {
+                    let template = Handlebars.compile($(renderResultError).html());
+                    resultRender = template({
+                        msg: result.data,
+                        error: JSON.stringify(result.data)
+                    });
+                }
+                $(resultShow).append(resultRender);
+            }
         })
-    </script>
+    });
 
-    <script id="renderResultError" type="text/x-handlebars-template">
+
+    function getCountAll() {
+        let input = $(listAccount).val().trim().replace(/^\s*\n/gm, "");
+        if (input) {
+            let countInput = input.split('\n');
+            $(proccessingAll).text(countInput.length)
+        } else {
+            $(proccessingAll).text(0)
+        }
+    }
+
+    $(btnCreate).click(function () {
+        getCountAll();
+        $(proccessingCurrent).text(0);
+
+        let listAccountCreate = $(listAccount).val().trim().replace(/^\s*\n/gm, "").split("\n");
+
+        $.each(listAccountCreate, function (index, item) {
+            try {
+                let dataParse = parseQueryString(item);
+
+
+                let dataAjax = {
+                    phoneNumber: dataParse.phoneNumber,
+                    otp: dataParse.otp,
+                    deviceName: dataParse.deviceName
+                }
+
+                let requestPost = $.ajax({
+                    type: "POST",
+                    url: "../../api/addAccountTelegram",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(dataAjax),
+                    success: function (result) {
+                        let resultRender = "";
+                        if (result.success) {
+                            let template = Handlebars.compile($(renderResultSuccess).html());
+                            resultRender = template({
+                                msg: `Đã thêm tài khoản ${result.data.phoneNumber
+                                    } vào máy ${result.data.deviceName
+                                    } thành công`
+                            })
+                        } else {
+                            let template = Handlebars.compile($(renderResultError).html());
+                            resultRender = template({
+                                msg: result.data,
+                                error: JSON.stringify(result.data)
+                            });
+                        }
+                        $(resultShow).append(resultRender);
+                    }
+                }).always(function () {
+                    let processingCurrentText = Number($(proccessingCurrent).text()) + 1;
+                    $(proccessingCurrent).text(processingCurrentText);
+                })
+            } catch (error) {
+                console.log(error);
+            }
+        })
+    })
+
+
+</script>
+
+<script>
+    function parseQueryString(query) {
+        var obj = {},
+            qPos = query.indexOf("?"),
+            tokens = query.substr(qPos + 1).split('&')
+        i = tokens.length - 1;
+        if (qPos !== -1 || query.indexOf("=") !== -1) {
+            for (; i >= 0; i--) {
+                var s = tokens[i].split('=');
+                obj[unescape(s[0])] = s.hasOwnProperty(1) ? unescape(s[1]) : null;
+            };
+        }
+        return obj;
+    }
+</script>
+
+<script id="renderResultError" type="text/x-handlebars-template">
         <div class="alert alert-danger" role="alert">
             \{{ msg }}
             <hr/>
             \{{ error }}
         </div>
     </script>
-    <script id="renderResultSuccess" type="text/x-handlebars-template">
+<script id="renderResultSuccess" type="text/x-handlebars-template">
         <div class="alert alert-success" role="alert">\{{ msg }}</div>
     </script>
