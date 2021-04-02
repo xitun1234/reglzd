@@ -792,7 +792,7 @@ router.post('/setLinkSub', async (req, res) => {
 });
 
 router.get('/getLinkSub', async (req, res) => {
-  const infoDataLinkSub = await linkSubModel.find().sort({_id: -1});
+  const infoDataLinkSub = await linkSubModel.findOne().sort({_id: -1});
 
   if (infoDataLinkSub) {
     res.json(infoDataLinkSub);
