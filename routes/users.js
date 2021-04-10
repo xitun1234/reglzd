@@ -574,7 +574,6 @@ router.get('/nghia', async (req, res) => {
 });
 
 router.post('/addAccountTelegram', async (req, res) => {
-
   const fileData = await readFilePro(`${__dirname}/../config/output.json`);
   const dataJson = JSON.parse(fileData);
 
@@ -615,7 +614,7 @@ router.get('/getTelegram&deviceName=:deviceName', async (req, res) => {
       data: null,
     });
   }
-})
+});
 
 async function randomFullname() {
   const fileData = await readFilePro(`${__dirname}/../config/output.json`);
@@ -829,6 +828,25 @@ router.get('/getLinkSub', async (req, res) => {
       data: null,
     });
   }
+});
+
+router.get('/getDataLZD', async (req, res) => {
+  const fileData = await readFilePro(`${__dirname}/../config/output.json`);
+  const dataJson = JSON.parse(fileData);
+
+  let randomIndex = Math.floor(Math.random() * dataJson.length);
+
+  var password = 'Sang123';
+  var fullName = removeVietnameseTones(dataJson[randomIndex].full_name);
+
+  res.json({
+    success: true,
+    data:{
+      password: password,
+      fullName: fullName
+    }
+  })
+
 });
 
 module.exports = router;
