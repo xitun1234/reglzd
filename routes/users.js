@@ -297,8 +297,8 @@ router.get('/datagmail', async (req, res) => {
   var gmail =
     removeVietnameseTones(dataJson[randomIndex].last_name_group) +
     removeVietnameseTones(dataJson[randomIndex].first_name).toLowerCase() +
-    getRandomNumber(getRndInteger(2, 4)) +
-    getRandomString(getRndInteger(2, 4));
+    getRandomString(getRndInteger(2, 4)) +
+    getRandomString(getRndInteger(2, 4)) + getRandomNumber(getRndInteger(2, 4));
   var arrayPhone = [
     '0564975233',
     '0564975451',
@@ -845,7 +845,7 @@ router.get('/getDataLZD', async (req, res) => {
       password: password,
       fullName: fullName
     }
-  })
+  });
 
 });
 
