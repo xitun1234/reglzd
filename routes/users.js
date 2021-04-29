@@ -17,6 +17,7 @@ const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
 const mongoose = require('mongoose');
+const { info } = require('console');
 const Schema = mongoose.Schema;
 
 /* GET users listing. */
@@ -423,14 +424,12 @@ router.get('/datagmail', async (req, res) => {
 router.post('/addAccountLZD', async (req, res) => {
   let newAccount = new accountModel();
   newAccount.username = req.body.username;
-  newAccount.password = req.body.password;
-  newAccount.phone = req.body.phoneLZD;
+  newAccount.passwordLZD = req.body.passwordLZD;
+  newAccount.passwordGmail = req.body.passwordGmail;
+  newAccount.phoneNumber = req.body.phoneNumber;
   newAccount.deviceName = req.body.deviceName;
-  newAccount.ipAddr = req.body.ipAddr;
   newAccount.status = req.body.status;
-  newAccount.isRestore = req.body.isRestore;
-  newAccount.isBackUp = req.body.isBackUp;
-  newAccount.isVeryPhone = req.body.isVeryPhone;
+ 
 
   newAccount.save();
 
@@ -848,5 +847,12 @@ router.get('/getDataLZD', async (req, res) => {
   });
 
 });
+
+router.get('/deleteTest', async(req,res) =>{
+  const infoAccount = await accountModel.find({});
+  res.json(infoAccount)
+})
+
+
 
 module.exports = router;
