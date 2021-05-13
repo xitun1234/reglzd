@@ -17,11 +17,11 @@ const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
 const mongoose = require('mongoose');
-const { info } = require('console');
+const {info} = require('console');
 const Schema = mongoose.Schema;
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
@@ -71,7 +71,7 @@ router.get('/test', async (req, res) => {
     .find()
     .limit(5)
     .exec((err, result) => {
-      result.forEach(rowExcel => {
+      result.forEach((rowExcel) => {
         const dataExtract = {
           Gmail: rowExcel.gmail + '@gmail.com',
           'Mật khẩu': rowExcel.password,
@@ -98,7 +98,7 @@ router.get('/test', async (req, res) => {
     pathExcel,
   });
 });
-const readFilePro = file => {
+const readFilePro = (file) => {
   return new Promise((resolve, reject) => {
     fs.readFile(file, (err, data) => {
       if (err) reject('I could not find that file');
@@ -299,7 +299,8 @@ router.get('/datagmail', async (req, res) => {
     removeVietnameseTones(dataJson[randomIndex].last_name_group) +
     removeVietnameseTones(dataJson[randomIndex].first_name).toLowerCase() +
     getRandomString(getRndInteger(2, 4)) +
-    getRandomString(getRndInteger(2, 4)) + getRandomNumber(getRndInteger(2, 4));
+    getRandomString(getRndInteger(2, 4)) +
+    getRandomNumber(getRndInteger(2, 4));
   var arrayPhone = [
     '0564975233',
     '0564975451',
@@ -429,7 +430,6 @@ router.post('/addAccountLZD', async (req, res) => {
   newAccount.phoneNumber = req.body.phoneNumber;
   newAccount.deviceName = req.body.deviceName;
   newAccount.status = req.body.status;
- 
 
   newAccount.save();
 
@@ -690,6 +690,28 @@ router.get('/getInfo&deviceName=:deviceName', async (req, res) => {
   }
 });
 
+router.get('/getGmail&deviceName=:deviceName', async (req, res) => {
+  const infoData = await gmailModel.findOne(
+    {
+      deviceName: req.params.deviceName,
+    },
+    {},
+    {sort: {_id: -1}}
+  );
+
+  if (infoData) {
+    res.json({
+      status: 'success',
+      data: infoData,
+    });
+  } else {
+    res.json({
+      status: 'fail',
+      data: null,
+    });
+  }
+});
+
 router.post('/setnaptien', async (req, res) => {
   let newDataNapTien = new napTienModel();
 
@@ -727,10 +749,10 @@ router.get('/getNapTien', async (req, res) => {
 });
 
 var storage = multer.diskStorage({
-  destination: function(req, file, callback) {
+  destination: function (req, file, callback) {
     callback(null, './public/scripts');
   },
-  filename: function(req, file, callback) {
+  filename: function (req, file, callback) {
     callback(null, file.originalname);
   },
 });
@@ -840,19 +862,16 @@ router.get('/getDataLZD', async (req, res) => {
 
   res.json({
     success: true,
-    data:{
+    data: {
       password: password,
-      fullName: fullName
-    }
+      fullName: fullName,
+    },
   });
-
 });
 
-router.get('/deleteTest', async(req,res) =>{
+router.get('/deleteTest', async (req, res) => {
   const infoAccount = await accountModel.find({});
-  res.json(infoAccount)
-})
-
-
+  res.json(infoAccount);
+});
 
 module.exports = router;
