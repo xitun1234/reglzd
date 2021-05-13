@@ -299,7 +299,6 @@ router.get('/datagmail', async (req, res) => {
     removeVietnameseTones(dataJson[randomIndex].last_name_group) +
     removeVietnameseTones(dataJson[randomIndex].first_name).toLowerCase() +
     getRandomString(getRndInteger(2, 4)) +
-    getRandomString(getRndInteger(2, 4)) +
     getRandomNumber(getRndInteger(2, 4));
   var arrayPhone = [
     '0564975233',
