@@ -640,10 +640,13 @@ router.post('/setinfo', async (req, res) => {
   //init
   const fullName = await randomFullname();
   const phoneNumber = req.body.phoneNumber;
-  const address = randomAddress();
+  const address = req.body.address;
   const deviceName = req.body.deviceName;
   const username = req.body.username;
   const password = req.body.password;
+
+  console.log(address);
+  
   var gmail =
     removeVietnameseTones(fullName).toLowerCase() +
     getRandomNumber(getRndInteger(2, 4)) +

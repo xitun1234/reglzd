@@ -277,8 +277,10 @@
                                     username: dataParse.username,
                                     password: dataParse.password,
                                     phoneNumber: dataParse.phoneNumber,
-                                    deviceName: dataParse.deviceName
+                                    deviceName: dataParse.deviceName,
+                                    address: dataParse.address
                                 }
+                                console.log(dataAjax);
 
                                 let requestPost = $.ajax({
                                     type: "POST",
