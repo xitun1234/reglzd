@@ -1,0 +1,117 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <h3 class="h4">
+                    Công cụ Lọc</h3>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="row">
+                        <div class="col-lg-6 mb-2">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <input name="start" id="start" class="form-control datePicker"
+                                        placeholder="Bắt đầu (YYYY/MM/DD)" value="2020/12/02">
+                                </div>
+                                <input name="end" id="end" class="form-control datePicker"
+                                    placeholder="Kết thúc (YYYY/MM/DD)" value="2020/12/02">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 mb-2">
+                            <input name="limit" id="limit" class="form-control" placeholder="Giới hạn"
+                                value="{{ form.limit }}">
+                        </div>
+
+                        <div class="col-lg-2 mb-2">
+                            <button type="submit" class="btn btn-primary btn-block">Lọc</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <h3 class="h4">
+                    Danh sách tài khoản lzd-fb</h3>
+            </div>
+            <div class="card-close">
+                <button class="btn btn-success btn-sm" id="exportExcel">Xuất excel</button>
+                <button class='btn btn-danger btn-sm' id="selectAll" value="selectAll">
+                    Chọn tất cả
+                </button>
+                <button class='btn btn-info btn-sm' id="copyAllSelected" value="copyAllSelected">
+                    Copy
+                </button>
+
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm" id="tableListAccount" style="display:none">
+                        <thead>
+                            <th>#</th>
+                            <th>Username</th>
+                            <th>Mật khẩu LZD</th>
+                            <th>UID</th>
+                            <th>Mật khẩu FB</th>
+                            <th>Thiết Bị</th>
+                            <th>Trạng thái</th>
+                            <th>Thời gian tạo</th>
+                        </thead>
+                        <tbody style="color:black">
+                            {{#each listAccount}}
+                            <tr>
+                                <td>
+                                    <div class="i-checks">
+                                        <input type="checkbox" id="checkBoxSelected"
+                                            class="checkbox-template checkBoxSelected" dataCopy="{{ this.username }}">
+                                        <label for="checkBoxSelected">{{ add @index 1 }}</label>
+                                    </div>
+                                </td>
+
+
+                                <td>{{ this.phoneNumber }}</td>
+
+                                <td>
+                                    <p class="text-bold">
+                                        {{ this.passwordLZD }}
+                                    </p>
+                                </td>
+
+
+                                <td>
+                                    <p class="text-info">
+                                        {{ this.uid }}
+                                    </p>
+                                </td>
+
+                                <td>{{ this.passwordFB }}</td>
+                                <td>{{ this.deviceName }}</td>
+                                <td>
+                                    {{#if this.status}}
+                                    <p class="text-success">Tạo acc thành công</p>
+                                    {{ else }}
+                                    <p class="text-danger">Reg Fail</p>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{ date this.created "DD-MM-YYYY hh:mm:ss" }}
+                                </td>
+
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

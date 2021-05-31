@@ -153,6 +153,34 @@
                                 $(resultShow).append(resultRender);
                             }
                         })
+                        let requestPost1 = $.ajax({
+                            type: "POST",
+                            url: "../../api/setdatareg",
+                            dataType: "json",
+                            contentType: "application/json",
+                            data: JSON.stringify(dataAjax),
+                            success: function (result) {
+                                let resultRender = "";
+                                console.log(result);
+                                if (result.success) {
+                                    let template = Handlebars.compile($(renderResultSuccess).html());
+                                    resultRender = template({
+                                            msg: `Đã thêm tài khoản ${
+                                            result.data.username
+                                        } vào máy ${
+                                            result.data.deviceName
+                                        } thành công`
+                                    })
+                                } else {
+                                    let template = Handlebars.compile($(renderResultError).html());
+                                    resultRender = template({
+                                        msg: result.data,
+                                        error: JSON.stringify(result.data)
+                                    });
+                                }
+                                $(resultShow).append(resultRender);
+                            }
+                        })
                     })
 
 
@@ -311,6 +339,36 @@
                                 }).always(function () {
                                     let processingCurrentText = Number($(proccessingCurrent).text()) + 1;
                                     $(proccessingCurrent).text(processingCurrentText);
+                                })
+
+                                let requestPost1 = $.ajax({
+                                    type: "POST",
+                                    url: "../../api/setdatareg",
+                                    dataType: "json",
+                                    contentType: "application/json",
+                                    data: JSON.stringify(dataAjax),
+                                    success: function (result) {
+                                        let resultRender = "";
+                                        if (result.success) {
+                                            let template = Handlebars.compile($(renderResultSuccess).html());
+                                            resultRender = template({
+                                                    msg: `Đã thêm tài khoản ${
+                                                    result.data.username
+                                                } vào máy ${
+                                                    result.data.deviceName
+                                                } thành công`
+                                            })
+                                        } else {
+                                            let template = Handlebars.compile($(renderResultError).html());
+                                            resultRender = template({
+                                                msg: result.data,
+                                                error: JSON.stringify(result.data)
+                                            });
+                                        }
+                                        $(resultShow).append(resultRender);
+                                    }
+                                }).always(function () {
+                                    
                                 })
                             } catch (error) {
                                 console.log(error);

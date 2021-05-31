@@ -13,6 +13,9 @@ const napTienModel = require('../models/NapTienModel');
 const scriptModel = require('../models/ScriptModel');
 const linkSubModel = require('../models/LinkSubModel');
 const utilsHelper = require('../utils/UtilsHelper');
+const lzdFBModel = require('../models/LzdFbModel');
+const lzdFBTempModel = require('../models/LzdFbModelTemp');
+
 const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
@@ -646,7 +649,7 @@ router.post('/setinfo', async (req, res) => {
   const password = req.body.password;
 
   console.log(address);
-  
+
   var gmail =
     removeVietnameseTones(fullName).toLowerCase() +
     getRandomNumber(getRndInteger(2, 4)) +
@@ -874,6 +877,91 @@ router.get('/getDataLZD', async (req, res) => {
 router.get('/deleteTest', async (req, res) => {
   const infoAccount = await accountModel.find({});
   res.json(infoAccount);
+});
+
+router.post('/setdatareg', async (req, res) => {
+  let newDataLZDFBTemp = new lzdFBTempModel();
+
+  //init
+  const uid = req.body.username;
+  const passwordFB = req.body.password;
+  const passwordLZD = req.body.passwordLZD;
+  const phoneNumber = req.body.phoneNumber;
+  const otp = req.body.otp;
+  const otpLan2 = req.body.otpLan2;
+  const deviceName = req.body.deviceName;
+
+  //set
+  newDataLZDFBTemp.uid = uid;
+  newDataLZDFBTemp.passwordFB = passwordFB;
+  newDataLZDFBTemp.passwordLZD = passwordLZD;
+  newDataLZDFBTemp.phoneNumber = phoneNumber;
+  newDataLZDFBTemp.otp = otp;
+  newDataLZDFBTemp.otpLan2 = otpLan2;
+  newDataLZDFBTemp.deviceName = deviceName;
+
+  //save
+  newDataLZDFBTemp.save();
+
+  res.json({
+    success: true,
+    data: newDataLZDFBTemp,
+  });
+});
+
+router.get('/getdatareg&deviceName=:deviceName', async (req, res) => {
+  const infoData = await lzdFBTempModel.findOne(
+    {
+      deviceName: req.params.deviceName,
+    },
+    {},
+    {sort: {_id: -1}}
+  );
+
+  if (infoData) {
+    res.json({
+      status: 'success',
+      data: infoData,
+    });
+  } else {
+    res.json({
+      status: 'fail',
+      data: null,
+    });
+  }
+});
+
+
+router.post('/updatePhoneThue', async (req, res) => {
+  const filter = {deviceName: req.body.deviceName};
+  const update = {
+    phoneNumber: req.body.phoneNumber,
+    otp: req.body.otp,
+    otpLan2: req.body.otpLan2,
+    passwordLZD: req.body.passwordLZD,
+    status: req.body.status
+  };
+  let resultUpdate = await lzdFBTempModel.findOneAndUpdate(filter, update, {
+    upsert: true,
+    sort: {created: -1},
+  });
+  res.status(200).json({success: true, data: resultUpdate});
+});
+
+router.get('/nghiadeptrai', async (req, res) => {
+  const infoData = await lzdFBTempModel.find({status:true});
+
+  if (infoData) {
+    res.json({
+      status: 'success',
+      data: infoData,
+    });
+  } else {
+    res.json({
+      status: 'fail',
+      data: null,
+    });
+  }
 });
 
 module.exports = router;
