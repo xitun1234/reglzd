@@ -622,7 +622,7 @@ async function randomFullname() {
   const dataJson = JSON.parse(fileData);
 
   let randomIndex = Math.floor(Math.random() * dataJson.length);
-  console.log(dataJson[randomIndex]);
+
   const fullName =
     dataJson[randomIndex].last_name_group +
     ' ' +
@@ -648,7 +648,7 @@ router.post('/setinfo', async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  console.log(address);
+
 
   var gmail =
     removeVietnameseTones(fullName).toLowerCase() +

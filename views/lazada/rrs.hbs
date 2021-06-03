@@ -46,6 +46,9 @@
                                                 <div class="col-lg-12">
                                                     <button type="button" class="btn btn-block btn-primary btn-sm" id="btnCreate">Start</button>
                                                 </div>
+                                                <div class="col-lg-12 p-2">
+                                                    <button type="button" class="btn btn-block btn-danger btn-sm" id="btnDataFB">Create Data FB</button>
+                                                </div>
                                             </div>
 
                                         </form>
@@ -85,6 +88,7 @@
                     let deviceId = "#deviceId";
                     let checkboxUpdateRRS = "#checkboxUpdateRRS";
                     let listAccount = "#listAccount";
+                    let btnDataFB = "#btnDataFB";
 
 
                     let username = "#username";
@@ -367,9 +371,89 @@
                                         }
                                         $(resultShow).append(resultRender);
                                     }
+                                }).always(function () {})
+                            } catch (error) {
+                                console.log(error);
+                            }
+                        })
+                    })
+
+                    $(btnDataFB).click(function () {
+                        getCountAll();
+                        $(proccessingCurrent).text(0);
+
+                        let listAccountCreate = $(listAccount).val().trim().replace(/^\s*\n/gm, "").split("\n");
+
+                        $.each(listAccountCreate, function (index, item) {
+                            try {
+                                let dataParse = item.split("|");
+
+
+                                let dataAjax = {
+                                    username: dataParse[0],
+                                    password: dataParse[1],
+                                    deviceName: dataParse[2],
+                                }
+                                
+
+                                let requestPost = $.ajax({
+                                    type: "POST",
+                                    url: "../../api/setinfo",
+                                    dataType: "json",
+                                    contentType: "application/json",
+                                    data: JSON.stringify(dataAjax),
+                                    success: function (result) {
+                                        let resultRender = "";
+                                        if (result.success) {
+                                            let template = Handlebars.compile($(renderResultSuccess).html());
+                                            resultRender = template({
+                                                    msg: `Đã thêm tài khoản ${
+                                                    result.data.username
+                                                } vào máy ${
+                                                    result.data.deviceName
+                                                } thành công`
+                                            })
+                                        } else {
+                                            let template = Handlebars.compile($(renderResultError).html());
+                                            resultRender = template({
+                                                msg: result.data,
+                                                error: JSON.stringify(result.data)
+                                            });
+                                        }
+                                        $(resultShow).append(resultRender);
+                                    }
                                 }).always(function () {
-                                    
+                                    let processingCurrentText = Number($(proccessingCurrent).text()) + 1;
+                                    $(proccessingCurrent).text(processingCurrentText);
                                 })
+
+                                let requestPost1 = $.ajax({
+                                    type: "POST",
+                                    url: "../../api/setdatareg",
+                                    dataType: "json",
+                                    contentType: "application/json",
+                                    data: JSON.stringify(dataAjax),
+                                    success: function (result) {
+                                        let resultRender = "";
+                                        if (result.success) {
+                                            let template = Handlebars.compile($(renderResultSuccess).html());
+                                            resultRender = template({
+                                                    msg: `Đã thêm tài khoản ${
+                                                    result.data.username
+                                                } vào máy ${
+                                                    result.data.deviceName
+                                                } thành công`
+                                            })
+                                        } else {
+                                            let template = Handlebars.compile($(renderResultError).html());
+                                            resultRender = template({
+                                                msg: result.data,
+                                                error: JSON.stringify(result.data)
+                                            });
+                                        }
+                                        $(resultShow).append(resultRender);
+                                    }
+                                }).always(function () {})
                             } catch (error) {
                                 console.log(error);
                             }
@@ -391,6 +475,8 @@
                         }
                         return obj;
                     }
+
+                    
                 </script>
 
                 <script id="renderResultError" type="text/x-handlebars-template">
