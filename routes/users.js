@@ -964,4 +964,27 @@ router.get('/nghiadeptrai', async (req, res) => {
   }
 });
 
+router.get('/regdone&deviceName=:deviceName', async (req, res) => {
+  const infoData = await lzdFBTempModel.findOne(
+    {
+      deviceName: req.params.deviceName,
+      status: true
+    },
+    {},
+    {sort: {_id: -1}}
+  );
+
+  if (infoData) {
+    res.json({
+      status: 'success',
+      data: infoData,
+    });
+  } else {
+    res.json({
+      status: 'fail',
+      data: null,
+    });
+  }
+});
+
 module.exports = router;
