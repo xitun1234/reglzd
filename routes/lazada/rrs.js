@@ -1,6 +1,8 @@
 var express = require('express');
 const router = express.Router();
 const rrsModel = require('../../models/RrsModel');
+const khoDuLieuModel = require("../../models/KhoDuLieuModel");
+
 
 router.use((req, res, next) => {
     if (req.user) { req.owner = req.user.username; } else { req.owner = 'anonymous'; }
@@ -33,18 +35,9 @@ router.get('/', async function(req, res) {
 });
 
 router.get('/view', async (req,res) =>{
-    const filter ={
-        ...req.query
-    };
-    const devicesName = await rrsModel.distinct('deviceName');
+    rrsData = await khoDuLieuModel.find();
 
-    if (filter.deviceID == "all")
-    {
-        rrsData = await rrsModel.find();
-    }
-    else{
-        rrsData = await rrsModel.find({deviceName: filter.deviceID});
-    }
+    
     
     res.render('lazada/viewrrs',{
         userData: req.user,
@@ -53,7 +46,7 @@ router.get('/view', async (req,res) =>{
         },
         LazadaSlideBarActive:true,
         listRRS: rrsData,
-        listDevice: devicesName
+      
     });
 
 });
@@ -84,7 +77,7 @@ router.post('/addData', async(req,res) =>{
 });
 
 router.post('/deleteData', async(req,res)=>{
-    const result = await rrsModel.deleteMany();
+    const result = await khoDuLieuModel.deleteMany();
     console.log(result);
 
     res.status(200).json({

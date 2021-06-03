@@ -4,145 +4,67 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header d-flex align-items-center">
-                        <h3 class="h4">Lọc</h3>
+                        <h3 class="h4">Thêm Dữ Liêu Vào Kho</h3>
                     </div>
                     <div class="card-body">
                         <form>
                             <div class="row">
-                                <div class="col-sm-8">
-                                    <select name="deviceID" id="deviceId">
-                                        <option value="all">Tất cả</option>
-                                        {{#each listDevice}}
-                                            <option value="{{ this }}">{{ this }}</option>
-                                        {{/each}}
-                                    </select>
+                                <div class="col-lg-12 pt-3">
+                                    <div class="form-group">
+                                        <textarea class="form-control" name="" id="listDataKhoDuLieu" rows="12"></textarea>
+                                    </div>
                                 </div>
-                                <div class="col-sm-2">
-                                    <button type="submit" class="btn btn-primary btn-block">Lọc</button>
+                                <div class="col-lg-12 pt-3">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-block btn-success btn-lg" id="btnStart">Start</button>
+                                    </div>
                                 </div>
                             </div>
 
                         </form>
                     </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        <h3 class="h4">Kết quả</h3>
+                    </div>
+                    <div class="card-close">
+                        <div class="badge badge-pill badge-warning h5 text-light">
+                            <span id="proccessingCurrent">0</span>
+                            /
+                            <span id="proccessingAll">0</span>
+                        </div>
+                    </div>
+                    <div class="card-body" id="resultShow"></div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="form no-padding-bottom">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-header d-flex align-items-center">
-                        <h3 class="h4">Hỗ trợ khác</h3>
-                    </div>
-                    <div class="card-body">
-                        <form>
-                            <div class="row">
-                                <div class="col-sm-8">
-                                    <select name="deviceID" id="deviceIdOther">
-                                        <option value="all">Tất cả</option>
-                                        {{#each listDevice}}
-                                            <option value="{{ this }}">{{ this }}</option>
-                                        {{/each}}
-                                    </select>
-                                </div>
-                                <div class="col-sm-4">
-                                    <button type="button" id="btnUpdateRestore" class="btn btn-success ">Cập nhật lại trạng thái restore</button>
-                                </div>
-                            </div>
 
-                        </form>
-                        <div class="row mt-3">
-                            <div class="col-sm-8">
-                                <input type="text" id="txtLinkProduct" class="form-control input-lg" placeholder="Nhập link sản phẩm"></div>
-                                <div class="col-sm-4">
-                                    <button type="button" id="btnUpdateLink" class="btn btn-warning ">Cập nhật Link</button>
-                                </div>
-                            </div>
-                            <div class="card-body" id="resultShow"></div>
+<script>
+    let btnStart = "#btnStart";
+    let listDataKhoDuLieu = "l#istDataKhoDuLieu";
+    let proccessingCurrent = "#proccessingCurrent";
+    let proccessingAll = "#proccessingAll";
 
+    function getCountAll(){
+        let input = $(listDataKhoDuLieu).val().trim().replace(/^\s*\n/gm, "");
+        if (input){
+            let countInput = input.split('\n');
+            $(proccessingAll).text(countInput.length)
+        }
+        else{
+            $(proccessingAll).text(0)
+        }
+    }
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <script>
-        let btnUpdateRestore = "#btnUpdateRestore";
-        let deviceIdOther = "#deviceIdOther";
-
-        let txtLinkProduct = "#txtLinkProduct";
-        let btnUpdateLink = "#btnUpdateLink";
-
-        $(btnUpdateRestore).click(function () {
-            var deviceName = $(deviceIdOther).val();
-
-            let dataAjax = {
-                deviceName: deviceName
-            }
-
-            let request = $.ajax({
-                type: "POST",
-                url: "statusRestore",
-                dataType: "json",
-                contentType: "application/json",
-                data: JSON.stringify(dataAjax),
-                success: function (result) {
-                    console.log(result);
-                    let resultRender = "";
-                    if (result.success) {
-                        let template = Handlebars.compile($(renderResultSuccess).html());
-                        resultRender = template({msg: result.msg});
-                    } else {}
-
-                    $(resultShow).append(resultRender);
-                }
-            })
-        });
-
-        $(btnUpdateLink).click(function () {
-            var linkProduct = $(txtLinkProduct).val();
-            var deviceName = $(deviceIdOther).val();
-
-            let dataAjax = {
-                deviceName: deviceName,
-                linkProduct: linkProduct,
-            }
-
-            let request = $.ajax({
-                type: "POST",
-                url: "updateLink",
-                dataType: "json",
-                contentType: "application/json",
-                data: JSON.stringify(dataAjax),
-                success: function (result) {
-                    console.log(result);
-                    let resultRender = "";
-                    if (result.success) {
-                        let template = Handlebars.compile($(renderResultSuccess).html());
-                        resultRender = template({msg: result.msg});
-                    } else {}
-
-                    $(resultShow).append(resultRender);
-                }
-            })
-
-        });
-    
-    </script>
-
-    <script id="renderResultError" type="text/x-handlebars-template">
-        <div class="alert alert-danger" role="alert">
-            \{{ msg }}
-            <hr/>
-            \{{ error }}
-        </div>
-    </script>
-    <script id="renderResultSuccess" type="text/x-handlebars-template">
-        <p class="text-success">\{{ msg }}</p>
-    </script>
+    $(btnStart).click(function(){
+        getCountAll();
+        $(proccessingCurrent).text(0);
+    })
+</script>

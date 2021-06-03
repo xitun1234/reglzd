@@ -15,12 +15,14 @@ const linkSubModel = require('../models/LinkSubModel');
 const utilsHelper = require('../utils/UtilsHelper');
 const lzdFBModel = require('../models/LzdFbModel');
 const lzdFBTempModel = require('../models/LzdFbModelTemp');
+const khoDuLieuModel = require("../models/KhoDuLieuModel");
 
 const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
 const mongoose = require('mongoose');
 const {info} = require('console');
+const KhoDuLieu = require('../models/KhoDuLieuModel');
 const Schema = mongoose.Schema;
 
 /* GET users listing. */
@@ -973,11 +975,58 @@ router.get('/regdone&deviceName=:deviceName', async (req, res) => {
     {},
     {sort: {_id: -1}}
   );
-
+ 
   if (infoData) {
     res.json({
       status: 'success',
       data: infoData,
+    });
+  } else {
+    res.json({
+      status: 'fail',
+      data: null,
+    });
+  }
+});
+
+router.post('/setkhodulieu', async (req, res) => {
+  let duLieu = new khoDuLieuModel();
+
+  //init
+  const username = req.body.username;
+  const password = req.body.password;
+
+
+  //set
+  duLieu.username = username;
+  duLieu.password = password;
+  duLieu.isGet = false;
+
+  //save
+  duLieu.save();
+
+  res.json({
+    success: true,
+    data: duLieu,
+  });
+});
+
+
+router.get('/getKhoDuLieu&deviceName=:deviceName', async (req, res) => {
+  const filter = {isGet: false};
+  const update = {
+    isGet: true,
+    status: `May ${req.params.deviceName}`
+  }
+
+  let doc = await KhoDuLieu.findOneAndUpdate(filter,update,{
+    new:true
+  })
+ 
+  if (doc) {
+    res.json({
+      status: 'success',
+      data: doc,
     });
   } else {
     res.json({
