@@ -7,6 +7,7 @@ const KhoDuLieuSchema = new Schema({
     isGet: {type: Boolean},
     address: {type:String},
     fullName: {type:String},
+    phoneNumber: {type:String},
     
     status: {type:String},
     created:{type:Date, default:Date.now}

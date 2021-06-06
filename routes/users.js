@@ -996,7 +996,8 @@ router.post('/setkhodulieu', async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   const address = req.body.address;
-  console.log(address);
+  const phoneNumber = req.body.phoneNumber;
+
 
   const fileData = await readFilePro(`${__dirname}/../config/output.json`);
   const dataJson = JSON.parse(fileData);
@@ -1008,6 +1009,7 @@ router.post('/setkhodulieu', async (req, res) => {
   duLieu.password = password;
   duLieu.address = address;
   duLieu.fullName = dataJson[randomIndex].full_name;
+  duLieu.phoneNumber = phoneNumber;
   duLieu.isGet = false;
 
   //save
