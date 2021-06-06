@@ -5,6 +5,8 @@ const KhoDuLieuSchema = new Schema({
     username: {type:String},
     password: {type:String},
     isGet: {type: Boolean},
+    address: {type:String},
+    fullName: {type:String},
     
     status: {type:String},
     created:{type:Date, default:Date.now}

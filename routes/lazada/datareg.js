@@ -13,8 +13,9 @@ router.use((req, res, next) => {
 
 router.get('/', async function (req, res) {
   const dataReg = await lzdFBTempModel
-    .find({status: true})
+    .find({status: 'true'})
     .exec((err, result) => {
+      
       res.render('lazada/datareg', {
         userData: req.user,
         LazadaSlideBarActive: true,

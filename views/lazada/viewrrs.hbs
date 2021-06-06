@@ -95,7 +95,9 @@
                 let dataAjax = {
                     username: dataParse[0],
                     password: dataParse[1],
+                    address: dataParse[2],
                 }
+                console.log(dataAjax);
 
                 let requestPost = $.ajax({
                     type: "POST",

@@ -944,7 +944,7 @@ router.post('/updatePhoneThue', async (req, res) => {
     status: req.body.status
   };
   let resultUpdate = await lzdFBTempModel.findOneAndUpdate(filter, update, {
-    upsert: true,
+    new: true,
     sort: {created: -1},
   });
   res.status(200).json({success: true, data: resultUpdate});
@@ -995,11 +995,19 @@ router.post('/setkhodulieu', async (req, res) => {
   //init
   const username = req.body.username;
   const password = req.body.password;
+  const address = req.body.address;
+  console.log(address);
 
+  const fileData = await readFilePro(`${__dirname}/../config/output.json`);
+  const dataJson = JSON.parse(fileData);
 
+  let randomIndex = Math.floor(Math.random() * dataJson.length);
+  
   //set
   duLieu.username = username;
   duLieu.password = password;
+  duLieu.address = address;
+  duLieu.fullName = dataJson[randomIndex].full_name;
   duLieu.isGet = false;
 
   //save
