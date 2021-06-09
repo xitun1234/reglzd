@@ -877,8 +877,8 @@ router.get('/getDataLZD', async (req, res) => {
 });
 
 router.get('/deleteTest', async (req, res) => {
-  const infoAccount = await accountModel.find({});
-  res.json(infoAccount);
+  const result = await scriptModel.deleteMany();
+  console.log(result);
 });
 
 router.post('/setdatareg', async (req, res) => {

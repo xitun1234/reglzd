@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <h3 class="h4">
+                    Danh sách thiết bị</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm" id="tableListDevice" >
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Tên Thiết Bị</th>
+                                <th>Địa chỉ mạng Lan</th>
+                            </tr>
+                        </thead>
+                        <tbody style="color:black">
+                            {{#each listDevice}}
+                            <tr>
+                                <td>{{this.deviceName}}</td>
+                                <td>{{this.ipAddress}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,127 @@
+<section class="form no-padding-bottom">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        <h3 class="h4">Thêm Thiết Bị Để Điều Khiển</h3>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="inputDevice">Tên Thiết Bị</label>
+                                <input type="text" class="form-control" id="deviceName"></div>
+                                <div class="form-group">
+                                    <label for="inputIpAddress">Địa chỉ mạng Lan</label>
+                                    <input type="text" class="form-control" id="ipAddress"></div>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <button type="button" id="btnAddDevice" class="btn btn-primary btn-lg">Thêm</button>
+                                        </div>
+                                        <div class="col-8">
+                                            <button type="button" id="btnXoaAll" class="btn btn-danger btn-lg">Xóa Toàn Bộ Thiết Bị</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="noiDung pt-3">
+                                    <p class="text-info" id="resultShow"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+
+        <section class="tables">
+            <div class="container-fluid">
+                {{>table/listDevice}}
+            </div>
+        </section>
+
+        <script>
+            $(document).ready(function () {
+                $('#tableListDevice').DataTable({
+                    responsive: true,
+                    "lengthMenu": [
+                        [
+                            50, 100, 1000, -1
+                        ],
+                        [
+                            50, 100, 1000, "Tất cả"
+                        ]
+                    ],
+
+                    "language": {
+                        "lengthMenu": "Hiển thị _MENU_ kết quả",
+                        "paginate": {
+                            "first": "Đầu",
+                            "last": "Cuối",
+                            "next": "Tiếp",
+                            "previous": "Trước"
+                        },
+                        "search": "Tìm kiếm:",
+                        "loadingRecords": "Đang tải...",
+                        "processing": "Đang xử lý...",
+                        "emptyTable": "Không có dữ liệu",
+                        "info": "Hiển thị _START_/_END_ (_TOTAL_ kết quả)",
+                        "infoEmpty": "Không có dữ liệu để hiển thị",
+                        "thousands": ".",
+                        "zeroRecords": "Không tìm thấy kết quả tìm kiếm",
+                        "infoFiltered": "(lọc từ _MAX_ kết quả)",
+                        "aria": {
+                            "sortAscending": ": Sắp xếp tăng dần",
+                            "sortDescending": ": Sắp xếp giảm dần"
+                        }
+                    }
+                });
+
+                $("#tableListDevice").show();
+            });
+
+            let btnAddDevice = '#btnAddDevice';
+            let deviceName = '#deviceName';
+            let ipAddress = '#ipAddress';
+            let btnXoaAll = '#btnXoaAll';
+
+            $(btnAddDevice).click(function () {
+                let dataAjax = {
+                    deviceName: $(deviceName).val(),
+                    ipAddress: $(ipAddress).val()
+                }
+                
+                let requestPost = $.ajax({
+                    type: "POST",
+                    url: "./addDevice/addThietBi",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(dataAjax),
+                    success: function (result) {
+                        let resultRender = "";
+                        console.log(result);
+                        if (result.success) {
+                            $(resultShow).text(`Thêm ${result.data.deviceName} thành công` )
+                        }
+                    }
+                })
+            });
+
+            $(btnXoaAll).click(function(){
+                let requestPost = $.ajax({
+                    type:"POST",
+                    url:'./addDevice/deleteThietBi',
+                    dataType: 'json',
+                    contentType: 'application/json',
+
+                    success: function (result){
+                        if (result.sucess)
+                        {
+                            $(resultShow).text(`Đã xóa toàn bộ thiết bị` );
+                        }
+                    }
+                })
+            })
+        </script>

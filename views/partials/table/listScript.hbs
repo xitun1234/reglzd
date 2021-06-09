@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <h3 class="h4">
+                    Danh sách Kịch Bản</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm" id="tableListDevice" >
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Tên Kịch Bản</th>
+                                <th>Đường dẫn</th>
+                                <th>Loại</th>
+                            </tr>
+                        </thead>
+                        <tbody style="color:black">
+                            {{#each listScript}}
+                            <tr>
+                                <td>{{this.scriptName}}</td>
+                                <td>{{this.duongDan}}</td>
+                                <td>{{this.scriptType}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

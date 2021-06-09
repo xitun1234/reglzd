@@ -5,7 +5,6 @@ const deviceModel = require('../models/DeviceModel');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  const deviceName = 'device 1'
     
   res.render('index', { title: 'Express',userData: req.user,dashboardSlideBarActive:true });
 });

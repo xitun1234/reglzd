@@ -43,7 +43,7 @@
                         <li {{#if lazadaSubMenuUploadActive}} class="active" {{/if}}>
                             <a href="/lazada/upload/">
                                 <i class="fa fa-cloud-upload"></i>
-                            Upload Kich Ban</a>
+                                Upload Kich Ban</a>
                         </li>
                         <li {{#if lazadaSubMenuUploadActive}} class="active" {{/if}}>
                             <a href="/lazada/datareg/">
@@ -87,6 +87,34 @@
                         </li>
 
 
+                    </ul>
+                </li>
+                <li>
+                    <a href="#remotedropdownDropdown" aria-expanded="false" data-toggle="collapse" class="collapsed">
+                        <i class="fa fa-television"></i>Điều khiển Máy
+                    </a>
+
+                    <ul id="remotedropdownDropdown" class="collapse list-unstyled {{#if RemoteSlideBarActive}}show{{/if}}">
+                        <li {{#if active.addDevice}} class="active" {{/if}}>
+                            <a href="/remote/addDevice">
+                                <i class="fa fa-mobile"></i>
+                                Thêm thiết bị để điều khiển
+                            </a>
+                        </li>
+                        <li {{#if active.addScript}} class="active" {{/if}}>
+                            <a href="/remote/addScript">
+                                <i class="fa fa-cogs"></i>
+                                Thêm File Auto
+                            </a>
+
+                        </li>
+                        <li {{#if active.manage}} class="active" {{/if}}>
+                            <a href="/remote/manage">
+                                <i class="fa fa-tasks"></i>
+                                Quản lý điều khiển
+                            </a>
+
+                        </li>
                     </ul>
                 </li>
             </ul>

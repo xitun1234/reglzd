@@ -81,6 +81,10 @@ app.use('/lazada/datareg', require('./routes/lazada/datareg'));
 app.use('/gmail/account', require('./routes/gmail/account'));
 app.use('/telegram/account', require('./routes/telegram/account'));
 app.use('/telegram/buffsub', require('./routes/telegram/buffSub'));
+
+app.use('/remote/addDevice', require('./routes/remote/addDevice'));
+app.use('/remote/addScript', require('./routes/remote/addScript'));
+app.use('/remote/manage', require('./routes/remote/manage'));
 //app.use('/telegram/buffsub', require('./routes/telegram/buffSub'));
 
 // catch 404 and forward to error handler

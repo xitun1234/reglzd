@@ -1,0 +1,161 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <h3 class="h4 text-primary">
+                    Tool Xóa Data</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm" id="tableListXoaData">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên Kịch Bản</th>
+                                <th>Đường dẫn</th>
+                                <th>Loại</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody style="color:black">
+                            {{#each listScriptXoaInfo}}
+                            <tr>
+                                <td>{{ add @index 1 }}</td>
+                                <td><p class="h4">{{this.scriptName}}</p></td>
+                                <td>{{this.duongDan}}</td>
+                                <td>
+                                    <p class="text-info">{{this.scriptType}}</p>
+                                </td>
+                                
+                                <td>
+                                    <button type="button" class="btn btn-outline-primary select" value="{{this.duongDan}}">Chọn</button>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <h3 class="h4 text-warning">
+                    Tool Input Data</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm" id="tableListInputData">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên Kịch Bản</th>
+                                <th>Đường dẫn</th>
+                                <th>Loại</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody style="color:black">
+                            {{#each listScriptInputData}}
+                            <tr>
+                                <td>{{ add @index 1 }}</td>
+                                <td><p class="h4">{{this.scriptName}}</p></td>
+                                <td>{{this.duongDan}}</td>
+                                <td><p class="text-warning">{{this.scriptType}}</p></td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-primary select" value="{{this.duongDan}}">Chọn</button>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <h3 class="h4 text-success">
+                    Tool Input Facebook</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm" id="tableListFacebook">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên Kịch Bản</th>
+                                <th>Đường dẫn</th>
+                                <th>Loại</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody style="color:black">
+                            {{#each listScriptFacebook}}
+                            <tr>
+                                <td>{{ add @index 1 }}</td>
+                                <td><p class="h4">{{this.scriptName}}</p></td>
+                                <td>{{this.duongDan}}</td>
+                                <td><p class="text-success">{{this.scriptType}}</p></td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-primary select" value="{{this.duongDan}}">Chọn</button>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <h3 class="h4 text-danger">
+                    Tool Input Lazada</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm" id="tableListLazada">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên Kịch Bản</th>
+                                <th>Đường dẫn</th>
+                                <th>Loại</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody style="color:black">
+                            {{#each listScriptLazada}}
+                            <tr>
+                                <td>{{ add @index 1 }}</td>
+                                <td><p class="h4">{{this.scriptName}}</p></td>
+                                <td>{{this.duongDan}}</td>
+                                <td><p class="text-danger">{{this.scriptType}}</p></td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-primary select" value="{{this.duongDan}}">Chọn</button>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

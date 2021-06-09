@@ -1,0 +1,58 @@
+<section class="listDevice">
+    <div class="container-fluid">
+        <div class="row pb-4">
+            <label for="duongDan">Đường dẫn</label>
+            <textarea class="form-control" id="linkScript"></textarea>
+        </div>
+        <div class="row">
+            {{#each listDevice}}
+                <div class="col-3 pb-3">
+                    <button type="button" class="btn btn-primary btn-lg remote" value="{{this.ipAddress}}">{{this.deviceName}}</button>
+                </div>
+            {{/each}}
+
+            <div class="col-4 pb-3">
+                <button type="button" class="btn btn-danger btn-lg remoteAll btn-block" value="all">ALL</button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="tables">
+    <div class="container-fluid">
+        {{>table/listManage}}
+    </div>
+</section>
+
+
+<script>
+    let linkScript = '#linkScript'
+    $('.remote').click(function () {
+        var deviceIP = $(this).val();
+        var duongDanValue = $(linkScript).val();
+        
+        const dataAjax = {
+            ipAddress: deviceIP,
+            duongDan: duongDanValue
+        }
+
+        let requestPost = $.ajax({
+            type:"POST",
+            url:"./manage/playScript",
+            dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(dataAjax),
+                    success: function (result) {
+                        
+                        console.log(result);
+                        
+                    }
+        })
+
+
+    })
+
+    $('.select').click(function () {
+        var value = $(this).val();
+        $(linkScript).val(value);
+    })
+</script>
