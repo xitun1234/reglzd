@@ -649,6 +649,7 @@ router.post('/setinfo', async (req, res) => {
   const deviceName = req.body.deviceName;
   const username = req.body.username;
   const password = req.body.password;
+  const twoFA = req.body.twoFA;
 
 
 
@@ -664,6 +665,7 @@ router.post('/setinfo', async (req, res) => {
   newdataAccountModel.deviceName = deviceName;
   newdataAccountModel.username = username;
   newdataAccountModel.password = password;
+  newdataAccountModel.twoFA = twoFA;
   newdataAccountModel.gmail = gmail.replace(/\s/g, '') + '@gmail.com';
 
   //save
@@ -892,6 +894,7 @@ router.post('/setdatareg', async (req, res) => {
   const otp = req.body.otp;
   const otpLan2 = req.body.otpLan2;
   const deviceName = req.body.deviceName;
+  const twoFA = req.body.twoFA;
 
   //set
   newDataLZDFBTemp.uid = uid;
@@ -901,6 +904,7 @@ router.post('/setdatareg', async (req, res) => {
   newDataLZDFBTemp.otp = otp;
   newDataLZDFBTemp.otpLan2 = otpLan2;
   newDataLZDFBTemp.deviceName = deviceName;
+  newDataLZDFBTemp.twoFA = twoFA;
 
   //save
   newDataLZDFBTemp.save();
