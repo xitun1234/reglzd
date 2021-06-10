@@ -6,9 +6,10 @@
         </div>
         <div class="row">
             {{#each listDevice}}
-                <div class="col-3 pb-3">
-                    <button type="button" class="btn btn-primary btn-lg remote" value="{{this.ipAddress}}">{{this.deviceName}}</button>
-                </div>
+            <div class="col-3 pb-3">
+                <button type="button" class="btn btn-primary btn-lg remote"
+                    value="{{this.ipAddress}}">{{this.deviceName}}</button>
+            </div>
             {{/each}}
 
             <div class="col-4 pb-3">
@@ -29,23 +30,23 @@
     $('.remote').click(function () {
         var deviceIP = $(this).val();
         var duongDanValue = $(linkScript).val();
-        
+
         const dataAjax = {
             ipAddress: deviceIP,
             duongDan: duongDanValue
         }
 
         let requestPost = $.ajax({
-            type:"POST",
-            url:"./manage/playScript",
+            type: "POST",
+            url: "./manage/playScript",
             dataType: "json",
-                    contentType: "application/json",
-                    data: JSON.stringify(dataAjax),
-                    success: function (result) {
-                        
-                        console.log(result);
-                        
-                    }
+            contentType: "application/json",
+            data: JSON.stringify(dataAjax),
+            success: function (result) {
+
+                console.log(result);
+
+            }
         })
 
 
@@ -54,5 +55,26 @@
     $('.select').click(function () {
         var value = $(this).val();
         $(linkScript).val(value);
+    })
+
+    $('.remoteAll').click(function () {
+        var duongDanValue = $(linkScript).val();
+        const dataAjax = {
+            ipAddress: "all",
+            duongDan: duongDanValue
+        }
+
+        let requestPost = $.ajax({
+            type: "POST",
+            url: "./manage/playAllScript",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(dataAjax),
+            success: function (result) {
+
+                console.log(result);
+
+            }
+        })
     })
 </script>

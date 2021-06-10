@@ -19,6 +19,10 @@ router.get('/', async function (req, res) {
     scriptType: 'InputData',
   });
 
+  const listScriptYeuThich = await scriptModel.find({
+    scriptType: 'YeuThich',
+  });
+
   res.render('remote/manage', {
     userData: req.user,
     RemoteSlideBarActive: true,
@@ -29,19 +33,40 @@ router.get('/', async function (req, res) {
     listScriptLazada: listScriptLazada,
     listScriptFacebook: listScriptFacebook,
     listScriptXoaInfo: listScriptXoaInfo,
-    listScriptInputData: listScriptInputData
+    listScriptInputData: listScriptInputData,
+    listScriptYeuThich: listScriptYeuThich
   });
 });
 
-router.post('/playScript', async function(req,res){
-    const url = "http://" + req.body.ipAddress + ":8080/control/start_playing?path=" + req.body.duongDan;
-    
-    const result = await axios.get(url);
+router.post('/playScript', async function (req, res) {
+  const url = "http://" + req.body.ipAddress + ":8080/control/start_playing?path=" + req.body.duongDan;
 
-    res.status(200).json({
-        status: true,
-        data: result.data
-    });
+  const result = await axios.get(url);
+
+  res.status(200).json({
+    status: true,
+    data: result.data
+  });
+});
+
+router.post('/playAllScript', async function (req, res) {
+
+  const listDevice = await deviceModel.find();
+  var duongDan = req.body.duongDan;
+  console.log(duongDan);
+
+  listDevice.forEach(element => {
+    const url = "http://" + element.ipAddress + ":8080/control/start_playing?path=" + duongDan;
+
+    const result = axios.get(url);
+  });
+
+
+
+  res.status(200).json({
+    status: true,
+    data: 'ok'
+  });
 });
 
 module.exports = router;
