@@ -653,6 +653,8 @@ router.post('/setinfo', async (req, res) => {
 
 
 
+
+
   var gmail =
     removeVietnameseTones(fullName).toLowerCase() +
     getRandomNumber(getRndInteger(2, 4)) +
@@ -667,7 +669,7 @@ router.post('/setinfo', async (req, res) => {
   newdataAccountModel.password = password;
   newdataAccountModel.twoFA = twoFA;
   newdataAccountModel.gmail = gmail.replace(/\s/g, '') + '@gmail.com';
-
+  console.log(newdataAccountModel);
   //save
   newdataAccountModel.save();
 
