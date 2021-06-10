@@ -7,7 +7,7 @@ const AccountSchema = new Schema({
     passwordGmail:{type:String},
     phoneNumber: {type:String},
     deviceName: {type:String},
-
+    twoFA: {type:String},
     status: {type:Boolean},
     created:{type:Date, default:Date.now}
 });

@@ -8,6 +8,7 @@ const KhoDuLieuSchema = new Schema({
     address: {type:String},
     fullName: {type:String},
     phoneNumber: {type:String},
+    twoFA: {type:String},
     
     status: {type:String},
     created:{type:Date, default:Date.now}

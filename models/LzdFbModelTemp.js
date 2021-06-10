@@ -10,6 +10,7 @@ const LZDFBTempSchema = new Schema({
     otp: {type:String},
     otpLan2: {type:String},
     status: {type:Boolean},
+    twoFA: {type:String},
     created:{type:Date, default:Date.now}
 });
 

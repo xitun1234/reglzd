@@ -8,7 +8,9 @@ const  DataAccountSchema = new Schema({
     gmail:{type:String},
     deviceName: {type:String},
     username: {type:String},
-    password: {type:String}
+    password: {type:String},
+    twoFA: {type:String},
+    
 });
 
 const DataAccount = mongoose.model('DataAccount', DataAccountSchema, 'infoacc');
