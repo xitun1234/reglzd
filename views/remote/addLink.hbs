@@ -1,0 +1,151 @@
+<section class="form no-padding-bottom">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        <h3 class="h4">Thêm Link Sản Phẩm</h3>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="inputDevice">Tên Link</label>
+                                <input type="text" class="form-control" id="linkNameSanPham" value="{{linkSanPham.linkName}}"></div>
+                                <div class="form-group">
+                                    <label for="inputIpAddress">Đường Dẫn</label>
+                                    <input type="text" class="form-control" id="linkPathSanPham" value="{{linkSanPham.linkPath}}"></div>
+                                    <div class="form-group">
+                                        <label for="inputIpAddress" hidden>Loại Link</label>
+                                        <input type="text" class="form-control" id="linkTypeSanPham" value="{{linkSanPham.linkType}}" hidden></div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <button type="button" id="btnUpdateLinkSanPham" class="btn btn-success btn-lg" value="{{linkSanPham._id}}">Cập Nhật Link Sản Phẩm</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </form>
+                                    <div class="noiDung pt-3">
+                                        <p class="text-info" id="resultShow"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </section>
+            <section class="form no-padding-bottom">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header d-flex align-items-center">
+                                    <h3 class="h4">Thêm Link Mã Giảm Giá</h3>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="inputDevice">Tên Link</label>
+                                            <input type="text" class="form-control" id="linkName" value="{{linkMGG.linkName}}"></div>
+                                            <div class="form-group">
+                                                <label for="inputIpAddress">Đường Dẫn</label>
+                                                <input type="text" class="form-control" id="linkPath" value="{{linkMGG.linkPath}}"></div>
+                                                <div class="form-group">
+                                                    <label for="inputIpAddress" hidden>Loại Link</label>
+                                                    <input type="text" class="form-control" id="linkType" value="{{linkMGG.linkType}}" hidden></div>
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col-4">
+                                                                <button type="button" id="btnUpdateLinkMGG" class="btn btn-success btn-lg" value="{{linkMGG._id}}">Cập Nhật Link MGG</button>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+
+                                                </form>
+                                                <div class="noiDung pt-3">
+                                                    <p class="text-info" id="resultShow"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </section>
+
+
+                        <script>
+
+
+                            let btnUpdateLinkMGG = '#btnUpdateLinkMGG';
+                            let linkName = '#linkName';
+                            let linkPath = '#linkPath';
+                            let linkType = '#linkType';
+
+                            let btnUpdateLinkSanPham = '#btnUpdateLinkSanPham';
+                            let linkNameSanPham = '#linkNameSanPham';
+                            let linkPathSanPham = '#linkPathSanPham';
+                            let linkTypeSanPham = '#linkTypeSanPham';
+
+                            $(btnUpdateLinkMGG).click(function () {
+                                let dataAjax = {
+                                    linkName: $(linkName).val(),
+                                    linkPath: $(linkPath).val(),
+                                    linkType: $(linkType).val(),
+                                    linkID: $(btnUpdateLinkMGG).val()
+                                }
+
+
+                                console.log(dataAjax);
+
+                                let requestPost = $.ajax({
+                                    type: "POST",
+                                    url: "./addLink/updateLink",
+                                    dataType: "json",
+                                    contentType: "application/json",
+                                    data: JSON.stringify(dataAjax),
+                                    success: function (result) {
+                                        let resultRender = "";
+                                        console.log(result);
+                                        if (result.status) {
+                                            $(resultShow).text(`Cập nhật Link thành công`)
+                                        }
+                                    }
+                                })
+                            });
+
+                            $(btnUpdateLinkSanPham).click(function () {
+                                let dataAjax = {
+                                    linkName: $(linkNameSanPham).val(),
+                                    linkPath: $(linkPathSanPham).val(),
+                                    linkType: $(linkTypeSanPham).val(),
+                                    linkID: $(btnUpdateLinkSanPham).val()
+                                }
+
+
+                                console.log(dataAjax);
+
+                                let requestPost = $.ajax({
+                                    type: "POST",
+                                    url: "./addLink/updateLink",
+                                    dataType: "json",
+                                    contentType: "application/json",
+                                    data: JSON.stringify(dataAjax),
+                                    success: function (result) {
+                                        let resultRender = "";
+                                        console.log(result);
+                                        if (result.status) {
+                                            $(resultShow).text(`Cập nhật Link thành công`)
+                                        }
+                                    }
+                                })
+                            });
+                        </script>

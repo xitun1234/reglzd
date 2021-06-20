@@ -15,7 +15,8 @@ const linkSubModel = require('../models/LinkSubModel');
 const utilsHelper = require('../utils/UtilsHelper');
 const lzdFBModel = require('../models/LzdFbModel');
 const lzdFBTempModel = require('../models/LzdFbModelTemp');
-const khoDuLieuModel = require("../models/KhoDuLieuModel");
+const khoDuLieuModel = require('../models/KhoDuLieuModel');
+const linkModel = require('../models/LinkModel');
 
 const fs = require('fs');
 const multer = require('multer');
@@ -651,10 +652,6 @@ router.post('/setinfo', async (req, res) => {
   const password = req.body.password;
   const twoFA = req.body.twoFA;
 
-
-
-
-
   var gmail =
     removeVietnameseTones(fullName).toLowerCase() +
     getRandomNumber(getRndInteger(2, 4)) +
@@ -939,7 +936,6 @@ router.get('/getdatareg&deviceName=:deviceName', async (req, res) => {
   }
 });
 
-
 router.post('/updatePhoneThue', async (req, res) => {
   const filter = {deviceName: req.body.deviceName};
   const update = {
@@ -947,7 +943,7 @@ router.post('/updatePhoneThue', async (req, res) => {
     otp: req.body.otp,
     otpLan2: req.body.otpLan2,
     passwordLZD: req.body.passwordLZD,
-    status: req.body.status
+    status: req.body.status,
   };
   let resultUpdate = await lzdFBTempModel.findOneAndUpdate(filter, update, {
     new: true,
@@ -957,7 +953,7 @@ router.post('/updatePhoneThue', async (req, res) => {
 });
 
 router.get('/nghiadeptrai', async (req, res) => {
-  const infoData = await lzdFBTempModel.find({status:true});
+  const infoData = await lzdFBTempModel.find({status: true});
 
   if (infoData) {
     res.json({
@@ -976,12 +972,12 @@ router.get('/regdone&deviceName=:deviceName', async (req, res) => {
   const infoData = await lzdFBTempModel.findOne(
     {
       deviceName: req.params.deviceName,
-      status: true
+      status: true,
     },
     {},
     {sort: {_id: -1}}
   );
- 
+
   if (infoData) {
     res.json({
       status: 'success',
@@ -1005,13 +1001,11 @@ router.post('/setkhodulieu', async (req, res) => {
   const phoneNumber = req.body.phoneNumber;
   const twoFA = req.body.twoFA;
 
-
-
   const fileData = await readFilePro(`${__dirname}/../config/output.json`);
   const dataJson = JSON.parse(fileData);
 
   let randomIndex = Math.floor(Math.random() * dataJson.length);
-  
+
   //set
   duLieu.username = username;
   duLieu.password = password;
@@ -1029,22 +1023,42 @@ router.post('/setkhodulieu', async (req, res) => {
   });
 });
 
-
 router.get('/getKhoDuLieu&deviceName=:deviceName', async (req, res) => {
   const filter = {isGet: false};
   const update = {
     isGet: true,
-    status: `May ${req.params.deviceName}`
-  }
+    status: `May ${req.params.deviceName}`,
+  };
 
-  let doc = await KhoDuLieu.findOneAndUpdate(filter,update,{
-    new:true
-  })
- 
+  let doc = await KhoDuLieu.findOneAndUpdate(filter, update, {
+    new: true,
+  });
+
   if (doc) {
     res.json({
       status: 'success',
       data: doc,
+    });
+  } else {
+    res.json({
+      status: 'fail',
+      data: null,
+    });
+  }
+});
+
+router.get('/getLink&linkType=:linkType', async (req, res) => {
+  const infoData = await linkModel.findOne(
+    {
+      linkType: {$regex:req.params.linkType, $options: 'i'}
+    },
+    {},
+  );
+
+  if (infoData) {
+    res.json({
+      status: 'success',
+      data: infoData,
     });
   } else {
     res.json({

@@ -76,7 +76,7 @@ app.use('/login',require('./routes/login'));
 app.use('/auth',require('./routes/auth'));
 app.use('/lazada/account', require('./routes/lazada/account'));
 app.use('/lazada/rrs', require('./routes/lazada/rrs'));
-app.use('/lazada/upload', require('./routes/lazada/upload'));
+
 app.use('/lazada/datareg', require('./routes/lazada/datareg'));
 app.use('/gmail/account', require('./routes/gmail/account'));
 app.use('/telegram/account', require('./routes/telegram/account'));
@@ -84,6 +84,7 @@ app.use('/telegram/buffsub', require('./routes/telegram/buffSub'));
 
 app.use('/remote/addDevice', require('./routes/remote/addDevice'));
 app.use('/remote/addScript', require('./routes/remote/addScript'));
+app.use('/remote/addLink', require('./routes/remote/addLink'));
 app.use('/remote/manage', require('./routes/remote/manage'));
 //app.use('/telegram/buffsub', require('./routes/telegram/buffSub'));
 

@@ -40,12 +40,8 @@
                                 <i class="fa fa-shield"></i>
                                 Quản lý tài khoản</a>
                         </li>
-                        <li {{#if lazadaSubMenuUploadActive}} class="active" {{/if}}>
-                            <a href="/lazada/upload/">
-                                <i class="fa fa-cloud-upload"></i>
-                                Upload Kich Ban</a>
-                        </li>
-                        <li {{#if lazadaSubMenuUploadActive}} class="active" {{/if}}>
+
+                        <li {{#if lazadaSubMenuAccountDataRegActive}} class="active" {{/if}}>
                             <a href="/lazada/datareg/">
                                 <i class="fa fa-facebook"></i>
                                 Data Reg LZD-FB</a>
@@ -95,6 +91,12 @@
                     </a>
 
                     <ul id="remotedropdownDropdown" class="collapse list-unstyled {{#if RemoteSlideBarActive}}show{{/if}}">
+                         <li {{#if active.addLink}} class="active" {{/if}}>
+                            <a href="/remote/addLink">
+                                <i class="fa fa-link"></i>
+                                Thêm Link
+                            </a>
+                        </li>
                         <li {{#if active.addDevice}} class="active" {{/if}}>
                             <a href="/remote/addDevice">
                                 <i class="fa fa-mobile"></i>
