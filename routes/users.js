@@ -436,6 +436,7 @@ router.post('/addAccountLZD', async (req, res) => {
   newAccount.phoneNumber = req.body.phoneNumber;
   newAccount.deviceName = req.body.deviceName;
   newAccount.status = req.body.status;
+  newAccount.owner = req.body.owner;
 
   newAccount.save();
 
@@ -461,6 +462,7 @@ router.post('/addAccountGmail', async (req, res) => {
   newAccountGmail.status = req.body.status;
   newAccountGmail.isRestore = true;
   newAccountGmail.isBackUp = false;
+  newAccountGmail.owner = req.body.owner;
 
   newAccountGmail.save();
 
