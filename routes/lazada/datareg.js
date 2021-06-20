@@ -1,8 +1,11 @@
 var express = require('express');
 const router = express.Router();
 const lzdFBTempModel = require('../../models/LzdFbModelTemp');
-const deviceModel = require('../../models/DeviceModel');
+const lzdFBModel = require('../../models/LzdFbModel');
 const utilsHelper = require('../../utils/UtilsHelper');
+const xlsx = require('node-xlsx');
+const fs = require("fs");
+const moment = require('moment');
 router.use((req, res, next) => {
   if (req.user) {
     req.owner = req.user.username;
@@ -13,8 +16,8 @@ router.use((req, res, next) => {
 });
 
 router.get('/', async function (req, res) {
-  const dataReg = await lzdFBTempModel
-    .find({status: 'true'})
+  const dataReg = await lzdFBModel
+    .find({status: 'true',owner: req.owner})
     .exec((err, result) => {
       res.render('lazada/datareg', {
         userData: req.user,
@@ -29,53 +32,30 @@ router.post('/export', async (req, res, next) => {
   const d = new Date();
   const today = d.getDate();
   const currentMonth = d.getMonth() + 1; 
-  const formartDate = today.toString() + currentMonth.toString();
+  const formartDate = today.toString() + currentMonth.toString() + d.getSeconds();
   const pathExcel = `download/lazada_${formartDate}.xlsx`;
   const dataExcel = [];
 
-  const dataReg = await lzdFBTempModel
-    .find({status: 'true'})
-    .exec((err, result) => {
-      result.forEach((rowExcel) => {
-        const dataExtract = {
-          'Username': rowExcel.phoneNumber,
-          'Password': rowExcel.passwordLZD,
-          'UID': rowExcel.uid,
-            
-          'Thiết Bị Tạo': rowExcel.deviceName,
-          'Trạng Thái': rowExcel.status,
-          'Thời Gian': rowExcel.created
+  const dataReg = await lzdFBModel.find({status: 'true',owner: req.owner}).exec();
+  var macs = [];
+  macs.push(["Username","Password LZD", "uid", "Password FB","Thiết Bị", "Người Tạo", "Trạng Thái", "Thời Gian Tạo"]);
+  for (var i = 0; i < dataReg.length; i++) {
+    macs.push([dataReg[i].phoneNumber, dataReg[i].passwordLZD,dataReg[i].uid,dataReg[i].passwordFB,dataReg[i].deviceName,dataReg[i].owner,dataReg[i].status,dataReg[i].created]);
+  }
 
-        };
+  var datas = xlsx.build([
+    { name: "Excel", data: macs }
+  ]);
 
-        if (dataExcel.length == 0) {
-          dataExcel.push(Object.keys(dataExtract));
-        }
 
-        dataExcel.push(Object.values(dataExtract));
+  var time = moment().format('YYYYMMDDHHMMSS');
+    var file_path = '/download/' +"lzdSDT_" +time + '.xlsx';
+    var write_path = './public' + file_path;
+    var download_path = './download/' + time + '.xlsx';
+    console.log(write_path);
+    fs.writeFileSync(write_path, datas, {  });
 
-        utilsHelper.renderExcel(pathExcel, dataExcel);
-      });
-
-    });
-
-  // const dataExtract = {
-  //   Username: 'test',
-  //   Password: 'test',
-  //   UID: '123123123',
-  //   'Mật khẩu FB': 'Nghia2612',
-  //   'Thiết Bị Tạo': '1',
-  //   'Trạng Thái': true,
-  // };
-  // if (dataExcel.length == 0) {
-  //   dataExcel.push(Object.keys(dataExtract));
-  // }
-  // dataExcel.push(Object.values(dataExtract));
-  // utilsHelper.renderExcel(pathExcel, dataExcel);
-  res.json({
-    success: true,
-    pathExcel,
-  });
+    res.status(200).json({ ret_code: 0, success: true, file_path });
 });
 
 module.exports = router;

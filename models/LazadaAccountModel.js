@@ -9,6 +9,7 @@ const AccountSchema = new Schema({
     deviceName: {type:String},
     twoFA: {type:String},
     status: {type:Boolean},
+    owner: {type:String},
     created:{type:Date, default:Date.now}
 });
 

@@ -1,10 +1,14 @@
 var express = require('express');
 const router = express.Router();
 const linkModel = require('../../models/LinkModel');
+router.use((req, res, next) => {
+  if (req.user) { req.owner = req.user.username; } else { req.owner = 'anonymous'; }
+  next();
+});
 
 router.get('/', async function (req, res) {
-  const linkMGG = await linkModel.find({linkType: 'LinkMGG'});
-  const linkSanPham = await linkModel.find({linkType: 'LinkSanPham'});
+  const linkMGG = await linkModel.find({linkType: 'LinkMGG', owner: req.owner});
+  const linkSanPham = await linkModel.find({linkType: 'LinkSanPham', owner: req.owner});
 
 
   res.render('remote/addLink', {
@@ -19,7 +23,7 @@ router.get('/', async function (req, res) {
 });
 
 router.post('/updateLink', async function (req, res) {
-  const filter = {_id: req.body.linkID, linkType: req.body.linkType};
+  const filter = {_id: req.body.linkID, linkType: req.body.linkType, owner: req.owner};
   const update = {
     linkName: req.body.linkName,
     linkPath: req.body.linkPath,

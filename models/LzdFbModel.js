@@ -11,7 +11,9 @@ const LZDFBSchema = new Schema({
     otpLan2: {type:String},
     status: {type:Boolean},
     twoFA: {type:String},
-    created:{type:Date, default:Date.now}
+    created:{type:Date, default:Date.now},
+    owner: {type:String},
+    
 });
 
 const LZDFB = mongoose.model('LZDFB',LZDFBSchema,'lzdfb');

@@ -7,19 +7,25 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-sm" id="tableListDevice" >
+                    <table class="table table-sm" id="tableListDevice">
                         <thead class="thead-light">
                             <tr>
                                 <th>Tên Thiết Bị</th>
                                 <th>Địa chỉ mạng Lan</th>
+                                <th>Người Tạo</th>
                             </tr>
                         </thead>
                         <tbody style="color:black">
                             {{#each listDevice}}
-                            <tr>
-                                <td>{{this.deviceName}}</td>
-                                <td>{{this.ipAddress}}</td>
-                            </tr>
+                                <tr>
+                                    <td>{{this.deviceName}}</td>
+                                    <td>{{this.ipAddress}}</td>
+                                    <td>
+                                        <p class="text-warning text-bold">
+                                            {{this.owner}}
+                                        </p>
+                                    </td>
+                                </tr>
                             {{/each}}
                         </tbody>
                     </table>

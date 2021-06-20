@@ -24,6 +24,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const {info} = require('console');
 const KhoDuLieu = require('../models/KhoDuLieuModel');
+const LZDFBTemp = require('../models/LzdFbModelTemp');
 const Schema = mongoose.Schema;
 
 /* GET users listing. */
@@ -651,6 +652,7 @@ router.post('/setinfo', async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   const twoFA = req.body.twoFA;
+  const owner = req.body.owner;
 
   var gmail =
     removeVietnameseTones(fullName).toLowerCase() +
@@ -666,6 +668,7 @@ router.post('/setinfo', async (req, res) => {
   newdataAccountModel.password = password;
   newdataAccountModel.twoFA = twoFA;
   newdataAccountModel.gmail = gmail.replace(/\s/g, '') + '@gmail.com';
+  newdataAccountModel.owner = owner;
   console.log(newdataAccountModel);
   //save
   newdataAccountModel.save();
@@ -676,15 +679,16 @@ router.post('/setinfo', async (req, res) => {
   });
 });
 
-router.get('/getInfo&deviceName=:deviceName', async (req, res) => {
+router.get('/getInfo&deviceName=:deviceName&owner=:owner', async (req, res) => {
   const infoData = await dataAccountModel.findOne(
     {
       deviceName: req.params.deviceName,
+      owner: req.params.owner
     },
     {},
     {sort: {_id: -1}}
   );
-
+    console.log(infoData)
   if (infoData) {
     res.json({
       status: 'success',
@@ -807,10 +811,11 @@ router.post('/setKichBan', async (req, res) => {
   });
 });
 
-router.get('/getKichBan&deviceName=:deviceName', async (req, res) => {
+router.get('/getKichBan&deviceName=:deviceName&owner=:owner', async (req, res) => {
   const infoKichBan = await scriptModel.findOne(
     {
       deviceName: req.params.deviceName,
+      owner: req.params.owner
     },
     {},
     {sort: {_id: -1}}
@@ -835,6 +840,7 @@ router.post('/setLinkSub', async (req, res) => {
   //init
   const linkSub = req.body.linkSub;
   newLinkSub.linkSub = linkSub;
+  newLinkSub.owner = req.body.owner;
 
   //save
 
@@ -847,7 +853,7 @@ router.post('/setLinkSub', async (req, res) => {
 });
 
 router.get('/getLinkSub', async (req, res) => {
-  const infoDataLinkSub = await linkSubModel.findOne().sort({_id: -1});
+  const infoDataLinkSub = await linkSubModel.findOne({owner: 'admin'}).sort({_id: -1});
 
   if (infoDataLinkSub) {
     res.json(infoDataLinkSub);
@@ -894,6 +900,7 @@ router.post('/setdatareg', async (req, res) => {
   const otpLan2 = req.body.otpLan2;
   const deviceName = req.body.deviceName;
   const twoFA = req.body.twoFA;
+  const owner = req.body.owner;
 
   //set
   newDataLZDFBTemp.uid = uid;
@@ -904,6 +911,7 @@ router.post('/setdatareg', async (req, res) => {
   newDataLZDFBTemp.otpLan2 = otpLan2;
   newDataLZDFBTemp.deviceName = deviceName;
   newDataLZDFBTemp.twoFA = twoFA;
+  newDataLZDFBTemp.owner = owner;
 
   //save
   newDataLZDFBTemp.save();
@@ -914,10 +922,11 @@ router.post('/setdatareg', async (req, res) => {
   });
 });
 
-router.get('/getdatareg&deviceName=:deviceName', async (req, res) => {
+router.get('/getdatareg&deviceName=:deviceName&owner=:owner', async (req, res) => {
   const infoData = await lzdFBTempModel.findOne(
     {
       deviceName: req.params.deviceName,
+      owner: 'admin'
     },
     {},
     {sort: {_id: -1}}
@@ -937,7 +946,7 @@ router.get('/getdatareg&deviceName=:deviceName', async (req, res) => {
 });
 
 router.post('/updatePhoneThue', async (req, res) => {
-  const filter = {deviceName: req.body.deviceName};
+  const filter = {deviceName: req.body.deviceName, owner: req.body.owner};
   const update = {
     phoneNumber: req.body.phoneNumber,
     otp: req.body.otp,
@@ -949,6 +958,22 @@ router.post('/updatePhoneThue', async (req, res) => {
     new: true,
     sort: {created: -1},
   });
+
+  console.log(resultUpdate);
+  if (resultUpdate.status == true) {
+    
+    const newDuLieu = new lzdFBModel();
+
+    newDuLieu.uid = resultUpdate.uid;
+    newDuLieu.passwordFB = resultUpdate.passwordFB;
+    newDuLieu.phoneNumber = resultUpdate.phoneNumber;
+    newDuLieu.passwordLZD = resultUpdate.passwordLZD;
+    newDuLieu.deviceName = resultUpdate.deviceName;
+    newDuLieu.status = resultUpdate.status;
+    newDuLieu.owner = resultUpdate.owner;
+
+    newDuLieu.save();
+  }
   res.status(200).json({success: true, data: resultUpdate});
 });
 
@@ -968,11 +993,12 @@ router.get('/nghiadeptrai', async (req, res) => {
   }
 });
 
-router.get('/regdone&deviceName=:deviceName', async (req, res) => {
+router.get('/regdone&deviceName=:deviceName&owner=:owner', async (req, res) => {
   const infoData = await lzdFBTempModel.findOne(
     {
       deviceName: req.params.deviceName,
       status: true,
+      owner: req.params.owner
     },
     {},
     {sort: {_id: -1}}
@@ -1000,6 +1026,7 @@ router.post('/setkhodulieu', async (req, res) => {
   const address = req.body.address;
   const phoneNumber = req.body.phoneNumber;
   const twoFA = req.body.twoFA;
+  const owner = req.body.owner;
 
   const fileData = await readFilePro(`${__dirname}/../config/output.json`);
   const dataJson = JSON.parse(fileData);
@@ -1014,6 +1041,7 @@ router.post('/setkhodulieu', async (req, res) => {
   duLieu.phoneNumber = phoneNumber;
   duLieu.twoFA = twoFA;
   duLieu.isGet = false;
+  duLieu.owner = owner;
   //save
   duLieu.save();
 
@@ -1023,8 +1051,8 @@ router.post('/setkhodulieu', async (req, res) => {
   });
 });
 
-router.get('/getKhoDuLieu&deviceName=:deviceName', async (req, res) => {
-  const filter = {isGet: false};
+router.get('/getKhoDuLieu&deviceName=:deviceName&owner=:owner', async (req, res) => {
+  const filter = {isGet: false, owner: req.params.owner};
   const update = {
     isGet: true,
     status: `May ${req.params.deviceName}`,
@@ -1047,12 +1075,14 @@ router.get('/getKhoDuLieu&deviceName=:deviceName', async (req, res) => {
   }
 });
 
-router.get('/getLink&linkType=:linkType', async (req, res) => {
+router.get('/getLink&linkType=:linkType&owner=:owner', async (req, res) => {
+  console.log(req.params.owner);
   const infoData = await linkModel.findOne(
     {
-      linkType: {$regex:req.params.linkType, $options: 'i'}
+      linkType: {$regex: req.params.linkType, $options: 'i'},
+      owner: req.params.owner
     },
-    {},
+    {}
   );
 
   if (infoData) {
@@ -1066,6 +1096,20 @@ router.get('/getLink&linkType=:linkType', async (req, res) => {
       data: null,
     });
   }
+});
+
+router.get('/checkPro', async (req, res) => {
+  const result = await deviceModel.updateMany({}, { $set: { owner: 'admin' } });
+  
+  
+
+  
+
+  res.status(200).json({
+    success: true,
+
+    data: result,
+  });
 });
 
 module.exports = router;

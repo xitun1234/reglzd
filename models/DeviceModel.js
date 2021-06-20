@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const DeviceSchema = new Schema({
     deviceName:{type:String},
     ipAddress: {type:String},
+    owner: {type:String},
     created:{type:Date, default: Date.now}
 });
 

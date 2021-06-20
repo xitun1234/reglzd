@@ -11,6 +11,7 @@ const KhoDuLieuSchema = new Schema({
     twoFA: {type:String},
     
     status: {type:String},
+    owner: {type:String},
     created:{type:Date, default:Date.now}
 });
 

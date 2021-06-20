@@ -19,18 +19,20 @@
                         </thead>
                         <tbody style="color:black">
                             {{#each listScriptYeuThich}}
-                            <tr>
-                                <td>{{ add @index 1 }}</td>
-                                <td><p class="h5">{{this.scriptName}}</p></td>
-                                <td>{{this.duongDan}}</td>
-                                <td>
-                                    <p class="text-info">{{this.scriptType}}</p>
-                                </td>
-                                
-                                <td>
-                                    <button type="button" class="btn btn-outline-primary select" value="{{this.duongDan}}">Chọn</button>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>{{ add @index 1 }}</td>
+                                    <td>
+                                        <p class="h5">{{this.scriptName}}</p>
+                                    </td>
+                                    <td>{{this.duongDan}}</td>
+                                    <td>
+                                        <p class="text-info">{{this.scriptType}}</p>
+                                    </td>
+
+                                    <td>
+                                        <button type="button" class="btn btn-outline-primary select" value="{{this.duongDan}}">Chọn</button>
+                                    </td>
+                                </tr>
                             {{/each}}
                         </tbody>
                     </table>
@@ -62,18 +64,20 @@
                         </thead>
                         <tbody style="color:black">
                             {{#each listScriptXoaInfo}}
-                            <tr>
-                                <td>{{ add @index 1 }}</td>
-                                <td><p class="h5">{{this.scriptName}}</p></td>
-                                <td>{{this.duongDan}}</td>
-                                <td>
-                                    <p class="text-info">{{this.scriptType}}</p>
-                                </td>
-                                
-                                <td>
-                                    <button type="button" class="btn btn-outline-primary select" value="{{this.duongDan}}">Chọn</button>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>{{ add @index 1 }}</td>
+                                    <td>
+                                        <p class="h5">{{this.scriptName}}</p>
+                                    </td>
+                                    <td>{{this.duongDan}}</td>
+                                    <td>
+                                        <p class="text-info">{{this.scriptType}}</p>
+                                    </td>
+
+                                    <td>
+                                        <button type="button" class="btn btn-outline-primary select" value="{{this.duongDan}}">Chọn</button>
+                                    </td>
+                                </tr>
                             {{/each}}
                         </tbody>
                     </table>
@@ -100,20 +104,30 @@
                                 <th>Tên Kịch Bản</th>
                                 <th>Đường dẫn</th>
                                 <th>Loại</th>
+                                <th>Người Tạo</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody style="color:black">
                             {{#each listScriptInputData}}
-                            <tr>
-                                <td>{{ add @index 1 }}</td>
-                                <td><p class="h5">{{this.scriptName}}</p></td>
-                                <td>{{this.duongDan}}</td>
-                                <td><p class="text-warning">{{this.scriptType}}</p></td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-primary select" value="{{this.duongDan}}">Chọn</button>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>{{ add @index 1 }}</td>
+                                    <td>
+                                        <p class="h5">{{this.scriptName}}</p>
+                                    </td>
+                                    <td>{{this.duongDan}}</td>
+                                    <td>
+                                        <p class="text-warning">{{this.scriptType}}</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-warning text-bold">
+                                            {{this.owner}}
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-primary select" value="{{this.duongDan}}">Chọn</button>
+                                    </td>
+                                </tr>
                             {{/each}}
                         </tbody>
                     </table>
@@ -144,15 +158,19 @@
                         </thead>
                         <tbody style="color:black">
                             {{#each listScriptFacebook}}
-                            <tr>
-                                <td>{{ add @index 1 }}</td>
-                                <td><p class="h5">{{this.scriptName}}</p></td>
-                                <td>{{this.duongDan}}</td>
-                                <td><p class="text-success">{{this.scriptType}}</p></td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-primary select" value="{{this.duongDan}}">Chọn</button>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>{{ add @index 1 }}</td>
+                                    <td>
+                                        <p class="h5">{{this.scriptName}}</p>
+                                    </td>
+                                    <td>{{this.duongDan}}</td>
+                                    <td>
+                                        <p class="text-success">{{this.scriptType}}</p>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-primary select" value="{{this.duongDan}}">Chọn</button>
+                                    </td>
+                                </tr>
                             {{/each}}
                         </tbody>
                     </table>
@@ -184,15 +202,19 @@
                         </thead>
                         <tbody style="color:black">
                             {{#each listScriptLazada}}
-                            <tr>
-                                <td>{{ add @index 1 }}</td>
-                                <td><p class="h5">{{this.scriptName}}</p></td>
-                                <td>{{this.duongDan}}</td>
-                                <td><p class="text-danger">{{this.scriptType}}</p></td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-primary select" value="{{this.duongDan}}">Chọn</button>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>{{ add @index 1 }}</td>
+                                    <td>
+                                        <p class="h5">{{this.scriptName}}</p>
+                                    </td>
+                                    <td>{{this.duongDan}}</td>
+                                    <td>
+                                        <p class="text-danger">{{this.scriptType}}</p>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-primary select" value="{{this.duongDan}}">Chọn</button>
+                                    </td>
+                                </tr>
                             {{/each}}
                         </tbody>
                     </table>
@@ -201,4 +223,3 @@
         </div>
     </div>
 </div>
-

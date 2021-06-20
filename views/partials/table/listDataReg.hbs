@@ -62,56 +62,61 @@
                             <th>Mật khẩu FB</th>
                             <th>Thiết Bị</th>
                             <th>Trạng thái</th>
+                            <th>Người Tạo</th>
                             <th>Thời gian tạo</th>
                         </thead>
                         <tbody style="color:black">
                             {{#each listAccount}}
-                            <tr>
-                                <td>
-                                    <div class="i-checks">
-                                        <input type="checkbox" id="checkBoxSelected"
-                                            class="checkbox-template checkBoxSelected" dataCopy="{{ this.username }}">
-                                        <label for="checkBoxSelected">{{ add @index 1 }}</label>
-                                    </div>
-                                </td>
+                                <tr>
+                                    <td>
+                                        <div class="i-checks">
+                                            <input type="checkbox" id="checkBoxSelected" class="checkbox-template checkBoxSelected" dataCopy="{{ this.username }}">
+                                                <label for="checkBoxSelected">{{ add @index 1 }}</label>
+                                            </div>
+                                        </td>
 
 
-                                <td>{{ this.phoneNumber }}</td>
+                                        <td>{{ this.phoneNumber }}</td>
 
-                                <td>
-                                    <p class="text-bold">
-                                        {{ this.passwordLZD }}
-                                    </p>
-                                </td>
+                                        <td>
+                                            <p class="text-bold">
+                                                {{ this.passwordLZD }}
+                                            </p>
+                                        </td>
 
 
-                                <td>
-                                    <p class="text-info">
-                                        {{ this.uid }}
-                                    </p>
-                                </td>
+                                        <td>
+                                            <p class="text-info">
+                                                {{ this.uid }}
+                                            </p>
+                                        </td>
 
-                                <td>{{ this.passwordFB }}</td>
-                                <td>{{ this.deviceName }}</td>
-                                <td>
-                                    {{#if this.status}}
-                                    <p class="text-success">Tạo acc thành công</p>
-                                    {{ else }}
-                                    <p class="text-danger">Reg Fail</p>
-                                    {{/if}}
-                                </td>
-                                <td>
-                                    {{ date this.created "DD-MM-YYYY hh:mm:ss" }}
-                                </td>
+                                        <td>{{ this.passwordFB }}</td>
+                                        <td>{{ this.deviceName }}</td>
+                                        <td>
+                                            {{#if this.status}}
+                                                <p class="text-success">Tạo acc thành công</p>
+                                            {{ else }}
+                                                <p class="text-danger">Reg Fail</p>
+                                            {{/if}}
+                                        </td>
+                                        <td>
+                                            <p class="text-warning text-bold">
+                                                {{this.owner}}
+                                            </p>
+                                        </td>
+                                        <td>
+                                            {{ date this.created "DD-MM-YYYY hh:mm:ss" }}
+                                        </td>
 
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
+                                    </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
             </div>
 
         </div>
-
     </div>
-</div>

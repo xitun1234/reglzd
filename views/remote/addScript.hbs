@@ -13,127 +13,133 @@
                                 <input type="text" class="form-control" id="scriptName"></div>
                                 <div class="form-group">
                                     <label for="inputIpAddress">Đường Dẫn</label>
-                                    <input type="text" class="form-control" id="scriptPath">
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputIpAddress">Loại Tool</label>
-                                    <input type="text" class="form-control" id="scriptType">
-                                </div>
-                                <div class="form-group">
-                                     <div class="row">
-                                        <div class="col-4">
-                                            <button type="button" id="btnAddScript" class="btn btn-primary btn-lg">Thêm</button>
+                                    <input type="text" class="form-control" id="scriptPath"></div>
+                                    <div class="form-group">
+                                        <label for="inputIpAddress">Loại Tool</label>
+                                        <input type="text" class="form-control" id="scriptType"></div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <button type="button" id="btnAddScript" class="btn btn-primary btn-lg">Thêm</button>
+                                                </div>
+                                                <div class="col-8">
+                                                    <button type="button" id="btnXoaAll" class="btn btn-danger btn-lg" value="YeuThich">Xóa Script Yêu Thích</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-8">
-                                            <button type="button" id="btnXoaAll" class="btn btn-danger btn-lg">Xóa Toàn Bộ Script</button>
-                                        </div>
+
+
+                                    </form>
+                                    <div class="noiDung pt-3">
+                                        <p class="text-info" id="resultShow"></p>
                                     </div>
-                                </div>
-                                    
-                                   
-                                </form>
-                                <div class="noiDung pt-3">
-                                    <p class="text-info" id="resultShow"></p>
                                 </div>
                             </div>
                         </div>
+
                     </div>
-
                 </div>
-            </div>
 
-        </section>
+            </section>
 
 
-        <section class="tables">
-            <div class="container-fluid">
-                {{>table/listScript}}
-            </div>
-        </section>
+            <section class="tables">
+                <div class="container-fluid">
+                    {{>table/listScript}}
+                </div>
+            </section>
 
-        <script>
-            $(document).ready(function () {
-                $('#tableListScript').DataTable({
-                    responsive: true,
-                    "lengthMenu": [
-                        [
-                            50, 100, 1000, -1
+            <script>
+
+                $(document).ready(function () {
+                    $('#tableListScript').DataTable({
+                        responsive: true,
+                        "lengthMenu": [
+                            [
+                                50, 100, 1000, -1
+                            ],
+                            [
+                                50, 100, 1000, "Tất cả"
+                            ]
                         ],
-                        [
-                            50, 100, 1000, "Tất cả"
-                        ]
-                    ],
 
-                    "language": {
-                        "lengthMenu": "Hiển thị _MENU_ kết quả",
-                        "paginate": {
-                            "first": "Đầu",
-                            "last": "Cuối",
-                            "next": "Tiếp",
-                            "previous": "Trước"
-                        },
-                        "search": "Tìm kiếm:",
-                        "loadingRecords": "Đang tải...",
-                        "processing": "Đang xử lý...",
-                        "emptyTable": "Không có dữ liệu",
-                        "info": "Hiển thị _START_/_END_ (_TOTAL_ kết quả)",
-                        "infoEmpty": "Không có dữ liệu để hiển thị",
-                        "thousands": ".",
-                        "zeroRecords": "Không tìm thấy kết quả tìm kiếm",
-                        "infoFiltered": "(lọc từ _MAX_ kết quả)",
-                        "aria": {
-                            "sortAscending": ": Sắp xếp tăng dần",
-                            "sortDescending": ": Sắp xếp giảm dần"
+                        "language": {
+                            "lengthMenu": "Hiển thị _MENU_ kết quả",
+                            "paginate": {
+                                "first": "Đầu",
+                                "last": "Cuối",
+                                "next": "Tiếp",
+                                "previous": "Trước"
+                            },
+                            "search": "Tìm kiếm:",
+                            "loadingRecords": "Đang tải...",
+                            "processing": "Đang xử lý...",
+                            "emptyTable": "Không có dữ liệu",
+                            "info": "Hiển thị _START_/_END_ (_TOTAL_ kết quả)",
+                            "infoEmpty": "Không có dữ liệu để hiển thị",
+                            "thousands": ".",
+                            "zeroRecords": "Không tìm thấy kết quả tìm kiếm",
+                            "infoFiltered": "(lọc từ _MAX_ kết quả)",
+                            "aria": {
+                                "sortAscending": ": Sắp xếp tăng dần",
+                                "sortDescending": ": Sắp xếp giảm dần"
+                            }
                         }
-                    }
+                    });
+
+                    $("#tableListScript").show();
                 });
 
-                $("#tableListScript").show();
-            });
+                let btnAddScript = '#btnAddScript';
+                let scriptName = '#scriptName';
+                let scriptPath = '#scriptPath';
+                let scriptType = '#scriptType';
+                let btnXoaAll = '#btnXoaAll';
 
-            let btnAddScript = '#btnAddScript';
-            let scriptName = '#scriptName';
-            let scriptPath = '#scriptPath';
-            let scriptType = '#scriptType';
-            let btnXoaAll = '#btnXoaAll';
-
-            $(btnAddScript).click(function () {
-                let dataAjax = {
-                    scriptName: $(scriptName).val(),
-                    duongDan: $(scriptPath).val(),
-                    scriptType: $(scriptType).val()
-                }
-                
-
-                let requestPost = $.ajax({
-                    type: "POST",
-                    url: "./addScript/addKichBan",
-                    dataType: "json",
-                    contentType: "application/json",
-                    data: JSON.stringify(dataAjax),
-                    success: function (result) {
-                        let resultRender = "";
-                        console.log(result);
-                        if (result.success) {
-                            $(resultShow).text(`Thêm ${result.data.scriptName} thành công` )
-                        }
+                $(btnAddScript).click(function () {
+                    let dataAjax = {
+                        scriptName: $(scriptName).val(),
+                        duongDan: $(scriptPath).val(),
+                        scriptType: $(scriptType).val()
                     }
-                })
-            });
 
-            $(btnXoaAll).click(function(){
-                let requestPost = $.ajax({
-                    type:"POST",
-                    url:'./addScript/deleteKichBan',
-                    dataType: 'json',
-                    contentType: 'application/json',
 
-                    success: function (result){
-                        if (result.sucess)
-                        {
-                            $(resultShow).text(`Đã xóa toàn bộ thiết bị` );
+                    let requestPost = $.ajax({
+                        type: "POST",
+                        url: "./addScript/addKichBan",
+                        dataType: "json",
+                        contentType: "application/json",
+                        data: JSON.stringify(dataAjax),
+                        success: function (result) {
+                            let resultRender = "";
+                            console.log(result);
+                            if (result.success) {
+                                $(resultShow).text(`Thêm ${
+                                    result.data.scriptName
+                                } thành công`)
+                            }
                         }
+                    })
+                });
+
+                $(btnXoaAll).click(function () {
+                    let dataAjax = {
+                        
+                        scriptType: $(btnXoaAll).val()
                     }
+
+                    let requestPost = $.ajax({
+                        type: "POST",
+                        url: './addScript/deleteKichBan',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify(dataAjax),
+                        success: function (result) {
+                            console.log(result);
+                            if (result.success) {
+                                $(resultShow).text(`Đã xóa toàn bộ script Yeu Thich`);
+                            }
+                        }
+                    })
                 })
-            })
-        </script>
+            </script>

@@ -62,6 +62,7 @@
                             <th>Số Điện Thoại</th>
                             <th>Thiết Bị</th>
                             <th>Trạng thái</th>
+                            <th>Người Tạo</th>
                             <th>Thời gian tạo</th>
                         </thead>
                         <tbody style="color:black">
@@ -99,6 +100,11 @@
                                     {{ else }}
                                     <p class="text-danger">Reg Fail</p>
                                     {{/if}}
+                                </td>
+                                <td>
+                                    <p class="text-warning text-bold">
+                                        {{this.owner}}
+                                    </p>
                                 </td>
                                 <td>
                                     {{ date this.created "DD-MM-YYYY hh:mm:ss" }}

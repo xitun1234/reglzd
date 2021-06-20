@@ -2,9 +2,15 @@ var express = require('express');
 const router = express.Router();
 const deviceModel = require('../../models/DeviceModel');
 
+router.use((req, res, next) => {
+  if (req.user) { req.owner = req.user.username; } else { req.owner = 'anonymous'; }
+  next();
+});
+
 router.get('/', async function (req, res) {
-  const listDevice = await deviceModel.find().exec((err, result) => {
-    console.log(listDevice);
+  console.log(req.owner);
+  const listDevice = await deviceModel.find({owner: req.owner}).exec((err, result) => {
+    
     res.render('remote/addDevice', {
       userData: req.user,
       RemoteSlideBarActive: true,
@@ -21,7 +27,8 @@ router.post('/addThietBi', async function (req, res) {
 
   newDevice.deviceName = req.body.deviceName;
   newDevice.ipAddress = req.body.ipAddress;
-  console.log(newDevice);
+  newDevice.owner = req.owner;
+
 
   newDevice.save().then((result) => {
     res.status(200).json({
@@ -33,7 +40,7 @@ router.post('/addThietBi', async function (req, res) {
 });
 
 router.post('/deleteThietBi', async (req, res) => {
-  const result = await deviceModel.deleteMany();
+  const result = await deviceModel.deleteMany({owner: req.owner});
 
 
   res.status(200).json({

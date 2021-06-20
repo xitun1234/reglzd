@@ -7,21 +7,27 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-sm" id="tableListDevice" >
+                    <table class="table table-sm" id="tableListDevice">
                         <thead class="thead-light">
                             <tr>
                                 <th>Tên Kịch Bản</th>
                                 <th>Đường dẫn</th>
                                 <th>Loại</th>
+                                <th>Người Tạo</th>
                             </tr>
                         </thead>
                         <tbody style="color:black">
                             {{#each listScript}}
-                            <tr>
-                                <td>{{this.scriptName}}</td>
-                                <td>{{this.duongDan}}</td>
-                                <td>{{this.scriptType}}</td>
-                            </tr>
+                                <tr>
+                                    <td>{{this.scriptName}}</td>
+                                    <td>{{this.duongDan}}</td>
+                                    <td>{{this.scriptType}}</td>
+                                    <td>
+                                        <p class="text-warning text-bold">
+                                            {{this.owner}}
+                                        </p>
+                                    </td>
+                                </tr>
                             {{/each}}
                         </tbody>
                     </table>

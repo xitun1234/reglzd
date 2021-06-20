@@ -92,4 +92,29 @@
                 $txt.remove();
             }
     }
+
+    $(exportExcel).click(function(){
+        let buttonDefautText = $(this).text();
+        let buttonElement = this;
+
+        $(this).prop("disabled", true);
+      
+
+        $.ajax({
+            type:"POST",
+            url:"export",
+            dataType:"json",
+            contentType:"application/json",
+            data: JSON.stringify({
+                
+            }),
+            success: function(result){
+                if (result.success)
+                    window.location = ("../../" + result.file_path)
+            },
+        }).always(function(){
+            $(buttonElement).removeAttr('disabled');
+            $(buttonElement).text(buttonDefaultText).fadeIn();
+        })
+    })
 </script>

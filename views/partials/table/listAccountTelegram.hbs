@@ -56,37 +56,43 @@
                                         <th>Ip Address</th>
                                         <th>Trạng thái</th>
                                         <th>RRS Name</th>
+                                        <th>Người Tạo</th>
                                         <th>Thời gian tạo</th>
                                     </thead>
                                     <tbody style="color:black">
                                         {{#each listAccount}}
-                                        <tr>
-                                            <td>
-                                                <div class="i-checks">
-                                                    <input type="checkbox" id="checkBoxSelected" class="checkbox-template checkBoxSelected" dataCopy="{{this.phoneNumber}}">
-                                                    <label for="checkBoxSelected">{{add @index 1}}</label>
-                                                </div>
-                                            </td>
+                                            <tr>
+                                                <td>
+                                                    <div class="i-checks">
+                                                        <input type="checkbox" id="checkBoxSelected" class="checkbox-template checkBoxSelected" dataCopy="{{this.phoneNumber}}">
+                                                            <label for="checkBoxSelected">{{add @index 1}}</label>
+                                                        </div>
+                                                    </td>
 
-                                            <td>{{this.phoneNumber}}</td>
-                                            <td>{{this.firstName}}</td>
-                                            <td>{{this.lastName}}</td>
-                                            <td>{{this.ipAddr}}</td>
-                                            <td>
-                                                {{#if this.status}}
-                                                <p class="text-success">Reg Done</p>
-                                                {{else}}
-                                                <p class="text-danger">Reg Failed</p>
-                                                {{/if}}
-                                            </td>
-                                            <td>{{this.rrsName}}</td>
-                                            <td>{{date  this.created "DD-MM-YYYY hh:mm:ss"}}</td>
-                                        </tr>
-                                        {{/each}}
-                                    </tbody>
-                                </table>
+                                                    <td>{{this.phoneNumber}}</td>
+                                                    <td>{{this.firstName}}</td>
+                                                    <td>{{this.lastName}}</td>
+                                                    <td>{{this.ipAddr}}</td>
+                                                    <td>
+                                                        {{#if this.status}}
+                                                            <p class="text-success">Reg Done</p>
+                                                        {{else}}
+                                                            <p class="text-danger">Reg Failed</p>
+                                                        {{/if}}
+                                                    </td>
+                                                    <td>{{this.rrsName}}</td>
+                                                    <td>
+                                                        <p class="text-warning text-bold">
+                                                            {{this.owner}}
+                                                        </p>
+                                                    </td>
+                                                    <td>{{date  this.created "DD-MM-YYYY hh:mm:ss"}}</td>
+                                                </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>

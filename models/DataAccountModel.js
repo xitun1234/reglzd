@@ -10,7 +10,7 @@ const  DataAccountSchema = new Schema({
     username: {type:String},
     password: {type:String},
     twoFA: {type:String},
-    
+    owner: {type:String},
 });
 
 const DataAccount = mongoose.model('DataAccount', DataAccountSchema, 'infoacc');

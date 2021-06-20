@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const LinkSchema = new Schema({
     linkPath : {type:String},
     linkType: {type:String},
-    linkName: {type:String}
+    linkName: {type:String},
+    owner: {type:String},
 });
 
 const Link = mongoose.model('Link', LinkSchema, 'link');

@@ -9,6 +9,7 @@ const TelegramSchema = new Schema({
     rrsName: {type:String},
     deviceName: {type:String},
     status: {type:Boolean},
+    owner: {type:String},
     created:{type:Date, default:Date.now}
 });
 

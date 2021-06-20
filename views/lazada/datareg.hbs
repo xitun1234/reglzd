@@ -99,6 +99,7 @@
         let buttonElement = this;
 
         $(this).prop("disabled", true);
+      
 
         $.ajax({
             type:"POST",
@@ -110,7 +111,7 @@
             }),
             success: function(result){
                 if (result.success)
-                    window.location = ("/" + result.pathExcel)
+                    window.location = ("../../" + result.file_path)
             },
         }).always(function(){
             $(buttonElement).removeAttr('disabled');

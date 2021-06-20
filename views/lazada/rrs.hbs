@@ -73,7 +73,7 @@
                         </div>
                     </div>
                 </sections>
-
+                const owner = {{userData.username}};
                 <script>
 
                     let btnStart = "#btnStart";
@@ -88,6 +88,7 @@
                     let checkboxUpdateRRS = "#checkboxUpdateRRS";
                     let listAccount = "#listAccount";
                     let btnDataFB = "#btnDataFB";
+                    const owner = `{{userData.username}}`;
 
 
                     let username = "#username";
@@ -121,12 +122,16 @@
                     })
 
                     $(btnStart1).click(function () {
+                        
                         let dataAjax = {
                             username: $(username).val(),
                             password: $(password).val(),
                             phoneNumber: $(phoneNumber).val(),
-                            deviceName: $(deviceName).val()
+                            deviceName: $(deviceName).val(),
+                            owner: owner
                         }
+                        
+                        
 
                         let requestPost = $.ajax({
                             type: "POST",
@@ -309,7 +314,8 @@
                                     password: dataParse.password,
                                     phoneNumber: dataParse.phoneNumber,
                                     deviceName: dataParse.deviceName,
-                                    address: dataParse.address
+                                    address: dataParse.address,
+                                    owner: owner
                                 }
                                 console.log(dataAjax);
 
@@ -392,6 +398,7 @@
                                     username: dataParse[0],
                                     password: dataParse[1],
                                     deviceName: dataParse[2],
+                                    owner: owner
                                 }
                                 
 
