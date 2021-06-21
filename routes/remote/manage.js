@@ -4,23 +4,33 @@ const deviceModel = require('../../models/DeviceModel');
 const scriptModel = require('../../models/ScriptModel');
 const axios = require('axios');
 
+router.use((req, res, next) => {
+  if (req.user) { req.owner = req.user.username; } else { req.owner = 'anonymous'; }
+  next();
+});
+
 router.get('/', async function (req, res) {
-  const listDevice = await deviceModel.find();
+  const listDevice = await deviceModel.find({owner: req.owner});
   const listScriptLazada = await scriptModel.find({
     scriptType: 'Lazada',
+    owner: req.owner
   });
   const listScriptFacebook = await scriptModel.find({
     scriptType: 'Facebook',
+    owner: req.owner
   });
   const listScriptXoaInfo = await scriptModel.find({
     scriptType: 'XoaDuLieu',
+    owner: req.owner
   });
   const listScriptInputData = await scriptModel.find({
     scriptType: 'InputData',
+    owner: req.owner
   });
 
   const listScriptYeuThich = await scriptModel.find({
     scriptType: 'YeuThich',
+    owner: req.owner
   });
 
   res.render('remote/manage', {
