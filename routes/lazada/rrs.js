@@ -61,9 +61,9 @@ router.post('/export', async (req, res, next) => {
   
     const dataReg = await khoDuLieuModel.find({owner: req.owner}).exec();
     var macs = [];
-    macs.push(["Username","Password", "Is Get", "Trạng Thái","Người Tạo", "Thời Gian Tạo"]);
+    macs.push(["Username","Password", "Is Get", "Mail","Pass Mail", "Người Tạo"]);
     for (var i = 0; i < dataReg.length; i++) {
-      macs.push([dataReg[i].username, dataReg[i].password,dataReg[i].isGet,dataReg[i].status,dataReg[i].owner,dataReg[i].created]);
+      macs.push([dataReg[i].username, dataReg[i].password,dataReg[i].isGet,dataReg[i].mail,dataReg[i].passMail,dataReg[i].owner]);
     }
   
     var datas = xlsx.build([

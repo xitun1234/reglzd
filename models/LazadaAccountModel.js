@@ -10,7 +10,9 @@ const AccountSchema = new Schema({
     twoFA: {type:String},
     status: {type:Boolean},
     owner: {type:String},
-    created:{type:Date, default:Date.now}
+    created:{type:Date, default:Date.now},
+    mail: {type:String},
+    passMail: {type:String}
 });
 
 const Account = mongoose.model('Account',AccountSchema,'accounts');

@@ -11,6 +11,8 @@ const LZDFBTempSchema = new Schema({
     otpLan2: {type:String},
     status: {type:Boolean},
     twoFA: {type:String},
+    mail: {type:String},
+    passMail: {type:String},
     created:{type:Date, default:Date.now},
     owner: {type:String},
 });

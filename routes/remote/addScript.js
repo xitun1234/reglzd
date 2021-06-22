@@ -40,7 +40,7 @@ router.post('/addKichBan', async function (req, res) {
 });
 
 router.post('/deleteKichBan', async (req, res) => {
-    const result = await scriptModel.deleteMany({owner:req.owner,scriptType: req.body.scriptType});
+    const result = await scriptModel.deleteOne({owner:req.owner,_id: req.body.scriptID});
 
 
     res.status(200).json({

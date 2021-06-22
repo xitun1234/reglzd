@@ -9,7 +9,8 @@ const KhoDuLieuSchema = new Schema({
     fullName: {type:String},
     phoneNumber: {type:String},
     twoFA: {type:String},
-    
+    mail: {type:String},
+    passMail: {type:String},
     status: {type:String},
     owner: {type:String},
     created:{type:Date, default:Date.now}

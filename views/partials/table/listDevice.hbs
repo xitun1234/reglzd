@@ -13,6 +13,7 @@
                                 <th>Tên Thiết Bị</th>
                                 <th>Địa chỉ mạng Lan</th>
                                 <th>Người Tạo</th>
+                                <th>Chọn</th>
                             </tr>
                         </thead>
                         <tbody style="color:black">
@@ -25,6 +26,16 @@
                                             {{this.owner}}
                                         </p>
                                     </td>
+                                    
+                                    <td>
+                                        {{#if this.isChoice}}   
+                                        <button type="button" class="btn btn-outline-danger device" value={{this._id}}>Bỏ Chọn</button>
+                                        {{else}}
+                                        <button type="button" class="btn btn-outline-primary device" value={{this._id}}> Chọn</button>
+                                        {{/if}}
+                                    </td>
+                                    
+
                                 </tr>
                             {{/each}}
                         </tbody>

@@ -92,7 +92,7 @@
                     deviceName: $(deviceName).val(),
                     ipAddress: $(ipAddress).val()
                 }
-                
+
                 let requestPost = $.ajax({
                     type: "POST",
                     url: "./addDevice/addThietBi",
@@ -103,23 +103,45 @@
                         let resultRender = "";
                         console.log(result);
                         if (result.success) {
-                            $(resultShow).text(`Thêm ${result.data.deviceName} thành công` )
+                            $(resultShow).text(`Thêm ${
+                                result.data.deviceName
+                            } thành công`)
                         }
                     }
                 })
             });
 
-            $(btnXoaAll).click(function(){
+            $(btnXoaAll).click(function () {
                 let requestPost = $.ajax({
-                    type:"POST",
-                    url:'./addDevice/deleteThietBi',
+                    type: "POST",
+                    url: './addDevice/deleteThietBi',
                     dataType: 'json',
                     contentType: 'application/json',
 
-                    success: function (result){
-                        if (result.sucess)
+                    success: function (result) {
+                        if (result.sucess) {
+                            $(resultShow).text(`Đã xóa toàn bộ thiết bị`);
+                        }
+                    }
+                })
+            })
+
+            $('.device').click(function () {
+                var deviceID = $(this).val();
+                const dataAjax = {
+                    deviceID: deviceID,
+                }
+
+                let requestPost = $.ajax({
+                    type: "POST",
+                    url: './addDevice/updateThietBi',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(dataAjax),
+                    success: function (result) {
+                        if (result.success)
                         {
-                            $(resultShow).text(`Đã xóa toàn bộ thiết bị` );
+                            location.reload();
                         }
                     }
                 })

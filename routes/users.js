@@ -430,9 +430,9 @@ router.get('/datagmail', async (req, res) => {
 
 router.post('/addAccountLZD', async (req, res) => {
   let newAccount = new accountModel();
-  newAccount.username = req.body.username;
+  newAccount.username = req.body.mail;
   newAccount.passwordLZD = req.body.passwordLZD;
-  newAccount.passwordGmail = req.body.passwordGmail;
+  newAccount.passwordGmail = req.body.passMail;
   newAccount.phoneNumber = req.body.phoneNumber;
   newAccount.deviceName = req.body.deviceName;
   newAccount.status = req.body.status;
@@ -655,6 +655,8 @@ router.post('/setinfo', async (req, res) => {
   const password = req.body.password;
   const twoFA = req.body.twoFA;
   const owner = req.body.owner;
+  const mail = req.body.mail;
+  const passMail = req.body.passMail;
 
   var gmail =
     removeVietnameseTones(fullName).toLowerCase() +
@@ -671,6 +673,8 @@ router.post('/setinfo', async (req, res) => {
   newdataAccountModel.twoFA = twoFA;
   newdataAccountModel.gmail = gmail.replace(/\s/g, '') + '@gmail.com';
   newdataAccountModel.owner = owner;
+  newdataAccountModel.mail = mail;
+  newdataAccountModel.passMail = passMail;
   console.log(newdataAccountModel);
   //save
   newdataAccountModel.save();
@@ -903,6 +907,8 @@ router.post('/setdatareg', async (req, res) => {
   const deviceName = req.body.deviceName;
   const twoFA = req.body.twoFA;
   const owner = req.body.owner;
+  const mail = req.body.mail;
+  const passMail = req.body.passMail;
 
   //set
   newDataLZDFBTemp.uid = uid;
@@ -914,6 +920,8 @@ router.post('/setdatareg', async (req, res) => {
   newDataLZDFBTemp.deviceName = deviceName;
   newDataLZDFBTemp.twoFA = twoFA;
   newDataLZDFBTemp.owner = owner;
+  newDataLZDFBTemp.mail = mail;
+  newDataLZDFBTemp.passMail = passMail;
 
   //save
   newDataLZDFBTemp.save();
@@ -1025,8 +1033,8 @@ router.post('/setkhodulieu', async (req, res) => {
   //init
   const username = req.body.username;
   const password = req.body.password;
-  const address = req.body.address;
-  const phoneNumber = req.body.phoneNumber;
+  const mail = req.body.mail;
+  const passMail = req.body.passMail;
   const twoFA = req.body.twoFA;
   const owner = req.body.owner;
 
@@ -1038,9 +1046,9 @@ router.post('/setkhodulieu', async (req, res) => {
   //set
   duLieu.username = username;
   duLieu.password = password;
-  duLieu.address = address;
+  duLieu.mail = mail;
   duLieu.fullName = dataJson[randomIndex].full_name;
-  duLieu.phoneNumber = phoneNumber;
+  duLieu.passMail = passMail;
   duLieu.twoFA = twoFA;
   duLieu.isGet = false;
   duLieu.owner = owner;

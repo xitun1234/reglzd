@@ -10,7 +10,7 @@ router.use((req, res, next) => {
 });
 
 router.get('/', async function (req, res) {
-  const listDevice = await deviceModel.find({owner: req.owner});
+  const listDevice = await deviceModel.find({owner: req.owner, isChoice: true});
   const listScriptLazada = await scriptModel.find({
     scriptType: 'Lazada',
     owner: req.owner

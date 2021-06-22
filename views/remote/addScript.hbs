@@ -124,7 +124,7 @@
 
                 $(btnXoaAll).click(function () {
                     let dataAjax = {
-                        
+
                         scriptType: $(btnXoaAll).val()
                     }
 
@@ -138,6 +138,26 @@
                             console.log(result);
                             if (result.success) {
                                 $(resultShow).text(`Đã xóa toàn bộ script Yeu Thich`);
+                            }
+                        }
+                    })
+                })
+
+                $('.script').click(function () {
+                    var scriptID = $(this).val();
+                    var dataAjax = {
+                        scriptID: scriptID
+                    }
+                    let requestPost = $.ajax({
+                        type: "POST",
+                        url: './addScript/deleteKichBan',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify(dataAjax),
+                        success: function (result) {
+                  
+                            if (result.success) {
+                                location.reload();
                             }
                         }
                     })

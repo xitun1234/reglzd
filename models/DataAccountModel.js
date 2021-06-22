@@ -11,6 +11,8 @@ const  DataAccountSchema = new Schema({
     password: {type:String},
     twoFA: {type:String},
     owner: {type:String},
+    mail: {type:String},
+    passMail: {type:String}
 });
 
 const DataAccount = mongoose.model('DataAccount', DataAccountSchema, 'infoacc');
