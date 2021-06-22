@@ -928,7 +928,7 @@ router.get('/getdatareg&deviceName=:deviceName&owner=:owner', async (req, res) =
   const infoData = await lzdFBTempModel.findOne(
     {
       deviceName: req.params.deviceName,
-      owner: 'admin'
+      owner: req.params.owner
     },
     {},
     {sort: {_id: -1}}
