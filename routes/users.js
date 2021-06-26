@@ -1013,6 +1013,7 @@ router.get('/nghiadeptrai', async (req, res) => {
 });
 
 router.get('/regdone&deviceName=:deviceName&owner=:owner', async (req, res) => {
+
   const infoData = await lzdFBTempModel.findOne(
     {
       deviceName: req.params.deviceName,
@@ -1167,14 +1168,15 @@ router.get(
 );
 
 router.post('/updateTrangThaiReg', async (req, res) => {
+  
   const filter = {
     deviceName: req.body.deviceName,
     owner: req.body.owner,
     mail: req.body.mail,
   };
   const update = {
-    isRegLZD: req.body.isRegLZD,
-    isLoginFB: req.body.isLoginFB,
+    isRegLZD: true,
+    isLoginFB: true,
   };
 
   let resultUpdate = await KhoDuLieu.findOneAndUpdate(filter, update, {
