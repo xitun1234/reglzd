@@ -1120,7 +1120,8 @@ router.get('/getLink&linkType=:linkType&owner=:owner', async (req, res) => {
   }
 });
 
-router.get('/getDataAndroid&deviceName=:deviceName&owner=:owner',
+router.get(
+  '/getDataAndroid&deviceName=:deviceName&owner=:owner',
   async (req, res) => {
     const infoData = await KhoDuLieu.findOne(
       {
@@ -1133,7 +1134,7 @@ router.get('/getDataAndroid&deviceName=:deviceName&owner=:owner',
     );
 
     if (infoData == null || infoData.isRegLZD == true) {
-      console.log("ok")
+      console.log('ok');
       const filter = {isGet: false, owner: req.params.owner};
       const update = {
         isGet: true,
@@ -1143,7 +1144,7 @@ router.get('/getDataAndroid&deviceName=:deviceName&owner=:owner',
       let doc = await KhoDuLieu.findOneAndUpdate(filter, update, {
         new: true,
       });
-      console.log(doc)
+      console.log(doc);
 
       if (doc) {
         res.json({
@@ -1176,7 +1177,10 @@ router.post('/updateTrangThaiReg', async (req, res) => {
     isLoginFB: req.body.isLoginFB,
   };
 
-  let resultUpdate = await KhoDuLieu.findOneAndUpdate(filter, update);
+  let resultUpdate = await KhoDuLieu.findOneAndUpdate(filter, update, {
+    new: true,
+    sort: {created: -1},
+  });
 
   res.status(200).json({
     success: true,
