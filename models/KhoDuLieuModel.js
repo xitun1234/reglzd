@@ -11,6 +11,9 @@ const KhoDuLieuSchema = new Schema({
     twoFA: {type:String},
     mail: {type:String},
     passMail: {type:String},
+    isLoginFB: {type:Boolean,default: false},
+    isRegLZD: {type:Boolean, default: false},
+    deviceName: {type:String, default: ""},
     status: {type:String},
     owner: {type:String},
     created:{type:Date, default:Date.now}

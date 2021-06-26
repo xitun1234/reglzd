@@ -12,7 +12,9 @@ const  DataAccountSchema = new Schema({
     twoFA: {type:String},
     owner: {type:String},
     mail: {type:String},
-    passMail: {type:String}
+    passMail: {type:String},
+    isLoginFB: {type:Boolean,default: false},
+    isRegLZD: {type:Boolean, default: false},
 });
 
 const DataAccount = mongoose.model('DataAccount', DataAccountSchema, 'infoacc');

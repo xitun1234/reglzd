@@ -436,6 +436,8 @@ router.post('/addAccountLZD', async (req, res) => {
   newAccount.phoneNumber = req.body.phoneNumber;
   newAccount.deviceName = req.body.deviceName;
   newAccount.status = req.body.status;
+  newAccount.isLoginFB = req.body.isLoginFB;
+  newAccount.isRegLZD = req.body.isRegLZD;
   newAccount.owner = req.body.owner;
 
   newAccount.save();
@@ -689,12 +691,12 @@ router.get('/getInfo&deviceName=:deviceName&owner=:owner', async (req, res) => {
   const infoData = await dataAccountModel.findOne(
     {
       deviceName: req.params.deviceName,
-      owner: req.params.owner
+      owner: req.params.owner,
     },
     {},
     {sort: {_id: -1}}
   );
-    console.log(infoData)
+  console.log(infoData);
   if (infoData) {
     res.json({
       status: 'success',
@@ -817,28 +819,31 @@ router.post('/setKichBan', async (req, res) => {
   });
 });
 
-router.get('/getKichBan&deviceName=:deviceName&owner=:owner', async (req, res) => {
-  const infoKichBan = await scriptModel.findOne(
-    {
-      deviceName: req.params.deviceName,
-      owner: req.params.owner
-    },
-    {},
-    {sort: {_id: -1}}
-  );
+router.get(
+  '/getKichBan&deviceName=:deviceName&owner=:owner',
+  async (req, res) => {
+    const infoKichBan = await scriptModel.findOne(
+      {
+        deviceName: req.params.deviceName,
+        owner: req.params.owner,
+      },
+      {},
+      {sort: {_id: -1}}
+    );
 
-  if (infoKichBan) {
-    res.json({
-      status: 'success',
-      data: infoKichBan,
-    });
-  } else {
-    res.json({
-      status: 'fail',
-      data: null,
-    });
+    if (infoKichBan) {
+      res.json({
+        status: 'success',
+        data: infoKichBan,
+      });
+    } else {
+      res.json({
+        status: 'fail',
+        data: null,
+      });
+    }
   }
-});
+);
 
 router.post('/setLinkSub', async (req, res) => {
   let newLinkSub = new linkSubModel();
@@ -859,7 +864,9 @@ router.post('/setLinkSub', async (req, res) => {
 });
 
 router.get('/getLinkSub', async (req, res) => {
-  const infoDataLinkSub = await linkSubModel.findOne({owner: 'admin'}).sort({_id: -1});
+  const infoDataLinkSub = await linkSubModel
+    .findOne({owner: 'admin'})
+    .sort({_id: -1});
 
   if (infoDataLinkSub) {
     res.json(infoDataLinkSub);
@@ -932,28 +939,31 @@ router.post('/setdatareg', async (req, res) => {
   });
 });
 
-router.get('/getdatareg&deviceName=:deviceName&owner=:owner', async (req, res) => {
-  const infoData = await lzdFBTempModel.findOne(
-    {
-      deviceName: req.params.deviceName,
-      owner: req.params.owner
-    },
-    {},
-    {sort: {_id: -1}}
-  );
+router.get(
+  '/getdatareg&deviceName=:deviceName&owner=:owner',
+  async (req, res) => {
+    const infoData = await lzdFBTempModel.findOne(
+      {
+        deviceName: req.params.deviceName,
+        owner: req.params.owner,
+      },
+      {},
+      {sort: {_id: -1}}
+    );
 
-  if (infoData) {
-    res.json({
-      status: 'success',
-      data: infoData,
-    });
-  } else {
-    res.json({
-      status: 'fail',
-      data: null,
-    });
+    if (infoData) {
+      res.json({
+        status: 'success',
+        data: infoData,
+      });
+    } else {
+      res.json({
+        status: 'fail',
+        data: null,
+      });
+    }
   }
-});
+);
 
 router.post('/updatePhoneThue', async (req, res) => {
   const filter = {deviceName: req.body.deviceName, owner: req.body.owner};
@@ -971,7 +981,6 @@ router.post('/updatePhoneThue', async (req, res) => {
 
   console.log(resultUpdate);
   if (resultUpdate.status == true) {
-    
     const newDuLieu = new lzdFBModel();
 
     newDuLieu.uid = resultUpdate.uid;
@@ -1008,7 +1017,7 @@ router.get('/regdone&deviceName=:deviceName&owner=:owner', async (req, res) => {
     {
       deviceName: req.params.deviceName,
       status: true,
-      owner: req.params.owner
+      owner: req.params.owner,
     },
     {},
     {sort: {_id: -1}}
@@ -1061,36 +1070,39 @@ router.post('/setkhodulieu', async (req, res) => {
   });
 });
 
-router.get('/getKhoDuLieu&deviceName=:deviceName&owner=:owner', async (req, res) => {
-  const filter = {isGet: false, owner: req.params.owner};
-  const update = {
-    isGet: true,
-    status: `May ${req.params.deviceName}`,
-  };
+router.get(
+  '/getKhoDuLieu&deviceName=:deviceName&owner=:owner',
+  async (req, res) => {
+    const filter = {isGet: false, owner: req.params.owner};
+    const update = {
+      isGet: true,
+      status: `May ${req.params.deviceName}`,
+    };
 
-  let doc = await KhoDuLieu.findOneAndUpdate(filter, update, {
-    new: true,
-  });
+    let doc = await KhoDuLieu.findOneAndUpdate(filter, update, {
+      new: true,
+    });
 
-  if (doc) {
-    res.json({
-      status: 'success',
-      data: doc,
-    });
-  } else {
-    res.json({
-      status: 'fail',
-      data: null,
-    });
+    if (doc) {
+      res.json({
+        status: 'success',
+        data: doc,
+      });
+    } else {
+      res.json({
+        status: 'fail',
+        data: null,
+      });
+    }
   }
-});
+);
 
 router.get('/getLink&linkType=:linkType&owner=:owner', async (req, res) => {
   console.log(req.params.owner);
   const infoData = await linkModel.findOne(
     {
       linkType: {$regex: req.params.linkType, $options: 'i'},
-      owner: req.params.owner
+      owner: req.params.owner,
     },
     {}
   );
@@ -1108,17 +1120,67 @@ router.get('/getLink&linkType=:linkType&owner=:owner', async (req, res) => {
   }
 });
 
-router.get('/checkPro', async (req, res) => {
-  const result = await deviceModel.updateMany({}, { $set: { owner: 'admin' } });
-  
-  
+router.get('/getDataAndroid&deviceName=:deviceName&owner=:owner',
+  async (req, res) => {
+    const infoData = await KhoDuLieu.findOne(
+      {
+        deviceName: req.params.deviceName,
+        owner: req.params.owner,
+        isGet: true,
+      },
+      {},
+      {sort: {_id: -1}}
+    );
 
-  
+    if (infoData == null || infoData.isRegLZD == true) {
+      console.log("ok")
+      const filter = {isGet: false, owner: req.params.owner};
+      const update = {
+        isGet: true,
+        status: `May ${req.params.deviceName}`,
+        deviceName: req.params.deviceName,
+      };
+      let doc = await KhoDuLieu.findOneAndUpdate(filter, update, {
+        new: true,
+      });
+      console.log(doc)
+
+      if (doc) {
+        res.json({
+          status: 'success',
+          data: doc,
+        });
+      } else {
+        res.json({
+          status: 'fail',
+          data: null,
+        });
+      }
+    } else {
+      res.json({
+        status: 'success',
+        data: infoData,
+      });
+    }
+  }
+);
+
+router.post('/updateTrangThaiReg', async (req, res) => {
+  const filter = {
+    deviceName: req.body.deviceName,
+    owner: req.body.owner,
+    mail: req.body.mail,
+  };
+  const update = {
+    isRegLZD: req.body.isRegLZD,
+    isLoginFB: req.body.isLoginFB,
+  };
+
+  let resultUpdate = await KhoDuLieu.findOneAndUpdate(filter, update);
 
   res.status(200).json({
     success: true,
-
-    data: result,
+    data: resultUpdate,
   });
 });
 
