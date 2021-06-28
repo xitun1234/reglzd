@@ -26,7 +26,11 @@ const {info} = require('console');
 const KhoDuLieu = require('../models/KhoDuLieuModel');
 const LZDFBTemp = require('../models/LzdFbModelTemp');
 const Schema = mongoose.Schema;
+const Imap = require('imap'),
+  inspect = require('util').inspect;
 
+const imaps = require('imap-simple');
+const _ = require('underscore');
 /* GET users listing. */
 router.get('/', function (req, res, next) {
   res.send('respond with a resource');
@@ -1013,7 +1017,6 @@ router.get('/nghiadeptrai', async (req, res) => {
 });
 
 router.get('/regdone&deviceName=:deviceName&owner=:owner', async (req, res) => {
-
   const infoData = await lzdFBTempModel.findOne(
     {
       deviceName: req.params.deviceName,
@@ -1134,7 +1137,7 @@ router.get(
       {sort: {_id: -1}}
     );
 
-    if (infoData == null || infoData.isRegLZD == true) {
+    if (infoData == null || (infoData.isRegLZD == true && infoData.isLoginFB == true) || (infoData.isRegLZD == false && infoData.isLoginFB == true)) {
       console.log('ok');
       const filter = {isGet: false, owner: req.params.owner};
       const update = {
@@ -1168,15 +1171,14 @@ router.get(
 );
 
 router.post('/updateTrangThaiReg', async (req, res) => {
-  
   const filter = {
     deviceName: req.body.deviceName,
     owner: req.body.owner,
     mail: req.body.mail,
   };
   const update = {
-    isRegLZD: true,
-    isLoginFB: true,
+    isRegLZD: req.body.isRegLZD,
+    isLoginFB: req.body.isLoginFB,
   };
 
   let resultUpdate = await KhoDuLieu.findOneAndUpdate(filter, update, {
@@ -1189,5 +1191,7 @@ router.post('/updateTrangThaiReg', async (req, res) => {
     data: resultUpdate,
   });
 });
+
+
 
 module.exports = router;
