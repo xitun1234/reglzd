@@ -117,18 +117,19 @@ router.post('/deleteData', async(req,res)=>{
     });
 });
 
-router.post('/deleteDataByDevice', async(req,res) =>{
+router.post('/deleteDataByID', async(req,res) =>{
   
-    const deviceName = req.body.deviceName;
-    const result = await rrsModel.deleteMany({deviceName:deviceName});
-
+    
+    const result = await khoDuLieuModel.deleteOne({owner:req.owner,_id: req.body.dataID});
+    console.log(result)
     res.status(200).json({
         success:true,
-        msg:'Đã xóa toàn bộ dữ liệu của ' +deviceName,
+        msg:'Đã xóa toàn bộ dữ liệu của ',
         data:result
     });
 
 });
+
 
 router.post('/statusRestore', async(req,res) =>{
     const deviceName = req.body.deviceName;

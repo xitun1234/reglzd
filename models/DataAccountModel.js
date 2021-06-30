@@ -11,6 +11,7 @@ const  DataAccountSchema = new Schema({
     password: {type:String},
     twoFA: {type:String},
     owner: {type:String},
+    link: {type:String},
     mail: {type:String},
     passMail: {type:String},
     isLoginFB: {type:Boolean,default: false},

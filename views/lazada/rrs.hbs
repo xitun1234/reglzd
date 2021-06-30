@@ -95,6 +95,7 @@
                     let password = "#password";
                     let phoneNumber = "#phoneNumber";
                     let deviceName = "#deviceName";
+                    let link = ""
 
                     $(paramMain).keyup(function () {
                         let input = $(this).val().trim().replace(/^\s*\n/gm, "");
@@ -128,6 +129,7 @@
                             password: $(password).val(),
                             phoneNumber: $(phoneNumber).val(),
                             deviceName: $(deviceName).val(),
+                           
                             owner: owner
                         }
                         
@@ -315,6 +317,7 @@
                                     phoneNumber: dataParse.phoneNumber,
                                     deviceName: dataParse.deviceName,
                                     address: dataParse.address,
+                                    link: dataParse.link,
                                     owner: owner
                                 }
                                 console.log(dataAjax);

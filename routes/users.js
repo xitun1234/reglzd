@@ -663,6 +663,7 @@ router.post('/setinfo', async (req, res) => {
   const owner = req.body.owner;
   const mail = req.body.mail;
   const passMail = req.body.passMail;
+  const link = req.body.link;
 
   var gmail =
     removeVietnameseTones(fullName).toLowerCase() +
@@ -681,6 +682,8 @@ router.post('/setinfo', async (req, res) => {
   newdataAccountModel.owner = owner;
   newdataAccountModel.mail = mail;
   newdataAccountModel.passMail = passMail;
+  newdataAccountModel.link = link;
+  
   console.log(newdataAccountModel);
   //save
   newdataAccountModel.save();

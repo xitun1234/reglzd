@@ -127,6 +127,28 @@
             }
         })
     })
+
+    $('.dataKho').click(function () {
+                var dataID = $(this).val();
+                const dataAjax = {
+                    dataID: dataID,
+                }
+                console.log(dataAjax)
+
+                let requestPost = $.ajax({
+                    type: "POST",
+                    url: './deleteDataByID',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(dataAjax),
+                    success: function (result) {
+                        if (result.success)
+                        {
+                            location.reload();
+                        }
+                    }
+                })
+            })
     
     $(btnReset).click(function(){
         let requestPost = $.ajax({
