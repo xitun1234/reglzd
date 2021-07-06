@@ -858,7 +858,7 @@ router.post('/setLinkSub', async (req, res) => {
   //init
   const linkSub = req.body.linkSub;
   newLinkSub.linkSub = linkSub;
-  newLinkSub.owner = req.body.owner;
+  newLinkSub.owner = "admin";
 
   //save
 
