@@ -304,10 +304,13 @@ router.get("/datagmail", async (req, res) => {
 
   let randomIndex = Math.floor(Math.random() * dataJson.length);
 
+  var arrayKiTu = ['!','@','#','$','%','^','&'];
+  let randomKiTu= Math.floor(Math.random() * arrayKiTu.length);
+
   var password =
     removeVietnameseTones(dataJson[randomIndex].last_name_group) +
     removeVietnameseTones(dataJson[randomIndex].first_name).toLowerCase() +
-    getRandomNumber(getRndInteger(4, 6));
+    getRandomNumber(getRndInteger(4, 6)) + arrayKiTu[randomKiTu]+ arrayKiTu[randomKiTu];
 
   var gmail =
     removeVietnameseTones(dataJson[randomIndex].last_name_group) +
@@ -417,14 +420,18 @@ router.get("/datagmail", async (req, res) => {
 
   let randomIndexPhone = Math.floor(Math.random() * arrayPhone.length);
   let randomIndexAddress = Math.floor(Math.random() * addressName.length);
+  var last_name_group= dataJson[randomIndex].last_name_group;
+  var full_name = dataJson[randomIndex].full_name;
+  var first_name = full_name.split(last_name_group)[1]
+
 
   res.status(200).json({
     status: "success",
-    fullname: dataJson[randomIndex].full_name,
+    fullname: removeVietnameseTones(dataJson[randomIndex].full_name),
     gmail: gmail,
     password: password,
-    first_name: dataJson[randomIndex].first_name,
-    last_name_group: dataJson[randomIndex].last_name_group,
+    first_name: removeVietnameseTones(first_name),
+    last_name_group: removeVietnameseTones(dataJson[randomIndex].last_name_group),
     phoneNumber: arrayPhone[randomIndexPhone],
     addressName:
       getRandomNumber(3) +
