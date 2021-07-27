@@ -664,8 +664,8 @@ router.post("/setinfo", async (req, res) => {
 
   //init
   const fullName = await randomFullname();
-  const phoneNumber = req.body.phoneNumber;
-  const address = req.body.address;
+  var phoneNumber = req.body.phoneNumber;
+  var address = req.body.address;
   const deviceName = req.body.deviceName;
   const username = req.body.username;
   const password = req.body.password;
@@ -674,6 +674,21 @@ router.post("/setinfo", async (req, res) => {
   const mail = req.body.mail;
   const passMail = req.body.passMail;
   const link = req.body.link;
+
+  if (address == "" )
+  {
+    var dauSo = ['090','093','089','070','076','077','078','079','091','094','081','082','084','085','088','096','097','098','086','032','034','035','036','037','038','039'];
+    let randomDauSo = Math.floor(Math.random() * dauSo.length);
+    var soDienThoai = dauSo[randomDauSo] + getRandomNumber(3).toString() + getRandomNumber(4).toString();
+    phoneNumber = soDienThoai
+    
+    console.log("So dien thoai: " + soDienThoai)
+
+    var diaChi = "Số nhà " + getRndInteger(1, 300).toString() + ", Ngõ " + getRndInteger(1, 200);
+    address = diaChi
+    console.log("Dia Chi: " + diaChi)
+
+  }
 
   var gmail =
     removeVietnameseTones(fullName).toLowerCase() +
