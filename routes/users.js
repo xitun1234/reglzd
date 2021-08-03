@@ -304,13 +304,13 @@ router.get("/datagmail", async (req, res) => {
 
   let randomIndex = Math.floor(Math.random() * dataJson.length);
 
-  var arrayKiTu = ['!','@','#','$','%','^','&'];
-  let randomKiTu= Math.floor(Math.random() * arrayKiTu.length);
+  var arrayKiTu = ['!', '@', '#', '$', '%', '^', '&'];
+  let randomKiTu = Math.floor(Math.random() * arrayKiTu.length);
 
   var password =
     removeVietnameseTones(dataJson[randomIndex].last_name_group) +
     removeVietnameseTones(dataJson[randomIndex].first_name).toLowerCase() +
-    getRandomNumber(getRndInteger(4, 6)) + arrayKiTu[randomKiTu]+ arrayKiTu[randomKiTu];
+    getRandomNumber(getRndInteger(4, 6)) + arrayKiTu[randomKiTu] + arrayKiTu[randomKiTu];
 
   var gmail =
     removeVietnameseTones(dataJson[randomIndex].last_name_group) +
@@ -420,7 +420,7 @@ router.get("/datagmail", async (req, res) => {
 
   let randomIndexPhone = Math.floor(Math.random() * arrayPhone.length);
   let randomIndexAddress = Math.floor(Math.random() * addressName.length);
-  var last_name_group= dataJson[randomIndex].last_name_group;
+  var last_name_group = dataJson[randomIndex].last_name_group;
   var full_name = dataJson[randomIndex].full_name;
   var first_name = full_name.split(last_name_group)[1]
 
@@ -675,13 +675,12 @@ router.post("/setinfo", async (req, res) => {
   const passMail = req.body.passMail;
   const link = req.body.link;
 
-  if (address == "" )
-  {
-    var dauSo = ['090','093','089','070','076','077','078','079','091','094','081','082','084','085','088','096','097','098','086','032','034','035','036','037','038','039'];
+  if (address == "") {
+    var dauSo = ['090', '093', '089', '070', '076', '077', '078', '079', '091', '094', '081', '082', '084', '085', '088', '096', '097', '098', '086', '032', '034', '035', '036', '037', '038', '039'];
     let randomDauSo = Math.floor(Math.random() * dauSo.length);
     var soDienThoai = dauSo[randomDauSo] + getRandomNumber(3).toString() + getRandomNumber(4).toString();
     phoneNumber = soDienThoai
-    
+
     console.log("So dien thoai: " + soDienThoai)
 
     var diaChi = "Số nhà " + getRndInteger(1, 300).toString() + ", Ngõ " + getRndInteger(1, 200);
@@ -717,6 +716,31 @@ router.post("/setinfo", async (req, res) => {
     success: true,
     data: newdataAccountModel,
   });
+});
+
+router.get("/dataTanPhu", async (req, res) => {
+  const fullName = await randomFullname() + " TN";
+  var dauSo = ['090', '093', '089', '070', '076', '077', '078', '079', '091', '094', '081', '082', '084', '085', '088', '096', '097', '098', '086', '032', '034', '035', '036', '037', '038', '039'];
+  let randomDauSo = Math.floor(Math.random() * dauSo.length);
+  var soDienThoai = dauSo[randomDauSo] + getRandomNumber(3).toString() + getRandomNumber(4).toString();
+  phoneNumber = soDienThoai
+
+  console.log("So dien thoai: " + soDienThoai)
+  console.log("Fullname: " + fullName)
+
+  var diaChi = "Số nhà " + getRndInteger(1, 100).toString() + "/" + getRndInteger(1, 60) + " đường phạm văn xảo"
+  address = diaChi
+  console.log("Dia Chi: " + diaChi)
+
+
+  res.status(200).json({
+    status: "success",
+    fullname: fullName,
+    phoneNumber: phoneNumber,
+    address: address
+    
+  });
+  
 });
 
 router.get("/getInfo&deviceName=:deviceName&owner=:owner", async (req, res) => {
@@ -1225,18 +1249,18 @@ router.post("/updateTrangThaiReg", async (req, res) => {
 });
 
 router.get("/getOTPHotMail&mail=:mail&passMail=:passMail", async (req, res) => {
-    
-    const linkAPI = "https://serverotp.herokuapp.com/getOTPHotmail?mail=" + req.params.mail +"&passMail=" + req.params.passMail;
-    console.log(linkAPI);
 
-    const resultOTP = await axios.get(linkAPI);
+  const linkAPI = "https://serverotp.herokuapp.com/getOTPHotmail?mail=" + req.params.mail + "&passMail=" + req.params.passMail;
+  console.log(linkAPI);
 
-    const dataResp = resultOTP.data;
-    
-    res.status(200).json({
-      success: dataResp.status,
-      otp: dataResp.otp
-    })
+  const resultOTP = await axios.get(linkAPI);
+
+  const dataResp = resultOTP.data;
+
+  res.status(200).json({
+    success: dataResp.status,
+    otp: dataResp.otp
+  })
 });
 
 
