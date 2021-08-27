@@ -39,6 +39,7 @@ router.get('/', async function (req, res) {
     active: {
       manage: true,
     },
+    title:"Quản lý điều khiển máy",
     listDevice: listDevice,
     listScriptLazada: listScriptLazada,
     listScriptFacebook: listScriptFacebook,
@@ -48,16 +49,26 @@ router.get('/', async function (req, res) {
   });
 });
 
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}  
+
 router.post('/playScript', async function (req, res) {
   const url = "http://" + req.body.ipAddress + ":8080/control/start_playing?path=" + req.body.duongDan;
 
   const result = await axios.get(url);
+  console.log("Chờ 1s")
+  sleep(1)
 
   res.status(200).json({
     status: true,
     data: result.data
   });
 });
+
+
 
 router.post('/playAllScript', async function (req, res) {
 
@@ -69,6 +80,7 @@ router.post('/playAllScript', async function (req, res) {
     const url = "http://" + element.ipAddress + ":8080/control/start_playing?path=" + duongDan;
 
     const result = axios.get(url);
+    sleep(1)
   });
 
 

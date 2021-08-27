@@ -963,6 +963,14 @@ section.dashboard-counts .icon {
   border-radius: 50%;
 }
 
+.listDevice{
+  padding: 0px 0px 0px 0px;
+}
+
+.listScript{
+  padding: 0px 0px 0px 0px;
+}
+
 section.dashboard-counts .title {
   font-size: 1.1em;
   font-weight: 300;

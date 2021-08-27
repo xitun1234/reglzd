@@ -29,6 +29,7 @@ router.get('/', async function(req, res) {
         active:{
             CreateRRS: true
         },
+        title:"Thêm Dữ Liệu Account",
         LazadaSlideBarActive:true,
         userData: req.user,
         listDevice: devicesName
@@ -46,6 +47,7 @@ router.get('/view', async (req,res) =>{
         active:{
             ViewRRS:true
         },
+        title:"Kho Dữ Liệu",
         LazadaSlideBarActive:true,
         listRRS: rrsData,
       

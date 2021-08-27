@@ -21,6 +21,7 @@ router.get('/', async function (req, res) {
     .exec((err, result) => {
       res.render('lazada/datareg', {
         userData: req.user,
+        title:"Tài Khoản LZD - SĐT",
         LazadaSlideBarActive: true,
         lazadaSubMenuAccountDataRegActive: true,
         listAccount: result,

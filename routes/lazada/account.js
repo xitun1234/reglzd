@@ -15,6 +15,7 @@ router.get('/', async function(req, res) {
         
         res.render('lazada/account',{
             userData:req.user,
+            title:"Tài Khoản LZD - Gmail",
             LazadaSlideBarActive:true,
             lazadaSubMenuAccountActive:true,
             listAccount : result
