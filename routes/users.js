@@ -1274,5 +1274,27 @@ router.get("/resetKho", async (req,res) =>{
   });
 })
 
+router.get("/getCountKho", async (req,res) =>{
+  
+  const resultDaLay = await khoDuLieuModel.countDocuments({owner:"admin", isGet: true})
+  const result = await khoDuLieuModel.countDocuments({owner:"admin"})
+
+  res.status(200).json({
+    success:true,
+    data:resultDaLay + "/" + result
+});
+})
+
+router.get("/getCountAccLZD", async (req,res) =>{
+  
+  const resultDaLay = await accountModel.countDocuments({owner:"admin"})
+  
+
+  res.status(200).json({
+    success:true,
+    data:resultDaLay.toString()
+});
+})
+
 
 module.exports = router;
