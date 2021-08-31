@@ -1297,4 +1297,15 @@ router.get("/getCountAccLZD", async (req,res) =>{
 })
 
 
+router.get("/getAccountLZD", async (req,res) =>{
+  
+  const result = await accountModel.find({owner:"admin"})
+  
+
+  res.status(200).json({
+    success:true,
+    data:result
+});
+})
+
 module.exports = router;
