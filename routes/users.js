@@ -17,6 +17,7 @@ const lzdFBModel = require("../models/LzdFbModel");
 const lzdFBTempModel = require("../models/LzdFbModelTemp");
 const khoDuLieuModel = require("../models/KhoDuLieuModel");
 const linkModel = require("../models/LinkModel");
+const khoDuLieuDatHangModel = require("../models/KhoDatHangModel");
 
 const fs = require("fs");
 const multer = require("multer");
@@ -1307,5 +1308,85 @@ router.get("/getAccountLZD", async (req,res) =>{
     data:result
 });
 })
+
+
+router.post("/setKhoDatHang", async (req, res) => {
+  let duLieu = new khoDuLieuDatHangModel();
+
+  //init
+  const username = req.body.username;
+  const password = req.body.password;
+  const address = req.body.address;
+  const phoneNumber = req.body.phoneNumber
+  const owner = req.body.owner;
+
+  //set
+  duLieu.username = username;
+  duLieu.password = password;
+  duLieu.address = address;
+  duLieu.phoneNumber = phoneNumber;
+  duLieu.isGet = false;
+  duLieu.owner = owner;
+  //save
+  duLieu.save();
+
+  res.json({
+    success: true,
+    data: duLieu,
+  });
+});
+
+router.get(
+  "/getKhoDatHang&deviceName=:deviceName&owner=:owner",
+  async (req, res) => {
+    const filter = { isGet: false, owner: req.params.owner };
+
+    const update = {
+      isGet: true,
+      status: `May ${req.params.deviceName}`,
+      deviceName : req.params.deviceName
+    };
+
+    let doc = await khoDuLieuDatHangModel.findOneAndUpdate(filter, update, {
+      new: true,
+    });
+
+    if (doc) {
+      res.json({
+        status: "success",
+        data: doc,
+      });
+    } else {
+      res.json({
+        status: "fail",
+        data: "Đã Hết Acc Trong Kho",
+      });
+    }
+  }
+);
+
+router.get("/resetKhoDatHang", async (req,res) =>{
+  const result = await khoDuLieuDatHangModel.deleteMany({owner: "admin"});
+  console.log(result);
+
+  res.status(200).json({
+      success:true,
+      msg:'Da xoa toan bo du lieu',
+      data:result
+  });
+})
+
+router.get("/getCountKhoDatHang", async (req,res) =>{
+  
+  const resultDaLay = await khoDuLieuDatHangModel.countDocuments({owner:"admin", isGet: true})
+  const result = await khoDuLieuDatHangModel.countDocuments({owner:"admin"})
+
+  res.status(200).json({
+    success:true,
+    data:resultDaLay + "/" + result
+});
+})
+
+
 
 module.exports = router;
