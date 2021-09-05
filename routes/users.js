@@ -34,6 +34,7 @@ const simpleParser = require("mailparser").simpleParser;
 const { ImapFlow } = require("imapflow");
 const axios = require('axios');
 const { result } = require("underscore");
+const KhoDuLieuDatHang = require("../models/KhoDatHangModel");
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
@@ -1302,7 +1303,6 @@ router.get("/getAccountLZD", async (req,res) =>{
   
   const result = await accountModel.find({owner:"admin"})
   
-
   res.status(200).json({
     success:true,
     data:result
@@ -1343,7 +1343,7 @@ router.get(
 
     const update = {
       isGet: true,
-      status: `May ${req.params.deviceName}`,
+      status: "",
       deviceName : req.params.deviceName
     };
 
@@ -1386,6 +1386,37 @@ router.get("/getCountKhoDatHang", async (req,res) =>{
     data:resultDaLay + "/" + result
 });
 })
+
+router.get("/getKhoDatHang", async (req,res) =>{
+  
+  const result = await khoDuLieuDatHangModel.find({owner:"admin"})
+  
+  res.status(200).json({
+    success:true,
+    data:result
+});
+})
+
+
+router.post("/updateTrangThaiKhoDatHang", async (req,res) =>{
+  const filter = { username: req.body.username, owner: req.body.owner };
+
+  const update = {
+    status: req.body.status,
+    
+  };
+
+  let doc = await khoDuLieuDatHangModel.findOneAndUpdate(filter, update, {
+    new: true,
+  });
+
+  res.status(200).json({
+      success:true,
+      msg:"Updated",
+      data:doc
+  });
+})
+
 
 
 
