@@ -8,7 +8,7 @@ const KhoDuLieuDatHangSchema = new Schema({
     phoneNumber: {type:String},
     isGet: {type: Boolean},
     deviceName: {type:String, default: ""},
-    status: {type:String},
+    status: {type:String,default: ""},
     owner: {type:String},
     created:{type:Date, default:Date.now}
 });
