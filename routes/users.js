@@ -1488,12 +1488,11 @@ router.post("/updateTrangThaiKhoDatHang", async (req, res) => {
   });
 });
 
-
 router.get("/checkImei&imei=:imei", async (req, res) => {
   const imeiNumber = req.params.imei;
   const url = `https://csone.vn/api/mcs?ownerType=3&owner=0911111111&imei=${imeiNumber}`;
 
-  const firstUserAgent = new userAgent({ deviceCategory: 'mobile' }); 
+  const firstUserAgent = new userAgent({ deviceCategory: "mobile" });
 
   const result = await axios.get(url, {
     headers: { "User-Agent": firstUserAgent.toString() },
@@ -1578,16 +1577,54 @@ router.get("/checkImei&imei=:imei", async (req, res) => {
   }
 });
 
-
-router.get("/getAllImei", async(req,res)=>{
+router.get("/getAllImei", async (req, res) => {
   const allListImei = await imeiGiftModel.find();
-  const countAllList =  await imeiGiftModel.countDocuments();
+  const countAllList = await imeiGiftModel.countDocuments();
 
   res.json({
     success: true,
     data: allListImei,
-    count:countAllList
+    count: countAllList,
   });
+});
+
+router.post("/setImei", async (req, res) => {
+  //init
+  const imei = req.body.imei;
+  const model = req.body.model;
+  const ngayKichHoat = req.body.ngayKichHoat;
+
+  const resp = {
+    imei: imei,
+    model: model,
+    ngayKichHoat: ngayKichHoat.content,
+    content: "",
+  };
+
+  const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
+  if (checkExists == false) {
+    const  duLieuImei = new imeiGiftModel();
+    //set
+    duLieuImei.imei = imei;
+    duLieuImei.model = model;
+    duLieuImei.ngayKichHoat = ngayKichHoat;
+    duLieuImei.content = "Imei Xịn. Đã Thêm Vào Database";
+    resp.content = duLieuImei.content;
+    //save
+    duLieuImei.save();
+
+    return res.status(200).json({
+      success: true,
+      data: resp,
+    });
+  }
+  else{
+    resp.content = "Imei Đã Có Trong Hệ Thống Rồi !!!"
+    return res.status(200).json({
+      success: true,
+      data: resp,
+    });
+  }
 
 });
 
