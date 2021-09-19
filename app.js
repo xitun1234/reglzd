@@ -81,6 +81,8 @@ app.use('/lazada/datareg', require('./routes/lazada/datareg'));
 app.use('/gmail/account', require('./routes/gmail/account'));
 app.use('/telegram/account', require('./routes/telegram/account'));
 app.use('/telegram/buffsub', require('./routes/telegram/buffSub'));
+app.use('/telegram/checkImei', require('./routes/telegram/checkImei'));
+app.use('/telegram/listimei', require('./routes/telegram/viewImei'));
 
 app.use('/remote/addDevice', require('./routes/remote/addDevice'));
 app.use('/remote/addScript', require('./routes/remote/addScript'));

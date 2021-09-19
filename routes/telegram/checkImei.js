@@ -1,6 +1,6 @@
 var express = require('express');
 const router = express.Router();
-const linkSubModel = require('../../models/LinkSubModel');
+const imeiGiftModel = require('../../models/ImeiGiftModel');
 
 router.use((req, res, next) => {
   if (req.user) {
@@ -12,10 +12,11 @@ router.use((req, res, next) => {
 });
 
 router.get('/', async function(req, res) {
-  res.render('telegram/buffsub', {
+  res.render('telegram/checkImei', {
     userData: req.user,
     TelegramSlideBarActive: true,
-    buffSubSubMenuAccountActive: true,
+    title:"Check Imei",
+    CheckImeiSubMenuAccountActive: true,
     //
   });
 });

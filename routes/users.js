@@ -18,6 +18,7 @@ const lzdFBTempModel = require("../models/LzdFbModelTemp");
 const khoDuLieuModel = require("../models/KhoDuLieuModel");
 const linkModel = require("../models/LinkModel");
 const khoDuLieuDatHangModel = require("../models/KhoDatHangModel");
+const imeiGiftModel = require("../models/ImeiGiftModel");
 
 const fs = require("fs");
 const multer = require("multer");
@@ -32,11 +33,16 @@ const _ = require("underscore");
 const imaps = require("imap-simple");
 const simpleParser = require("mailparser").simpleParser;
 const { ImapFlow } = require("imapflow");
-const axios = require('axios');
+const axios = require("axios");
+const userAgent = require("user-agents");
 const { result } = require("underscore");
 const KhoDuLieuDatHang = require("../models/KhoDatHangModel");
 
+var Imap = require("imap"),
+  inspect = require("util").inspect;
+
 /* GET users listing. */
+
 router.get("/", function (req, res, next) {
   res.send("respond with a resource");
 });
@@ -306,13 +312,15 @@ router.get("/datagmail", async (req, res) => {
 
   let randomIndex = Math.floor(Math.random() * dataJson.length);
 
-  var arrayKiTu = ['!', '@', '#', '$', '%', '^', '&'];
+  var arrayKiTu = ["!", "@", "#", "$", "%", "^", "&"];
   let randomKiTu = Math.floor(Math.random() * arrayKiTu.length);
 
   var password =
     removeVietnameseTones(dataJson[randomIndex].last_name_group) +
     removeVietnameseTones(dataJson[randomIndex].first_name).toLowerCase() +
-    getRandomNumber(getRndInteger(4, 6)) + arrayKiTu[randomKiTu] + arrayKiTu[randomKiTu];
+    getRandomNumber(getRndInteger(4, 6)) +
+    arrayKiTu[randomKiTu] +
+    arrayKiTu[randomKiTu];
 
   var gmail =
     removeVietnameseTones(dataJson[randomIndex].last_name_group) +
@@ -424,8 +432,7 @@ router.get("/datagmail", async (req, res) => {
   let randomIndexAddress = Math.floor(Math.random() * addressName.length);
   var last_name_group = dataJson[randomIndex].last_name_group;
   var full_name = dataJson[randomIndex].full_name;
-  var first_name = full_name.split(last_name_group)[1]
-
+  var first_name = full_name.split(last_name_group)[1];
 
   res.status(200).json({
     status: "success",
@@ -433,7 +440,9 @@ router.get("/datagmail", async (req, res) => {
     gmail: gmail,
     password: password,
     first_name: removeVietnameseTones(first_name),
-    last_name_group: removeVietnameseTones(dataJson[randomIndex].last_name_group),
+    last_name_group: removeVietnameseTones(
+      dataJson[randomIndex].last_name_group
+    ),
     phoneNumber: arrayPhone[randomIndexPhone],
     addressName:
       getRandomNumber(3) +
@@ -678,17 +687,49 @@ router.post("/setinfo", async (req, res) => {
   const link = req.body.link;
 
   if (address == "") {
-    var dauSo = ['090', '093', '089', '070', '076', '077', '078', '079', '091', '094', '081', '082', '084', '085', '088', '096', '097', '098', '086', '032', '034', '035', '036', '037', '038', '039'];
+    var dauSo = [
+      "090",
+      "093",
+      "070",
+      "076",
+      "077",
+      "078",
+      "079",
+      "091",
+      "094",
+      "081",
+      "082",
+      "084",
+      "085",
+      "088",
+      "096",
+      "097",
+      "098",
+      "086",
+      "032",
+      "034",
+      "035",
+      "036",
+      "037",
+      "038",
+      "039",
+    ];
     let randomDauSo = Math.floor(Math.random() * dauSo.length);
-    var soDienThoai = dauSo[randomDauSo] + getRandomNumber(3).toString() + getRandomNumber(4).toString();
-    phoneNumber = soDienThoai
+    var soDienThoai =
+      dauSo[randomDauSo] +
+      getRandomNumber(3).toString() +
+      getRandomNumber(4).toString();
+    phoneNumber = soDienThoai;
 
-    console.log("So dien thoai: " + soDienThoai)
+    console.log("So dien thoai: " + soDienThoai);
 
-    var diaChi = "Số nhà " + getRndInteger(1, 300).toString() + ", Ngõ " + getRndInteger(1, 200);
-    address = diaChi
-    console.log("Dia Chi: " + diaChi)
-
+    var diaChi =
+      "Số nhà " +
+      getRndInteger(1, 300).toString() +
+      ", Ngõ " +
+      getRndInteger(1, 200);
+    address = diaChi;
+    console.log("Dia Chi: " + diaChi);
   }
 
   var gmail =
@@ -721,28 +762,59 @@ router.post("/setinfo", async (req, res) => {
 });
 
 router.get("/dataTanPhu", async (req, res) => {
-  const fullName = await randomFullname() + " TN";
-  var dauSo = ['090', '093', '089', '070', '076', '077', '078', '079', '091', '094', '081', '082', '084', '085', '088', '096', '097', '098', '086', '032', '034', '035', '036', '037', '038', '039'];
+  const fullName = (await randomFullname()) + " TN";
+  var dauSo = [
+    "090",
+    "093",
+    "070",
+    "076",
+    "077",
+    "078",
+    "079",
+    "091",
+    "094",
+    "081",
+    "082",
+    "084",
+    "085",
+    "088",
+    "096",
+    "097",
+    "098",
+    "086",
+    "032",
+    "034",
+    "035",
+    "036",
+    "037",
+    "038",
+    "039",
+  ];
   let randomDauSo = Math.floor(Math.random() * dauSo.length);
-  var soDienThoai = dauSo[randomDauSo] + getRandomNumber(3).toString() + getRandomNumber(4).toString();
-  phoneNumber = soDienThoai
+  var soDienThoai =
+    dauSo[randomDauSo] +
+    getRandomNumber(3).toString() +
+    getRandomNumber(4).toString();
+  phoneNumber = soDienThoai;
 
-  console.log("So dien thoai: " + soDienThoai)
-  console.log("Fullname: " + fullName)
+  console.log("So dien thoai: " + soDienThoai);
+  console.log("Fullname: " + fullName);
 
-  var diaChi = "Số nhà " + getRndInteger(1, 100).toString() + "/" + getRndInteger(1, 60) + " đường phạm văn xảo"
-  address = diaChi
-  console.log("Dia Chi: " + diaChi)
-
+  var diaChi =
+    "Số nhà " +
+    getRndInteger(1, 100).toString() +
+    "/" +
+    getRndInteger(1, 60) +
+    " đường phạm văn xảo";
+  address = diaChi;
+  console.log("Dia Chi: " + diaChi);
 
   res.status(200).json({
     status: "success",
     fullname: fullName,
     phoneNumber: phoneNumber,
-    address: address
-    
+    address: address,
   });
-  
 });
 
 router.get("/getInfo&deviceName=:deviceName&owner=:owner", async (req, res) => {
@@ -955,7 +1027,7 @@ router.get("/getDataLZD", async (req, res) => {
 });
 
 router.get("/deleteTest", async (req, res) => {
-  const result = await scriptModel.deleteMany();
+  const result = await dataAccountModel.deleteMany();
   console.log(result);
 });
 
@@ -1251,8 +1323,11 @@ router.post("/updateTrangThaiReg", async (req, res) => {
 });
 
 router.get("/getOTPHotMail&mail=:mail&passMail=:passMail", async (req, res) => {
-
-  const linkAPI = "https://serverotp.herokuapp.com/getOTPHotmail?mail=" + req.params.mail + "&passMail=" + req.params.passMail;
+  const linkAPI =
+    "https://serverotp.herokuapp.com/getOTPHotmail?mail=" +
+    req.params.mail +
+    "&passMail=" +
+    req.params.passMail;
   console.log(linkAPI);
 
   const resultOTP = await axios.get(linkAPI);
@@ -1261,54 +1336,51 @@ router.get("/getOTPHotMail&mail=:mail&passMail=:passMail", async (req, res) => {
 
   res.status(200).json({
     success: dataResp.status,
-    otp: dataResp.otp
-  })
+    otp: dataResp.otp,
+  });
 });
 
-router.get("/resetKho", async (req,res) =>{
-  const result = await khoDuLieuModel.deleteMany({owner: "admin"});
+router.get("/resetKho", async (req, res) => {
+  const result = await khoDuLieuModel.deleteMany({ owner: "admin" });
   console.log(result);
 
   res.status(200).json({
-      success:true,
-      msg:'Da xoa toan bo du lieu',
-      data:result
+    success: true,
+    msg: "Da xoa toan bo du lieu",
+    data: result,
   });
-})
+});
 
-router.get("/getCountKho", async (req,res) =>{
-  
-  const resultDaLay = await khoDuLieuModel.countDocuments({owner:"admin", isGet: true})
-  const result = await khoDuLieuModel.countDocuments({owner:"admin"})
+router.get("/getCountKho", async (req, res) => {
+  const resultDaLay = await khoDuLieuModel.countDocuments({
+    owner: "admin",
+    isGet: true,
+  });
+  const result = await khoDuLieuModel.countDocuments({ owner: "admin" });
 
   res.status(200).json({
-    success:true,
-    data:resultDaLay + "/" + result
+    success: true,
+    data: resultDaLay + "/" + result,
+  });
 });
-})
 
-router.get("/getCountAccLZD", async (req,res) =>{
-  
-  const resultDaLay = await accountModel.countDocuments({owner:"admin"})
-  
+router.get("/getCountAccLZD", async (req, res) => {
+  const resultDaLay = await accountModel.countDocuments({ owner: "admin" });
 
   res.status(200).json({
-    success:true,
-    data:resultDaLay.toString()
+    success: true,
+    data: resultDaLay.toString(),
+  });
 });
-})
 
+router.get("/getAccountLZD", async (req, res) => {
+  const result = await accountModel.find({ owner: "admin" });
 
-router.get("/getAccountLZD", async (req,res) =>{
-  
-  const result = await accountModel.find({owner:"admin"})
-  
   res.status(200).json({
-    success:true,
-    data:result
+    success: true,
+    data: result,
+  });
 });
-})
-
 
 router.post("/setKhoDatHang", async (req, res) => {
   let duLieu = new khoDuLieuDatHangModel();
@@ -1317,7 +1389,7 @@ router.post("/setKhoDatHang", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   const address = req.body.address;
-  const phoneNumber = req.body.phoneNumber
+  const phoneNumber = req.body.phoneNumber;
   const owner = req.body.owner;
 
   //set
@@ -1344,7 +1416,7 @@ router.get(
     const update = {
       isGet: true,
       status: "",
-      deviceName : req.params.deviceName
+      deviceName: req.params.deviceName,
     };
 
     let doc = await khoDuLieuDatHangModel.findOneAndUpdate(filter, update, {
@@ -1365,45 +1437,44 @@ router.get(
   }
 );
 
-router.get("/resetKhoDatHang", async (req,res) =>{
-  const result = await khoDuLieuDatHangModel.deleteMany({owner: "admin"});
+router.get("/resetKhoDatHang", async (req, res) => {
+  const result = await khoDuLieuDatHangModel.deleteMany({ owner: "admin" });
   console.log(result);
 
   res.status(200).json({
-      success:true,
-      msg:'Da xoa toan bo du lieu',
-      data:result
+    success: true,
+    msg: "Da xoa toan bo du lieu",
+    data: result,
   });
-})
+});
 
-router.get("/getCountKhoDatHang", async (req,res) =>{
-  
-  const resultDaLay = await khoDuLieuDatHangModel.countDocuments({owner:"admin", isGet: true})
-  const result = await khoDuLieuDatHangModel.countDocuments({owner:"admin"})
+router.get("/getCountKhoDatHang", async (req, res) => {
+  const resultDaLay = await khoDuLieuDatHangModel.countDocuments({
+    owner: "admin",
+    isGet: true,
+  });
+  const result = await khoDuLieuDatHangModel.countDocuments({ owner: "admin" });
 
   res.status(200).json({
-    success:true,
-    data:resultDaLay + "/" + result
+    success: true,
+    data: resultDaLay + "/" + result,
+  });
 });
-})
 
-router.get("/getKhoDatHang", async (req,res) =>{
-  
-  const result = await khoDuLieuDatHangModel.find({owner:"admin"})
-  
+router.get("/getKhoDatHang", async (req, res) => {
+  const result = await khoDuLieuDatHangModel.find({ owner: "admin" });
+
   res.status(200).json({
-    success:true,
-    data:result
+    success: true,
+    data: result,
+  });
 });
-})
 
-
-router.post("/updateTrangThaiKhoDatHang", async (req,res) =>{
+router.post("/updateTrangThaiKhoDatHang", async (req, res) => {
   const filter = { username: req.body.username, owner: req.body.owner };
 
   const update = {
     status: req.body.status,
-    
   };
 
   let doc = await khoDuLieuDatHangModel.findOneAndUpdate(filter, update, {
@@ -1411,13 +1482,130 @@ router.post("/updateTrangThaiKhoDatHang", async (req,res) =>{
   });
 
   res.status(200).json({
-      success:true,
-      msg:"Updated",
-      data:doc
+    success: true,
+    msg: "Updated",
+    data: doc,
   });
-})
+});
 
 
+router.get("/checkImei&imei=:imei", async (req, res) => {
+  const imeiNumber = req.params.imei;
+  const url = `https://csone.vn/api/mcs?ownerType=3&owner=0911111111&imei=${imeiNumber}`;
 
+  const firstUserAgent = new userAgent({ deviceCategory: 'mobile' }); 
+
+  const result = await axios.get(url, {
+    headers: { "User-Agent": firstUserAgent.toString() },
+  });
+
+  if (result.data.Item.Message == "Not yet activated") {
+    res.status(200).json({
+      status: "fail",
+      message: "Không có imei " + imeiNumber + " trong hệ thống",
+    });
+  } else if (result.data.Item.Message == "Activated") {
+    const ngayKichHoat = convertToDate(result.data.Item.SurveyDate);
+    const ngay = parseInt(ngayKichHoat.date);
+    const thang = parseInt(ngayKichHoat.month);
+
+    const resp = {
+      imei: result.data.Item.Imei,
+      model: result.data.Item.ModelCode,
+      ngayKichHoat: ngayKichHoat.content,
+      content: "",
+    };
+
+    if (thang == 8 && ngay >= 20) {
+      //update content
+      resp.content = "Imei Xịn. Đã Thêm Vào Database";
+
+      //add vao database
+
+      const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
+      if (checkExists == false) {
+        //chua co du lieu. Them vao database
+        const duLieuImei = new imeiGiftModel();
+        duLieuImei.imei = resp.imei;
+        duLieuImei.model = resp.model;
+        duLieuImei.ngayKichHoat = resp.ngayKichHoat;
+        duLieuImei.content = resp.content;
+
+        duLieuImei.save();
+      } else {
+        resp.content = "Imei Đã Có Trong Database Rồi !!!";
+      }
+
+      return res.json({
+        success: true,
+        data: resp,
+      });
+    }
+
+    if (thang == 9) {
+      //update content
+      resp.content = "Imei Xịn. Đã Thêm Vào Database";
+
+      //add vao database
+
+      const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
+      if (checkExists == false) {
+        //chua co du lieu. Them vao database
+        const duLieuImei = new imeiGiftModel();
+        duLieuImei.imei = resp.imei;
+        duLieuImei.model = resp.model;
+        duLieuImei.ngayKichHoat = resp.ngayKichHoat;
+        duLieuImei.content = resp.content;
+
+        duLieuImei.save();
+      } else {
+        resp.content = "Imei Đã Có Trong Database Rồi !!!";
+      }
+
+      return res.status(200).json({
+        success: true,
+        data: resp,
+      });
+    }
+
+    if (thang != 8 || thang != 9) {
+      resp.content = "KHÔNG THỎA ĐIỀU KIỆN";
+      return res.status(200).json({
+        success: true,
+        data: resp,
+      });
+    }
+  }
+});
+
+
+router.get("/getAllImei", async(req,res)=>{
+  const allListImei = await imeiGiftModel.find();
+  const countAllList =  await imeiGiftModel.countDocuments();
+
+  res.json({
+    success: true,
+    data: allListImei,
+    count:countAllList
+  });
+
+});
+
+function convertToDate(input) {
+  var onlyDate = input.slice(input.length - 2, input.length);
+  var onlyMonth = input.slice(input.length - 4, input.length - 2);
+  var onlyYear = input.slice(0, 4);
+
+  var chuanHoa = onlyDate + "/" + onlyMonth + "/" + onlyYear;
+
+  var result = {
+    date: onlyDate,
+    month: onlyMonth,
+    year: onlyYear,
+    content: chuanHoa,
+  };
+
+  return result;
+}
 
 module.exports = router;

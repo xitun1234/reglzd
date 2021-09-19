@@ -43,7 +43,8 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.0.1",
-    "underscore": "^1.13.1"
+    "underscore": "^1.13.1",
+    "user-agents": "^1.0.779"
   },
   "devDependencies": {
     "handlebars": "^4.7.6",

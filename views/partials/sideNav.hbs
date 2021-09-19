@@ -71,15 +71,25 @@
                     </a>
 
                     <ul id="telegramdropdownDropdown" class="collapse list-unstyled {{#if TelegramSlideBarActive}}show{{/if}}">
-                        <li {{#if telegramSubMenuAccountActive}} class="active" {{/if}}>
+                        <li {{#if telegramAccountSubMenuAccountActive}} class="active" {{/if}}>
                             <a href="/telegram/account/">
                                 <i class="fa fa-cubes"></i>
                                 Quản lý acc</a>
                         </li>
-                        <li {{#if telegramSubMenuAccountActive}} class="active" {{/if}}>
+                        <li {{#if buffSubSubMenuAccountActive}} class="active" {{/if}}>
                             <a href="/telegram/buffsub/">
                                 <i class="fa fa-coffee"></i>
                                 Buff Sub Channel</a>
+                        </li>
+                        <li {{#if CheckImeiSubMenuAccountActive}} class="active" {{/if}}>
+                            <a href="/telegram/checkimei/">
+                                <i class="fa fa-bug"></i>
+                                VIP - Lọc Imei</a>
+                        </li>
+                        <li {{#if ViewImeiSubMenuAccountActive}} class="active" {{/if}}>
+                            <a href="/telegram/listimei/">
+                                <i class="fa fa-bank"></i>
+                                VIP - Xem List Imei</a>
                         </li>
 
 
@@ -91,7 +101,7 @@
                     </a>
 
                     <ul id="remotedropdownDropdown" class="collapse list-unstyled {{#if RemoteSlideBarActive}}show{{/if}}">
-                         <li {{#if active.addLink}} class="active" {{/if}}>
+                        <li {{#if active.addLink}} class="active" {{/if}}>
                             <a href="/remote/addLink">
                                 <i class="fa fa-link"></i>
                                 Thêm Link
