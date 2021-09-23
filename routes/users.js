@@ -319,7 +319,7 @@ router.get("/datagmail", async (req, res) => {
     removeVietnameseTones(dataJson[randomIndex].last_name_group) +
     removeVietnameseTones(dataJson[randomIndex].first_name).toLowerCase() +
     getRandomNumber(getRndInteger(2, 4)) +
-    arrayKiTu[randomKiTu] +
+    arrayKiTu[randomKiTu]
     
 
   var gmail =
