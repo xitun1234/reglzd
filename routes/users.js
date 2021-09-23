@@ -318,9 +318,9 @@ router.get("/datagmail", async (req, res) => {
   var password =
     removeVietnameseTones(dataJson[randomIndex].last_name_group) +
     removeVietnameseTones(dataJson[randomIndex].first_name).toLowerCase() +
-    getRandomNumber(getRndInteger(4, 6)) +
+    getRandomNumber(getRndInteger(2, 4)) +
     arrayKiTu[randomKiTu] +
-    arrayKiTu[randomKiTu];
+    
 
   var gmail =
     removeVietnameseTones(dataJson[randomIndex].last_name_group) +
@@ -436,11 +436,11 @@ router.get("/datagmail", async (req, res) => {
 
   res.status(200).json({
     status: "success",
-    fullname: removeVietnameseTones(dataJson[randomIndex].full_name),
+    fullname: (dataJson[randomIndex].full_name),
     gmail: gmail,
     password: password,
-    first_name: removeVietnameseTones(first_name),
-    last_name_group: removeVietnameseTones(
+    first_name: (first_name),
+    last_name_group: (
       dataJson[randomIndex].last_name_group
     ),
     phoneNumber: arrayPhone[randomIndexPhone],
