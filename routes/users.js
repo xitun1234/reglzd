@@ -312,14 +312,13 @@ router.get("/datagmail", async (req, res) => {
 
   let randomIndex = Math.floor(Math.random() * dataJson.length);
 
-  var arrayKiTu = ["!", "@", "#", "$", "%", "^", "&"];
+  var arrayKiTu = ["!", "@", "#", "%", "&"];
   let randomKiTu = Math.floor(Math.random() * arrayKiTu.length);
 
   var password =
-    removeVietnameseTones(dataJson[randomIndex].last_name_group) +
-    removeVietnameseTones(dataJson[randomIndex].first_name).toLowerCase() +
-    getRandomNumber(getRndInteger(2, 4)) +
-    arrayKiTu[randomKiTu]
+    removeVietnameseTones(dataJson[randomIndex].first_name) +
+    getRandomNumber(getRndInteger(3, 6)) +
+    arrayKiTu[randomKiTu] + arrayKiTu[randomKiTu];
     
 
   var gmail =
