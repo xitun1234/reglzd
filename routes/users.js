@@ -19,6 +19,7 @@ const khoDuLieuModel = require("../models/KhoDuLieuModel");
 const linkModel = require("../models/LinkModel");
 const khoDuLieuDatHangModel = require("../models/KhoDatHangModel");
 const imeiGiftModel = require("../models/ImeiGiftModel");
+const cauHinhFakeModel = require("../models/CauHinhFakeModel");
 
 const fs = require("fs");
 const multer = require("multer");
@@ -1643,5 +1644,43 @@ function convertToDate(input) {
 
   return result;
 }
+
+
+
+router.post("/setCauHinhFake", async (req, res) => {
+  let newCauHinh = new cauHinhFakeModel();
+
+  //init
+  const appVersion = req.body.appVersion;
+  const isFakeAppRandom = req.body.isFakeAppRandom;
+  const owner = req.body.owner;
+
+  //set
+  newCauHinh.appVersion = appVersion;
+  newCauHinh.isFakeAppRandom = isFakeAppRandom;
+  newCauHinh.owner = owner;
+
+
+  //save
+  newCauHinh.save();
+
+  res.json({
+    success: true,
+    data: newCauHinh,
+  });
+});
+
+router.get("/getCauHinhFake&owner=:owner", async (req, res) => {
+  const infoGetCauHinh = await cauHinhFakeModel.find({owner: req.params.owner}).sort({ _id: -1 });
+
+  if (infoGetCauHinh) {
+    res.json(infoGetCauHinh);
+  } else {
+    res.json({
+      status: "fail",
+      data: null,
+    });
+  }
+});
 
 module.exports = router;
