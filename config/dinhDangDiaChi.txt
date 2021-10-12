@@ -1,0 +1,58 @@
+Đường ABC, số 123
+Đường ABC, ngõ 123
+Đường ABC, ngách 123
+Trường Tiểu Học ABC, ấp 123
+Trường Tiểu Học ABC, thôn 123
+Trường Tiểu Học ABC, xã 123
+Trường Tiểu Học Cơ Sở ABC
+Trường Tiểu Học Cơ Sở ABC, ấp 123
+Trường Tiểu Học Cơ Sở ABC, thôn 123
+Trường Tiểu Học Cơ Sở ABC, xã 123
+Trường Cấp 2 ABC
+Trường Cấp 2 ABC, ấp 123
+Trường Cấp 2 ABC, thôn 123
+Trường Cấp 2 ABC, xã 123
+Trường THCS ABC
+Trường THCS ABC, ấp 123
+Trường THCS ABC, thôn 123
+Trường THCS ABC, xã 123
+Trường Cấp 3 ABC
+Trường Cấp 3 ABC, ấp 123
+Trường Cấp 3 ABC, xã 123
+Trường Cấp 3 ABC, thôn 123
+Trường THPT ABC
+Trường THPT ABC, ấp 123
+Trường THPT ABC, xã 123
+Trường THPT ABC, thôn 123
+Đại Học ABC
+Cao Đẳng ABC
+Trạm Y Tế Đường ABC
+Tiệm Thuốc Tây Đường ABC
+Cây Xăng Đường ABC
+Quán Cafe, Đường ABC
+Quán Bar ABC
+Ngã Tư Đèn Đỏ Đường ABC
+Công Ty ABC
+Chung Cư Đường ABC
+Chung cư Block ABC
+Chung cư ABC, block 123
+Nhà Thờ đường ABC
+Chùa Phật Giáo ABC
+Trại Hòm ABC
+Sân bóng đá đường ABC
+Khu Phố 123, đường ABC
+Chợ thị trấn ABC
+Chợ tự phát đường ABC
+Nhà Thầy ABC, đường 123
+Nhà cô ABC, đường 123
+Công trường ABC
+Nhà trọ ABC, đường 123
+Khu Tập Thể ABC, đường 123
+Bến Xe đường ABC
+Phố ABC, nhà ABC
+Kí túc xá ABC
+Bệnh Viện ABC
+Tiệm Cơm Tấm, Đường ABC
+Tiệm Giặt Ủi, Đường ABC
+Tạp Hóa nhà ABC
+quán hủ tiếu ABC, đường 123

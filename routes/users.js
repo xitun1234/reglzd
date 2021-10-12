@@ -319,8 +319,8 @@ router.get("/datagmail", async (req, res) => {
   var password =
     removeVietnameseTones(dataJson[randomIndex].first_name) +
     getRandomNumber(getRndInteger(3, 6)) +
-    arrayKiTu[randomKiTu] + arrayKiTu[randomKiTu];
-    
+    arrayKiTu[randomKiTu] +
+    arrayKiTu[randomKiTu];
 
   var gmail =
     removeVietnameseTones(dataJson[randomIndex].last_name_group) +
@@ -436,13 +436,11 @@ router.get("/datagmail", async (req, res) => {
 
   res.status(200).json({
     status: "success",
-    fullname: (dataJson[randomIndex].full_name),
+    fullname: dataJson[randomIndex].full_name,
     gmail: gmail,
     password: password,
-    first_name: (first_name),
-    last_name_group: (
-      dataJson[randomIndex].last_name_group
-    ),
+    first_name: first_name,
+    last_name_group: dataJson[randomIndex].last_name_group,
     phoneNumber: arrayPhone[randomIndexPhone],
     addressName:
       getRandomNumber(3) +
@@ -656,11 +654,17 @@ async function randomFullname() {
 
   let randomIndex = Math.floor(Math.random() * dataJson.length);
 
-  const fullName =
-    dataJson[randomIndex].last_name_group +
-    " " +
-    dataJson[randomIndex].first_name;
-  return fullName;
+  let randomChoice = getRndInteger(0, 1);
+  if (randomChoice == 0) {
+    const fullName =
+      dataJson[randomIndex].last_name_group +
+      " " +
+      dataJson[randomIndex].first_name;
+    return fullName;
+  } else if (randomChoice == 1) {
+    const fullName = dataJson[randomIndex].full_name;
+    return fullName;
+  }
 }
 
 function randomAddress() {
@@ -723,13 +727,32 @@ router.post("/setinfo", async (req, res) => {
 
     console.log("So dien thoai: " + soDienThoai);
 
-    var diaChi =
-      "Số nhà " +
-      getRndInteger(1, 300).toString() +
-      ", Ngõ " +
-      getRndInteger(1, 200);
-    address = diaChi;
-    console.log("Dia Chi: " + diaChi);
+    const dataDinhDangDiaChi = fs
+      .readFileSync("./config/dinhDangDiaChi.txt", "utf-8")
+      .toString()
+      .split("\n");
+    let indexDinhDangDiaChi = Math.floor(
+      Math.random() * dataDinhDangDiaChi.length
+    );
+
+    const diaChiTemp = dataDinhDangDiaChi[indexDinhDangDiaChi];
+
+    const listTenDuong = fs
+      .readFileSync("./config/tenDuongVN.txt", "utf-8")
+      .toString()
+      .split("\n");
+    const tenDuongRandom =
+      listTenDuong[[getRndInteger(0, listTenDuong.length)]].trim();
+
+    const soNhaRandom = getRndInteger(1, 100).toString();
+
+    const diaChiTemp1 = diaChiTemp.replace("ABC", tenDuongRandom);
+    const diaChiTemp2 = diaChiTemp1.replace("ABC", tenDuongRandom);
+    const diaChiTemp3 = diaChiTemp2.replace("123", soNhaRandom).trim();
+
+    console.log(diaChiTemp3);
+
+    address = diaChiTemp3;
   }
 
   var gmail =
@@ -762,7 +785,7 @@ router.post("/setinfo", async (req, res) => {
 });
 
 router.get("/dataTanPhu", async (req, res) => {
-  const fullName = (await randomFullname()) + " TN";
+  const fullName = await randomFullname();
   var dauSo = [
     "090",
     "093",
@@ -807,13 +830,36 @@ router.get("/dataTanPhu", async (req, res) => {
     getRndInteger(1, 60) +
     " đường phạm văn xảo";
   address = diaChi;
-  console.log("Dia Chi: " + diaChi);
+
+  const dataDinhDangDiaChi = fs
+    .readFileSync("./config/dinhDangDiaChi.txt", "utf-8")
+    .toString()
+    .split("\n");
+  let indexDinhDangDiaChi = Math.floor(
+    Math.random() * dataDinhDangDiaChi.length
+  );
+
+  const diaChiTemp = dataDinhDangDiaChi[indexDinhDangDiaChi];
+
+  const listTenDuong = fs
+    .readFileSync("./config/tenDuongVN.txt", "utf-8")
+    .toString()
+    .split("\n");
+  const tenDuongRandom =
+    listTenDuong[[getRndInteger(0, listTenDuong.length)]].trim();
+
+  const soNhaRandom = getRndInteger(1, 100).toString();
+
+  const diaChiTemp1 = diaChiTemp.replace("ABC", tenDuongRandom).trim();
+  const diaChiTemp2 = diaChiTemp1.replace("123", soNhaRandom).trim();
+
+  console.log(diaChiTemp2);
 
   res.status(200).json({
     status: "success",
     fullname: fullName,
     phoneNumber: phoneNumber,
-    address: address,
+    address: diaChiTemp2,
   });
 });
 
@@ -1603,7 +1649,7 @@ router.post("/setImei", async (req, res) => {
 
   const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
   if (checkExists == false) {
-    const  duLieuImei = new imeiGiftModel();
+    const duLieuImei = new imeiGiftModel();
     //set
     duLieuImei.imei = imei;
     duLieuImei.model = model;
@@ -1617,15 +1663,13 @@ router.post("/setImei", async (req, res) => {
       success: true,
       data: resp,
     });
-  }
-  else{
-    resp.content = "Imei Đã Có Trong Hệ Thống Rồi !!!"
+  } else {
+    resp.content = "Imei Đã Có Trong Hệ Thống Rồi !!!";
     return res.status(200).json({
       success: true,
       data: resp,
     });
   }
-
 });
 
 function convertToDate(input) {
@@ -1645,8 +1689,6 @@ function convertToDate(input) {
   return result;
 }
 
-
-
 router.post("/setCauHinhFake", async (req, res) => {
   let newCauHinh = new cauHinhFakeModel();
 
@@ -1660,7 +1702,6 @@ router.post("/setCauHinhFake", async (req, res) => {
   newCauHinh.isFakeAppRandom = isFakeAppRandom;
   newCauHinh.owner = owner;
 
-
   //save
   newCauHinh.save();
 
@@ -1671,7 +1712,9 @@ router.post("/setCauHinhFake", async (req, res) => {
 });
 
 router.get("/getCauHinhFake&owner=:owner", async (req, res) => {
-  const infoGetCauHinh = await cauHinhFakeModel.find({owner: req.params.owner}).sort({ _id: -1 });
+  const infoGetCauHinh = await cauHinhFakeModel
+    .find({ owner: req.params.owner })
+    .sort({ _id: -1 });
 
   if (infoGetCauHinh) {
     res.json(infoGetCauHinh);
