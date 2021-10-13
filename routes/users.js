@@ -850,16 +850,17 @@ router.get("/dataTanPhu", async (req, res) => {
 
   const soNhaRandom = getRndInteger(1, 100).toString();
 
-  const diaChiTemp1 = diaChiTemp.replace("ABC", tenDuongRandom).trim();
-  const diaChiTemp2 = diaChiTemp1.replace("123", soNhaRandom).trim();
+  const diaChiTemp1 = diaChiTemp.replace("ABC", tenDuongRandom);
+  const diaChiTemp2 = diaChiTemp1.replace("ABC", tenDuongRandom);
+  const diaChiTemp3 = diaChiTemp2.replace("123", soNhaRandom).trim();
 
-  console.log(diaChiTemp2);
+  console.log(diaChiTemp3);
 
   res.status(200).json({
     status: "success",
     fullname: fullName,
     phoneNumber: phoneNumber,
-    address: diaChiTemp2,
+    address: diaChiTemp3,
   });
 });
 
@@ -1695,12 +1696,14 @@ router.post("/setCauHinhFake", async (req, res) => {
   //init
   const appVersion = req.body.appVersion;
   const isFakeAppRandom = req.body.isFakeAppRandom;
+  const CFBundleIdentifier = req.body.CFBundleIdentifier;
   const owner = req.body.owner;
 
   //set
   newCauHinh.appVersion = appVersion;
   newCauHinh.isFakeAppRandom = isFakeAppRandom;
   newCauHinh.owner = owner;
+  newCauHinh.CFBundleIdentifier = CFBundleIdentifier;
 
   //save
   newCauHinh.save();
@@ -1712,6 +1715,7 @@ router.post("/setCauHinhFake", async (req, res) => {
 });
 
 router.get("/getCauHinhFake&owner=:owner", async (req, res) => {
+  
   const infoGetCauHinh = await cauHinhFakeModel
     .find({ owner: req.params.owner })
     .sort({ _id: -1 });
