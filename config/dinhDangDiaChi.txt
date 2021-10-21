@@ -5,9 +5,6 @@ Trường Tiểu Học ABC, ấp 123
 Trường Tiểu Học ABC, thôn 123
 Trường Tiểu Học ABC, xã 123
 Trường Tiểu Học Cơ Sở ABC
-Trường Tiểu Học Cơ Sở ABC, ấp 123
-Trường Tiểu Học Cơ Sở ABC, thôn 123
-Trường Tiểu Học Cơ Sở ABC, xã 123
 Trường Cấp 2 ABC
 Trường Cấp 2 ABC, ấp 123
 Trường Cấp 2 ABC, thôn 123
@@ -26,6 +23,11 @@ Trường THPT ABC, xã 123
 Trường THPT ABC, thôn 123
 Đại Học ABC
 Cao Đẳng ABC
+Cao Đẳng ABC, ấp 123
+Đại Học ABC, ấp 123
+Trung Cấp ABC, ấp 123
+Trung Cấp ABC, xã 123
+Trung Cấp ABC, thôn 123
 Trạm Y Tế Đường ABC
 Tiệm Thuốc Tây Đường ABC
 Cây Xăng Đường ABC
@@ -52,7 +54,10 @@ Bến Xe đường ABC
 Phố ABC, nhà ABC
 Kí túc xá ABC
 Bệnh Viện ABC
-Tiệm Cơm Tấm, Đường ABC
-Tiệm Giặt Ủi, Đường ABC
-Tạp Hóa nhà ABC
-quán hủ tiếu ABC, đường 123
+Bệnh Viện ABC, ấp 123
+Bệnh Viện ABC, thôn 123
+Kí túc xá ABC, ấp 123
+Kí túc xá ABC, thôn 123
+Công ty TNHH ABC
+Xưởng May ABC, ấp 123
+Công trường ABC
