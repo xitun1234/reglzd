@@ -36,7 +36,7 @@ const simpleParser = require("mailparser").simpleParser;
 const { ImapFlow } = require("imapflow");
 const axios = require("axios");
 const userAgent = require("user-agents");
-const { result } = require("underscore");
+const { result, random } = require("underscore");
 const KhoDuLieuDatHang = require("../models/KhoDatHangModel");
 
 var Imap = require("imap"),
@@ -314,13 +314,14 @@ router.get("/datagmail", async (req, res) => {
   let randomIndex = Math.floor(Math.random() * dataJson.length);
 
   var arrayKiTu = ["!", "@", "#", "%", "&"];
-  let randomKiTu = Math.floor(Math.random() * arrayKiTu.length);
+  let randomKiTu1 = Math.floor(Math.random() * arrayKiTu.length);
+  let randomKiTu2 = Math.floor(Math.random() * arrayKiTu.length);
 
   var password =
     removeVietnameseTones(dataJson[randomIndex].first_name) +
-    getRandomNumber(getRndInteger(3, 6)) +
-    arrayKiTu[randomKiTu] +
-    arrayKiTu[randomKiTu];
+    (getRndInteger(1000,9999).toString()) +
+    arrayKiTu[randomKiTu1] +
+    arrayKiTu[randomKiTu2];
 
   var gmail =
     removeVietnameseTones(dataJson[randomIndex].last_name_group) +
