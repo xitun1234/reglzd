@@ -1650,6 +1650,7 @@ router.get("/checkImei&imei=:imei", async (req, res) => {
 });
 
 router.get("/checkImeiA52s&imei=:imei", async (req, res) => {
+  // up
   const imeiNumber = req.params.imei;
   const url = `https://csone.vn/api/mcs?ownerType=3&owner=0911111111&imei=${imeiNumber}`;
 
