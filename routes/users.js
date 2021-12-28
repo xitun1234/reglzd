@@ -319,7 +319,7 @@ router.get("/datagmail", async (req, res) => {
 
   var password =
     removeVietnameseTones(dataJson[randomIndex].first_name) +
-    (getRndInteger(1000,9999).toString()) +
+    (getRndInteger(1000, 9999).toString()) +
     arrayKiTu[randomKiTu1] +
     arrayKiTu[randomKiTu2];
 
@@ -668,6 +668,26 @@ async function randomFullname() {
   }
 }
 
+async function randomHo() {
+  const fileData = await readFilePro(`${__dirname}/../config/output.json`);
+  const dataJson = JSON.parse(fileData);
+
+  let randomIndex = Math.floor(Math.random() * dataJson.length);
+
+  const hoVietNam = dataJson[randomIndex].last_name_group;
+  return hoVietNam;
+}
+
+async function randomTen() {
+  const fileData = await readFilePro(`${__dirname}/../config/output.json`);
+  const dataJson = JSON.parse(fileData);
+
+  let randomIndex = Math.floor(Math.random() * dataJson.length);
+
+  const tenVietNam = dataJson[randomIndex].first_name;
+  return tenVietNam;
+}
+
 function randomAddress() {
   const firstAddr = getRndInteger(10, 300) + "/" + getRndInteger(1, 30);
   const arrStreet = ["To Hien Thanh", "Hoa Hung"];
@@ -787,6 +807,8 @@ router.post("/setinfo", async (req, res) => {
 
 router.get("/dataTanPhu", async (req, res) => {
   const fullName = await randomFullname();
+  const hoVietNam = await randomHo();
+  const tenVietNam = await randomTen();
   var dauSo = [
     "090",
     "093",
@@ -862,6 +884,8 @@ router.get("/dataTanPhu", async (req, res) => {
     fullname: fullName,
     phoneNumber: phoneNumber,
     address: diaChiTemp3,
+    hoVietNam: hoVietNam,
+    tenVietNam: tenVietNam
   });
 });
 
@@ -1625,6 +1649,80 @@ router.get("/checkImei&imei=:imei", async (req, res) => {
   }
 });
 
+router.get("/checkImeiA52s&imei=:imei", async (req, res) => {
+  const imeiNumber = req.params.imei;
+  const url = `https://csone.vn/api/mcs?ownerType=3&owner=0911111111&imei=${imeiNumber}`;
+
+  const firstUserAgent = new userAgent({ deviceCategory: "mobile" });
+
+  const result = await axios.get(url, {
+    headers: { "User-Agent": firstUserAgent.toString() },
+  });
+
+  if (result.data.Item.Message == "Not yet activated") {
+    res.status(200).json({
+      status: "fail",
+      message: "Không có imei " + imeiNumber + " trong hệ thống",
+    });
+  } else if (result.data.Item.Message == "Activated") {
+
+    const ngayKichHoat = convertToDate(result.data.Item.SurveyDate);
+    const ngay = parseInt(ngayKichHoat.date);
+    const thang = parseInt(ngayKichHoat.month);
+
+    const modelMay = result.data.Item.ModelCode;
+    
+    //print
+    console.log("Model May: " + modelMay + " Date: " + ngay.toString() + "-" + thang.toString());
+
+    if (modelMay.search("SM-A52") != -1)
+    {
+      const resp = {
+        imei: result.data.Item.Imei,
+        model: result.data.Item.ModelCode,
+        ngayKichHoat: ngayKichHoat.content,
+        content: "",
+      };
+
+      if (thang == 12 && ngay >= 15) {
+      
+        const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
+        if (checkExists == false) {
+          //update content
+          resp.content = "Imei Xịn. Đã Thêm Vào Database";
+  
+          //chua co du lieu. Them vao database
+          const duLieuImei = new imeiGiftModel();
+          duLieuImei.imei = resp.imei;
+          duLieuImei.model = resp.model;
+          duLieuImei.ngayKichHoat = resp.ngayKichHoat;
+          duLieuImei.content = resp.content;
+  
+          duLieuImei.save();
+        } else {
+          resp.content = "Imei Đã Có Trong Database Rồi !!!";
+        }
+  
+        return res.json({
+          success: true,
+          data: resp,
+        });
+      }
+  
+      if (thang != 12) {
+        resp.content = "KHÔNG THỎA ĐIỀU KIỆN";
+        return res.status(200).json({
+          success: true,
+          data: resp,
+        });
+      }
+
+
+    }
+
+  }
+});
+
 router.get("/getAllImei", async (req, res) => {
   const allListImei = await imeiGiftModel.find();
   const countAllList = await imeiGiftModel.countDocuments();
@@ -1716,7 +1814,7 @@ router.post("/setCauHinhFake", async (req, res) => {
 });
 
 router.get("/getCauHinhFake&owner=:owner", async (req, res) => {
-  
+
   const infoGetCauHinh = await cauHinhFakeModel
     .find({ owner: req.params.owner })
     .sort({ _id: -1 });
@@ -1730,5 +1828,48 @@ router.get("/getCauHinhFake&owner=:owner", async (req, res) => {
     });
   }
 });
+
+router.get("/danhSachDiaChi&soLuong=:soLuong", async (req, res) => {
+
+  num = req.params.soLuong;
+
+  var result = "";
+  for (var i = 0; i < num; i++) {
+    const dataDinhDangDiaChi = fs
+      .readFileSync("./config/dinhDangDiaChi.txt", "utf-8")
+      .toString()
+      .split("\n");
+    let indexDinhDangDiaChi = Math.floor(
+      Math.random() * dataDinhDangDiaChi.length
+    );
+
+    const diaChiTemp = dataDinhDangDiaChi[indexDinhDangDiaChi];
+
+    const listTenDuong = fs
+      .readFileSync("./config/tenDuongVN.txt", "utf-8")
+      .toString()
+      .split("\n");
+    const tenDuongRandom =
+      listTenDuong[[getRndInteger(0, listTenDuong.length)]].trim();
+
+    const soNhaRandom = getRndInteger(1, 100).toString();
+
+    const diaChiTemp1 = diaChiTemp.replace("ABC", tenDuongRandom);
+    const diaChiTemp2 = diaChiTemp1.replace("ABC", tenDuongRandom);
+    const diaChiTemp3 = diaChiTemp2.replace("123", soNhaRandom).trim();
+
+    console.log(diaChiTemp3);
+
+    address = diaChiTemp3;
+
+    result += address
+    result += "<br/>"
+  }
+
+  res.send(result)
+
+
+
+})
 
 module.exports = router;

@@ -83,6 +83,7 @@ app.use('/telegram/account', require('./routes/telegram/account'));
 app.use('/telegram/buffsub', require('./routes/telegram/buffSub'));
 app.use('/telegram/checkImei', require('./routes/telegram/checkImei'));
 app.use('/telegram/listimei', require('./routes/telegram/viewImei'));
+app.use('/telegram/listimeiA52s', require('./routes/telegram/viewImeiA52s'));
 
 app.use('/remote/addDevice', require('./routes/remote/addDevice'));
 app.use('/remote/addScript', require('./routes/remote/addScript'));
