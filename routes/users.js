@@ -607,14 +607,14 @@ router.get("/nghia", async (req, res) => {
 });
 
 router.post("/addAccountTelegram", async (req, res) => {
-  const fileData = await readFilePro(`${__dirname}/../config/output.json`);
-  const dataJson = JSON.parse(fileData);
 
-  let randomIndex = Math.floor(Math.random() * dataJson.length);
+
+  const hoVietNam = await randomHo();
+  const tenVietNam = await randomTen();
 
   let newAccountTelegram = new telegramModel();
-  newAccountTelegram.firstName = dataJson[randomIndex].first_name;
-  newAccountTelegram.lastName = dataJson[randomIndex].last_name;
+  newAccountTelegram.firstName = hoVietNam;
+  newAccountTelegram.lastName = tenVietNam;
   newAccountTelegram.phoneNumber = req.body.phoneNumber;
   newAccountTelegram.otp = req.body.otp;
   newAccountTelegram.deviceName = req.body.deviceName;
@@ -1677,6 +1677,81 @@ router.get("/checkImeiA52s&imei=:imei", async (req, res) => {
     console.log("Model May: " + modelMay + " Date: " + ngay.toString() + "-" + thang.toString());
 
     if (modelMay.search("SM-A52") != -1)
+    {
+      const resp = {
+        imei: result.data.Item.Imei,
+        model: result.data.Item.ModelCode,
+        ngayKichHoat: ngayKichHoat.content,
+        content: "",
+      };
+
+      if (thang == 12 && ngay >= 15) {
+      
+        const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
+        if (checkExists == false) {
+          //update content
+          resp.content = "Imei Xịn. Đã Thêm Vào Database";
+  
+          //chua co du lieu. Them vao database
+          const duLieuImei = new imeiGiftModel();
+          duLieuImei.imei = resp.imei;
+          duLieuImei.model = resp.model;
+          duLieuImei.ngayKichHoat = resp.ngayKichHoat;
+          duLieuImei.content = resp.content;
+  
+          duLieuImei.save();
+        } else {
+          resp.content = "Imei Đã Có Trong Database Rồi !!!";
+        }
+  
+        return res.json({
+          success: true,
+          data: resp,
+        });
+      }
+  
+      if (thang != 12) {
+        resp.content = "KHÔNG THỎA ĐIỀU KIỆN";
+        return res.status(200).json({
+          success: true,
+          data: resp,
+        });
+      }
+
+
+    }
+
+  }
+});
+
+router.get("/checkImeiA32&imei=:imei", async (req, res) => {
+  // up
+  const imeiNumber = req.params.imei;
+  const url = `https://csone.vn/api/mcs?ownerType=3&owner=0911111111&imei=${imeiNumber}`;
+
+  const firstUserAgent = new userAgent({ deviceCategory: "mobile" });
+
+  const result = await axios.get(url, {
+    headers: { "User-Agent": firstUserAgent.toString() },
+  });
+
+  if (result.data.Item.Message == "Not yet activated") {
+    res.status(200).json({
+      status: "fail",
+      message: "Không có imei " + imeiNumber + " trong hệ thống",
+    });
+  } else if (result.data.Item.Message == "Activated") {
+
+    const ngayKichHoat = convertToDate(result.data.Item.SurveyDate);
+    const ngay = parseInt(ngayKichHoat.date);
+    const thang = parseInt(ngayKichHoat.month);
+
+    const modelMay = result.data.Item.ModelCode;
+    
+    //print
+    console.log("Model May: " + modelMay + " Date: " + ngay.toString() + "-" + thang.toString());
+
+    if (modelMay.search("SM-A32") != -1)
     {
       const resp = {
         imei: result.data.Item.Imei,

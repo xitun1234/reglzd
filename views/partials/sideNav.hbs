@@ -71,15 +71,15 @@
                     </a>
 
                     <ul id="telegramdropdownDropdown" class="collapse list-unstyled {{#if TelegramSlideBarActive}}show{{/if}}">
-                        <li {{#if telegramAccountSubMenuAccountActive}} class="active" {{/if}}>
+                        {{!-- <li {{#if telegramAccountSubMenuAccountActive}} class="active" {{/if}}>
                             <a href="/telegram/account/">
                                 <i class="fa fa-cubes"></i>
                                 Quản lý acc</a>
-                        </li>
+                        </li> --}}
                         <li {{#if buffSubSubMenuAccountActive}} class="active" {{/if}}>
                             <a href="/telegram/buffsub/">
                                 <i class="fa fa-coffee"></i>
-                                Buff Sub Channel</a>
+                                Reg Acc</a>
                         </li>
                         <li {{#if CheckImeiSubMenuAccountActive}} class="active" {{/if}}>
                             <a href="/telegram/checkimei/">
@@ -96,6 +96,12 @@
                             <a href="/telegram/listimeiA52s/">
                                 <i class="fa fa-bank"></i>
                                 VIP - Xem List Imei A52s</a>
+                        </li>
+
+                        <li {{#if ViewImeiA32SubMenuAccountActive}} class="active" {{/if}}>
+                            <a href="/telegram/listimeiA32/">
+                                <i class="fa fa-bank"></i>
+                                VIP - Xem List Imei A32</a>
                         </li>
 
 

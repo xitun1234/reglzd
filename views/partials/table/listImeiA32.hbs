@@ -1,0 +1,56 @@
+<div class="row">
+    <div class="col-lg-12">
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        <h3 class="h4">
+                            List IMEI
+                        </h3>
+                    </div>
+                    <div class="card-close">
+                        <button class="btn btn-success btn-sm" id="exportExcel">Xuất excel</button>
+                        <button class='btn btn-danger btn-sm' id="selectAll" value="selectAll">
+                            Chọn tất cả
+                        </button>
+                        <button class='btn btn-info btn-sm' id="copyAllSelected" value="copyAllSelected">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm" id="tableListAccount" style="display:none">
+                                <thead>
+                                    <th>#</th>
+                                    <th>IMEI</th>
+                                    <th>Ngày Kích Hoạt</th>
+                                    <th>Model</th>
+                                    <th>Nội Dung</th>
+                                </thead>
+                                <tbody style="color:black">
+                                    {{#each listAccount}}
+                                    <tr>
+                                        <td>
+                                            <div class="i-checks">
+                                                <input type="checkbox" id="checkBoxSelected"
+                                                    class="checkbox-template checkBoxSelected"
+                                                    dataCopy="{{this.phoneNumber}}">
+                                                <label for="checkBoxSelected">{{add @index 1}}</label>
+                                            </div>
+                                        </td>
+
+                                        <td>{{this.imei}}</td>
+                                        <td>{{this.ngayKichHoat}}</td>
+                                        <td>{{this.model}}</td>
+                                        <td>{{this.content}}</td>
+
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>

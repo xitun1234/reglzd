@@ -63,8 +63,9 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <th>IMEI</th>
-                                    <th>Ngày Kích Hoạt</th>
                                     <th>Model</th>
+                                    <th>Ngày Kích Hoạt</th>
+                                    
                                     <th>Nội Dung</th>
                                 </tr>
                             </thead>
@@ -80,6 +81,8 @@
         let imei = "#imei";
         let btnStart = "#btnStart";
         let btnCheckA52s = "#btnCheckA52s"
+        let btnCheckA32 = "#btnCheckA32"
+
         let listIMEI = "#listIMEI"
         let btnCreate = "#btnCreate";
         let btnCreate1000 = "#btnCreate1000";
@@ -235,7 +238,52 @@
                                 }
 
                                 $(tableResult).append(resultRender);
-                            }, 500)
+                            }, 1000)
+
+                        }
+                    }).always(function () {
+                        let processingCurrentText = Number($(proccessingCurrent).text()) + 1;
+                        $(proccessingCurrent).text(processingCurrentText);
+                    })
+
+                    promises.push(request);
+
+                } catch (error) {}
+            })
+
+        });
+
+        $(btnCheckA32).click(function () {
+            getCountAll();
+            $(proccessingCurrent).text(0);
+            let listIMEICreate = $(listIMEI).val().trim().replace(/^\s*\n/gm, "").split('\n');
+            let promises = [];
+            $.each(listIMEICreate, function (index, item) {
+                try {
+                    let request = $.ajax({
+                        url: `../../api/checkImeiA32&imei=${item}`,
+                        dataType: 'json',
+                        type: 'GET',
+                        success: function (result) {
+                            setTimeout(function () {
+                                console.log(result);
+                                
+                                let resultRender = "";
+                                if (result.success == true) {
+                                    resultRender = Handlebars.compile(`<tr><td>${
+                                        result.data.imei
+                                    }</td><td>${
+                                        result.data.model
+                                    }</td><td>${
+                                        result.data.ngayKichHoat
+                                    }</td>
+                                <td>${
+                                        result.data.content
+                                    }</td></tr>`);
+                                }
+
+                                $(tableResult).append(resultRender);
+                            }, 1000)
 
                         }
                     }).always(function () {

@@ -14,6 +14,7 @@ router.use((req, res, next) => {
 router.get('/', async function(req, res) {
   res.render('telegram/buffsub', {
     userData: req.user,
+    title:"Tạo Acc Telegram",
     TelegramSlideBarActive: true,
     buffSubSubMenuAccountActive: true,
     //
