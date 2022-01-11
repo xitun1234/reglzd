@@ -1670,11 +1670,12 @@ router.get("/checkImeiA52s&imei=:imei", async (req, res) => {
     const ngayKichHoat = convertToDate(result.data.Item.SurveyDate);
     const ngay = parseInt(ngayKichHoat.date);
     const thang = parseInt(ngayKichHoat.month);
+    const nam = parseInt(ngayKichHoat.year);
 
     const modelMay = result.data.Item.ModelCode;
     
     //print
-    console.log("Model May: " + modelMay + " Date: " + ngay.toString() + "-" + thang.toString());
+    console.log("Model May: " + modelMay + " Date: " + ngay.toString() + "-" + thang.toString() + "-" + nam.toString());
 
     if (modelMay.search("SM-A52") != -1)
     {
@@ -1687,6 +1688,30 @@ router.get("/checkImeiA52s&imei=:imei", async (req, res) => {
 
       if (thang == 12 && ngay >= 15) {
       
+        const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
+        if (checkExists == false) {
+          //update content
+          resp.content = "Imei Xịn. Đã Thêm Vào Database";
+  
+          //chua co du lieu. Them vao database
+          const duLieuImei = new imeiGiftModel();
+          duLieuImei.imei = resp.imei;
+          duLieuImei.model = resp.model;
+          duLieuImei.ngayKichHoat = resp.ngayKichHoat;
+          duLieuImei.content = resp.content;
+  
+          duLieuImei.save();
+        } else {
+          resp.content = "Imei Đã Có Trong Database Rồi !!!";
+        }
+  
+        return res.json({
+          success: true,
+          data: resp,
+        });
+      }
+
+      else if (thang == 1 && nam == 2022){
         const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
         if (checkExists == false) {
           //update content
@@ -1745,6 +1770,7 @@ router.get("/checkImeiA32&imei=:imei", async (req, res) => {
     const ngayKichHoat = convertToDate(result.data.Item.SurveyDate);
     const ngay = parseInt(ngayKichHoat.date);
     const thang = parseInt(ngayKichHoat.month);
+    const nam = parseInt(ngayKichHoat.year);
 
     const modelMay = result.data.Item.ModelCode;
     
@@ -1784,8 +1810,32 @@ router.get("/checkImeiA32&imei=:imei", async (req, res) => {
           data: resp,
         });
       }
+
+      else if (thang == 1 && nam == 2022){
+        const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
+        if (checkExists == false) {
+          //update content
+          resp.content = "Imei Xịn. Đã Thêm Vào Database";
   
-      if (thang != 12) {
+          //chua co du lieu. Them vao database
+          const duLieuImei = new imeiGiftModel();
+          duLieuImei.imei = resp.imei;
+          duLieuImei.model = resp.model;
+          duLieuImei.ngayKichHoat = resp.ngayKichHoat;
+          duLieuImei.content = resp.content;
+  
+          duLieuImei.save();
+        } else {
+          resp.content = "Imei Đã Có Trong Database Rồi !!!";
+        }
+  
+        return res.json({
+          success: true,
+          data: resp,
+        });
+      }
+  
+      else if (thang != 12) {
         resp.content = "KHÔNG THỎA ĐIỀU KIỆN";
         return res.status(200).json({
           success: true,
