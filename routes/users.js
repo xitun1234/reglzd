@@ -1735,7 +1735,7 @@ router.get("/checkImeiA52s&imei=:imei", async (req, res) => {
         });
       }
   
-      if (thang != 12) {
+      else {
         resp.content = "KHÔNG THỎA ĐIỀU KIỆN";
         return res.status(200).json({
           success: true,
@@ -1835,7 +1835,7 @@ router.get("/checkImeiA32&imei=:imei", async (req, res) => {
         });
       }
   
-      if (thang != 12) {
+      else  {
         resp.content = "KHÔNG THỎA ĐIỀU KIỆN";
         return res.status(200).json({
           success: true,
