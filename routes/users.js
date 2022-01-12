@@ -1754,7 +1754,7 @@ router.get("/checkImeiA32&imei=:imei", async (req, res) => {
   const imeiNumber = req.params.imei;
   const url = `https://csone.vn/api/mcs?ownerType=3&owner=0911111111&imei=${imeiNumber}`;
 
-  const firstUserAgent = new userAgent({ deviceCategory: "mobile" });
+  const firstUserAgent = new userAgent();
 
   const result = await axios.get(url, {
     headers: { "User-Agent": firstUserAgent.toString() },
