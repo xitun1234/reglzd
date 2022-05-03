@@ -42,7 +42,7 @@ const KhoDuLieuDatHang = require("../models/KhoDatHangModel");
 var Imap = require("imap"),
   inspect = require("util").inspect;
 
-const randomUnique = require('random-all');
+
 /* GET users listing. */
 
 router.get("/", function (req, res, next) {
