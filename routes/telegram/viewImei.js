@@ -13,9 +13,21 @@ router.get('/', async function(req,res){
         ...req.query
     }
 
-    const listImei = await imeiGiftModel.find().exec((err, result)=>{
-        
-        res.render('telegram/viewImei',{
+    res.render('telegram/viewImei',{
+        userData:req.user,
+        TelegramSlideBarActive: true,
+        title:"All List Imei",
+        ViewImeiSubMenuAccountActive: true,
+
+    });
+});
+
+router.post('/test', async (req, res, next) => {
+    console.log('asd')
+    const stringA53 = "SM-A536"
+    const listImeiA53 = await imeiGiftModel.find({model: {$regex: stringA53, $options: 'i'}}).exec((err, result)=>{
+    
+    res.render('telegram/viewImei',{
             userData:req.user,
             TelegramSlideBarActive: true,
             title:"All List Imei",
@@ -25,12 +37,6 @@ router.get('/', async function(req,res){
                 limit: req.query.limit || 100
             }
         });
-    });
-
-    const stringA52s = "SM-A52"
-    const listImeiA52s = await imeiGiftModel.find({model: {$regex: stringA52s, $options: 'i'}}).exec((err, result)=>{
-        console.log("test:" + result)
-        
     });
 });
 

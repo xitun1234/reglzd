@@ -38,6 +38,10 @@ body, html {
 	height: 100%;
 	font-family: Poppins-Regular, sans-serif;
 }
+.fill { 
+  min-height: 100%;
+  height: 100%;
+}
 
 /*---------------------------------------------*/
 a {

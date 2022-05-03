@@ -1,22 +1,34 @@
-<div class="container-fluid">
+<div class="container-fluid content-row">
     <div class="row">
         <div class="col-lg-4">
-            <div class="card">
+            <div class="card h-100" >
                 <div class="card-header d-flex align-items-center">
                     <h3>Input Imei</h3>
 
                 </div>
-                <div class="card-body" style="min-height: 500px">
+                <div class="card-body h-100" >
                     <form>
                         <div class="row">
                             <div class="col-md-8">
                                 <input type="text" class="form-control" name="" id="imei" maxlength="15" placeholder="Imei Number"></div>
-                                <div class="col-md-4">
-                                    <button type="button" class="btn btn-block btn-success btn-sm" id="btnCreate">Tạo 1K</button>
+
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-block btn-warning btn-sm" id="btnAdd">+</button>
                                 </div>
-                                <div class="col-md-6 pt-3">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-block btn-info btn-sm" id="btnSubtract">-</button>
+                                </div>
+                                
+                                
+                                <div class="col-md-8 pt-3">
                                     <button type="button" class="btn btn-block btn-danger btn-sm" id="btnCreate1000">Tạo 10K Imei</button>
                                 </div>
+
+                                <div class="col-md-4 pt-3">
+                                    <button type="button" class="btn btn-block btn-success btn-sm" id="btnCreate">Tạo 1K</button>
+                                    
+                                </div>
+                                
                                 <div class="col-lg-12 pt-3">
                                     <div class="form-group">
                                         <textarea class="form-control" name="" id="listIMEI" rows="12"></textarea>
@@ -38,16 +50,33 @@
                                     <button type="button" class="btn btn-block btn-warning btn-sm" id="btnCheckA32">Check Imei A32</button>
                                 </div>
 
+                                <div class="col-lg-12 pt-3">
+                                    <button type="button" class="btn btn-block btn-dark btn-sm" id="btnCheckA53">Check IMEI A53 5G</button>
+                                </div>
+
+                                <div class="col-lg-12 pt-3">
+                                    <button type="button" class="btn btn-block btn-info btn-sm" id="btnCheckA73">Check IMEI A73 5G</button>
+                                </div>
+
+                                <div class="col-lg-12 pt-3">
+                                    <button type="button" class="btn btn-block btn-success btn-sm" id="btnCheckA33">Check IMEI A33 5G</button>
+                                </div>
+
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
             <div class="col-lg-8">
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-header d-flex align-items-center">
-                        <div class="col-10">
-                            <h3 class="h4">Result</h3>
+                        <div class="col-8">
+                            <h3 class="h4">Kết Quả</h3>
+                        </div>
+                        <div class="col-2">
+                            <div class="badge badge-success h3 text-light">
+                                <span id="successImei">0</span>
+                            </div>
                         </div>
                         <div class="col-2">
                             <div class="badge bg-primary h5 text-light">
@@ -55,11 +84,12 @@
                                 /
                                 <span id="proccessingAll">0</span>
                             </div>
+                            
                         </div>
 
                     </div>
                     <div class="card-body" style="min-height:500px" id="resultShow">
-                        <table class="table w-auto small text-info font-weight-bold">
+                        <table class="table w-auto small text-success font-weight-bold">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>IMEI</th>
@@ -89,6 +119,10 @@
         let tableResult = "#tableResult";
         let proccessingCurrent = '#proccessingCurrent';
         let proccessingAll = '#proccessingAll';
+        let successImei = '#successImei';
+
+        let btnAdd = '#btnAdd';
+        let btnSubtract = '#btnSubtract';
 
 
         $(btnCreate1000).click(function () {
@@ -149,6 +183,23 @@
 
                 $(listIMEI).append(test);
             }
+        })
+
+
+        $(btnAdd).click(function(){
+            let imeiBanDau = $(imei).val()
+            let imeiLucSau = (Number(imeiBanDau) + 1).toString();
+            
+            //parse Data
+            $(imei).val(imeiLucSau)
+        })
+
+        $(btnSubtract).click(function(){
+            let imeiBanDau = $(imei).val()
+            let imeiLucSau = (Number(imeiBanDau) - 1).toString();
+            
+            //parse Data
+            $(imei).val(imeiLucSau)
         })
 
 
@@ -297,4 +348,169 @@
             })
 
         });
+
+
+        $(btnCheckA53).click(function () {
+            getCountAll();
+            $(proccessingCurrent).text(0);
+            let listIMEICreate = $(listIMEI).val().trim().replace(/^\s*\n/gm, "").split('\n');
+            let promises = [];
+
+            let imeiCount = 0;
+            $.each(listIMEICreate, function (index, item) {
+                try {
+                    let request = $.ajax({
+                        url: `../../api/imeiA53`,
+                        dataType: 'json',
+                        data: {
+                            'imei': item,
+                        },
+                        type: 'POST',
+                        
+                        success: function (result) {
+                            setTimeout(function () {
+                                console.log(result);
+                                
+                                let resultRender = "";
+                                if (result.success == true) {
+                                    resultRender = Handlebars.compile(`<tr><td>${
+                                        result.data.imei
+                                    }</td><td>${
+                                        result.data.model
+                                    }</td><td>${
+                                        result.data.ngayKichHoat
+                                    }</td>
+                                <td>${
+                                        result.data.content
+                                    }</td></tr>`);
+
+                                    imeiCount++;
+                                }
+                                
+
+                                $(tableResult).append(resultRender);
+                                $(successImei).text(imeiCount);
+                            }, 1000)
+
+                        }
+                    }).always(function () {
+                        let processingCurrentText = Number($(proccessingCurrent).text()) + 1;
+                        $(proccessingCurrent).text(processingCurrentText);
+                    })
+
+                    promises.push(request);
+
+                } catch (error) {}
+            })
+        });
+
+        $(btnCheckA73).click(function () {
+            getCountAll();
+            $(proccessingCurrent).text(0);
+            let listIMEICreate = $(listIMEI).val().trim().replace(/^\s*\n/gm, "").split('\n');
+            let promises = [];
+
+            let imeiCount = 0;
+            $.each(listIMEICreate, function (index, item) {
+                try {
+                    let request = $.ajax({
+                        url: `../../api/imeiA73`,
+                        dataType: 'json',
+                        data: {
+                            'imei': item,
+                        },
+                        type: 'POST',
+                        
+                        success: function (result) {
+                            setTimeout(function () {
+                                console.log(result);
+                                
+                                let resultRender = "";
+                                if (result.success == true) {
+                                    resultRender = Handlebars.compile(`<tr><td>${
+                                        result.data.imei
+                                    }</td><td>${
+                                        result.data.model
+                                    }</td><td>${
+                                        result.data.ngayKichHoat
+                                    }</td>
+                                <td>${
+                                        result.data.content
+                                    }</td></tr>`);
+
+                                    imeiCount++;
+                                }
+                                
+
+                                $(tableResult).append(resultRender);
+                                $(successImei).text(imeiCount);
+                            }, 1000)
+
+                        }
+                    }).always(function () {
+                        let processingCurrentText = Number($(proccessingCurrent).text()) + 1;
+                        $(proccessingCurrent).text(processingCurrentText);
+                    })
+
+                    promises.push(request);
+
+                } catch (error) {}
+            })
+        });
+
+
+        $(btnCheckA33).click(function () {
+            getCountAll();
+            $(proccessingCurrent).text(0);
+            let listIMEICreate = $(listIMEI).val().trim().replace(/^\s*\n/gm, "").split('\n');
+            let promises = [];
+
+            let imeiCount = 0;
+            $.each(listIMEICreate, function (index, item) {
+                try {
+                    let request = $.ajax({
+                        url: `../../api/imeiA33`,
+                        dataType: 'json',
+                        data: {
+                            'imei': item,
+                        },
+                        type: 'POST',
+                        
+                        success: function (result) {
+                            setTimeout(function () {
+                                console.log(result);
+                                
+                                let resultRender = "";
+                                if (result.success == true) {
+                                    resultRender = Handlebars.compile(`<tr><td>${
+                                        result.data.imei
+                                    }</td><td>${
+                                        result.data.model
+                                    }</td><td>${
+                                        result.data.ngayKichHoat
+                                    }</td>
+                                <td>${
+                                        result.data.content
+                                    }</td></tr>`);
+
+                                    imeiCount++;
+                                }
+                                
+
+                                $(tableResult).append(resultRender);
+                                $(successImei).text(imeiCount);
+                            }, 1000)
+
+                        }
+                    }).always(function () {
+                        let processingCurrentText = Number($(proccessingCurrent).text()) + 1;
+                        $(proccessingCurrent).text(processingCurrentText);
+                    })
+
+                    promises.push(request);
+
+                } catch (error) {}
+            })
+        });
+
     </script>

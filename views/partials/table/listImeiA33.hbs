@@ -31,26 +31,24 @@
                                 </thead>
                                 <tbody style="color:black">
                                     {{#each listAccount}}
-                                    <tr>
-                                        <td>
-                                            <div class="i-checks">
-                                                <input type="checkbox" id="checkBoxSelected"
-                                                    class="checkbox-template checkBoxSelected"
-                                                    dataCopy="{{this.phoneNumber}}">
-                                                <label for="checkBoxSelected">{{add @index 1}}</label>
-                                            </div>
-                                        </td>
+                                        <tr>
+                                            <td>
+                                                <div class="i-checks">
+                                                    <input type="checkbox" id="checkBoxSelected" class="checkbox-template checkBoxSelected" dataCopy="{{this.phoneNumber}}">
+                                                        <label for="checkBoxSelected">{{add @index 1}}</label>
+                                                    </div>
+                                                </td>
 
-                                        <td>{{this.imei}}</td>
-                                        <td>{{this.ngayKichHoat}}</td>
-                                        <td>{{this.model}}</td>
-                                        <td>{{this.content}}</td>
+                                                <td>{{this.imei}}</td>
+                                                <td>{{this.ngayKichHoat}}</td>
+                                                <td>{{this.model}}</td>
+                                                <td>{{this.content}}</td>
 
-                                    </tr>
-                                    {{/each}}
-                                </tbody>
-                            </table>
+                                            </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>

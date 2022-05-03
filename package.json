@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@handlebars/allow-prototype-access": "^1.0.3",
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
     "connect-ensure-login": "^0.1.1",
@@ -23,7 +23,7 @@
     "dotenv": "^8.2.0",
     "emailjs-imap-client": "^3.1.0",
     "express": "^4.16.4",
-    "express-handlebars": "^5.2.0",
+    "express-handlebars": "^5.3.5",
     "express-session": "^1.17.1",
     "fs": "0.0.1-security",
     "handlebars-helpers": "^0.10.0",
@@ -33,21 +33,23 @@
     "imap-simple": "^5.1.0",
     "imapflow": "^1.0.59",
     "jsonwebtoken": "^8.5.1",
-    "mailparser": "^3.2.0",
+    "mailparser": "^3.5.0",
     "moment-timezone": "^0.5.33",
     "mongoose": "^5.10.11",
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
     "node-imap": "^0.9.6",
-    "node-xlsx": "^0.15.0",
+    "node-xlsx": "^0.21.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.0.1",
+    "random-all": "^1.1.0",
     "underscore": "^1.13.1",
+    "unique-random": "^3.0.0",
     "user-agents": "^1.0.779"
   },
   "devDependencies": {
-    "handlebars": "^4.7.6",
+    "handlebars": "^4.7.7",
     "nodemon": "^2.0.7"
   }
 }

@@ -85,6 +85,9 @@ app.use('/telegram/checkImei', require('./routes/telegram/checkImei'));
 app.use('/telegram/listimei', require('./routes/telegram/viewImei'));
 app.use('/telegram/listimeiA52s', require('./routes/telegram/viewImeiA52s'));
 app.use('/telegram/listimeiA32', require('./routes/telegram/viewImeiA32'));
+app.use('/telegram/listimeiA53', require('./routes/telegram/viewImeiA53'));
+app.use('/telegram/listimeiA73', require('./routes/telegram/viewImeiA73'));
+app.use('/telegram/listimeiA33', require('./routes/telegram/viewImeiA33'));
 
 app.use('/remote/addDevice', require('./routes/remote/addDevice'));
 app.use('/remote/addScript', require('./routes/remote/addScript'));
