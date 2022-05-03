@@ -320,10 +320,11 @@ router.get("/datagmail", async (req, res) => {
 
   
   var password =
-  removeVietnameseTones(dataJson[randomIndex].last_name_group) +
   removeVietnameseTones(dataJson[randomIndex].first_name) +
-    (getRndInteger(10000, 99999).toString()) +
+    (getRndInteger(1000, 99999).toString()) +
     arrayKiTu[randomKiTu1];
+
+  
 
   var gmail =
     removeVietnameseTones(dataJson[randomIndex].last_name_group) +
