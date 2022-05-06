@@ -308,6 +308,15 @@ function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function removeDuplicateCharacters(string) {
+  return string
+    .split('')
+    .filter(function(item, pos, self) {
+      return self.indexOf(item) == pos;
+    })
+    .join('');
+}
+
 router.get("/datagmail", async (req, res) => {
   const fileData = await readFilePro(`${__dirname}/../config/output.json`);
   const dataJson = JSON.parse(fileData);
@@ -324,7 +333,10 @@ router.get("/datagmail", async (req, res) => {
     (getRndInteger(1000, 99999).toString()) +
     arrayKiTu[randomKiTu1];
 
-  
+  var passwordChuanHoa = removeDuplicateCharacters(password)
+
+  console.log("Pass: " + password)
+  console.log("Pass chuan hoa: " + passwordChuanHoa)
 
   var gmail =
     removeVietnameseTones(dataJson[randomIndex].last_name_group) +
@@ -349,7 +361,7 @@ router.get("/datagmail", async (req, res) => {
     status: "success",
     fullname: dataJson[randomIndex].full_name,
     gmail: gmail,
-    password: password,
+    password: passwordChuanHoa,
     first_name: first_name,
     last_name_group: dataJson[randomIndex].last_name_group,
     phoneNumber: arrayPhone[randomIndexPhone],
