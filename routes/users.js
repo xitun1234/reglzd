@@ -324,14 +324,15 @@ router.get("/datagmail", async (req, res) => {
   let randomIndex = Math.floor(Math.random() * dataJson.length);
 
   var arrayKiTu = ["!", "@", "#", "%", "&"];
+  var arrayKiTu1 = ["%", "&"];
   let randomKiTu1 = Math.floor(Math.random() * arrayKiTu.length);
-  let randomKiTu2 = Math.floor(Math.random() * arrayKiTu.length);
+  let randomKiTu2 = Math.floor(Math.random() * arrayKiTu1.length);
 
   
   var password =
   removeVietnameseTones(dataJson[randomIndex].first_name) +
-    (getRndInteger(1000, 99999).toString()) +
-    arrayKiTu[randomKiTu1];
+    (getRndInteger(10000, 99999).toString()) +
+    arrayKiTu[randomKiTu1] + arrayKiTu1[randomKiTu2];
 
   var passwordChuanHoa = removeDuplicateCharacters(password)
 
