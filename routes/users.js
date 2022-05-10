@@ -2230,4 +2230,13 @@ router.get("/danhSachDiaChi&soLuong=:soLuong", async (req, res) => {
 
 })
 
+router.post("/checkSoLuongImei", async (req,res) =>{
+  const tenMauMay = req.body.modelMay;
+  
+
+  const listImei = await imeiGiftModel.find({model: {$regex: tenMauMay, $options: 'i'}}).exec();
+  console.log("helo: " + listImei.length)
+  res.json({total: listImei.length})
+})
+
 module.exports = router;
