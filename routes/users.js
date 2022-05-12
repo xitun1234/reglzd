@@ -362,7 +362,7 @@ router.get("/datagmail", async (req, res) => {
     status: "success",
     fullname: dataJson[randomIndex].full_name,
     gmail: gmail,
-    password: passwordChuanHoa,
+    password: "MaiNgn9235!%",
     first_name: first_name,
     last_name_group: dataJson[randomIndex].last_name_group,
     phoneNumber: arrayPhone[randomIndexPhone],
