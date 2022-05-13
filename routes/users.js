@@ -318,6 +318,16 @@ function removeDuplicateCharacters(string) {
 }
 
 router.get("/datagmail", async (req, res) => {
+  const listMatKhau = fs
+      .readFileSync("./config/dataMatKhau.txt", "utf-8")
+      .toString()
+      .split("\n");
+    const matKhauRandom =
+    listMatKhau[[getRndInteger(0, listMatKhau.length)]].trim();
+
+    
+
+
   const fileData = await readFilePro(`${__dirname}/../config/output.json`);
   const dataJson = JSON.parse(fileData);
 
@@ -362,7 +372,7 @@ router.get("/datagmail", async (req, res) => {
     status: "success",
     fullname: dataJson[randomIndex].full_name,
     gmail: gmail,
-    password: "MaiNgn9235!%",
+    password: matKhauRandom,
     first_name: first_name,
     last_name_group: dataJson[randomIndex].last_name_group,
     phoneNumber: arrayPhone[randomIndexPhone],
