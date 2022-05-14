@@ -1843,7 +1843,7 @@ router.post("/imeiA53", async(req,res)=>{
         });
       }
 
-      else if (thang == 4 && nam == 2022){
+      else if (thang >= 4 && nam == 2022){
         const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
         if (checkExists == false) {
           //update content
@@ -2024,7 +2024,7 @@ router.post("/imeiA33", async(req,res)=>{
         content: "",
       };
 
-      if (thang == 4 && ngay >= 11) {
+      if (thang == 4 && ngay >= 22) {
       
         const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
         if (checkExists == false) {
