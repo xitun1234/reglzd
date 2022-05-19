@@ -435,7 +435,6 @@ Bac4953#
 Lam53511&
 Hung13630#
 Kha5211@
-Tan74326%
 Giap62387@
 Hoa45769@
 Duy64022#
@@ -681,7 +680,6 @@ Dat55714%
 Vinh48047&
 Chien61822@
 Ngan52106%
-Quyet44326!
 Nam31507%
 NguyenTh7250&
 NguyenTh7250&
@@ -1009,7 +1007,6 @@ NguyenDai9273!&
 Dangc305#%
 NguyenSo3928!%
 NgoQua621&%
-NguyenHai6309@&
 ChauNgyen261#&
 TranLih506&
 PhamNgi5682&%
@@ -1043,7 +1040,6 @@ LeThan6135%&
 NguyenTha5274&%
 Trani589&%
 DoManh580!%
-BuøiHoang216!%
 NguyenPhi732!%
 NguyenLo581&
 HoangS645!%
@@ -1124,7 +1120,6 @@ VanLih935@&
 TramKho5391&
 NguyenD584!%
 LeTung8670!&
-BuiTran9345%&
 NguyenLam9453#%
 Danguy514%
 HuynhBao6972%&
@@ -1775,7 +1770,6 @@ BuiHng6812%&
 HuynhLoi3759!&
 TranVu5762&
 DauTr6394%&
-TuKhan432&
 PhamQuyet980%
 Trani760#&
 HuynhDg5419#&
@@ -2035,7 +2029,6 @@ Tranh5019&
 NguyenLa243@%
 TranLu7052!&
 NguyenChi534%
-TranVu6234!&
 NguyenHop3629!%
 TranSi534%
 NguyenKha760&%
@@ -2061,7 +2054,6 @@ NguyenTi910%
 Nguyenh412@&
 Daoinh459!%
 MaiTh1635!&
-NguyenHo8769!&
 VanLu562!%
 NguyenDo2361%&
 Nguyenho537%&
@@ -2074,7 +2066,6 @@ LamTrung3067&%
 NguyenHai9283&
 VoLinh570%&
 NguyenCo426%
-VuTrng38!%
 DinhTo9340&
 KhauHong105&
 NguyenTi32#&
@@ -2112,8 +2103,7 @@ LeAnh130%&
 PhamBin2861#&
 DoHau1645@%
 TranLih459#&
-TranV742!&
-NghiemHp105%&
+TranV742!&%
 DaoHung5094&
 LocTien390@%
 DangTie409&%
