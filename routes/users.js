@@ -21,6 +21,10 @@ const khoDuLieuDatHangModel = require("../models/KhoDatHangModel");
 const imeiGiftModel = require("../models/ImeiGiftModel");
 const cauHinhFakeModel = require("../models/CauHinhFakeModel");
 
+const teleGmailModel = require("../models/TeleGmailModel");
+const telePhoneRentModel = require("../models/TelePhoneRentModel");
+
+
 const fs = require("fs");
 const multer = require("multer");
 const path = require("path");
@@ -2248,5 +2252,135 @@ router.post("/checkSoLuongImei", async (req,res) =>{
   console.log("helo: " + listImei.length)
   res.json({total: listImei.length})
 })
+
+
+
+router.post("/setkhogmail", async (req, res) => {
+  let duLieuGmail = new teleGmailModel();
+
+  //init
+  const gmail = req.body.gmail;
+  const password = req.body.password;
+  const mailkp = req.body.mailkp;
+  const otpRegTele = req.body.otpRegTele;
+  const deviceName = req.body.deviceName;
+  
+  //set
+  duLieuGmail.gmail = gmail;
+  duLieuGmail.password = password;
+  duLieuGmail.mailkp = mailkp;
+  duLieuGmail.otpRegTele = otpRegTele;
+  duLieuGmail.deviceName = deviceName;
+
+  duLieuGmail.save();
+
+  res.json({
+    success: true,
+    data: duLieuGmail,
+  });
+});
+
+router.get("/getGmailTele&deviceName=:deviceName", async (req, res) => {
+  const infoData = await teleGmailModel.findOne(
+    {
+      deviceName: req.params.deviceName,
+    },
+    {},
+    { sort: { _id: -1 } }
+  );
+  
+  if (infoData) {
+    res.json({
+      status: "success",
+      data: infoData,
+    });
+  } else {
+    res.json({
+      status: "fail",
+      data: null,
+    });
+  }
+});
+
+router.post("/updateOTPGmail", async (req, res) => {
+  const filter = {
+    gmail: req.body.gmail,
+    deviceName: req.body.deviceName
+  };
+
+  const update = {
+    otpRegTele: req.body.otpRegTele,
+
+  };
+
+  let resultUpdate = await teleGmailModel.findOneAndUpdate(filter, update);
+
+  res.status(200).json({
+    success: true,
+    data: resultUpdate,
+  });
+});
+
+router.post("/setphonerent", async (req, res) => {
+  let duLieuPhoneRent = new telePhoneRentModel();
+
+  //init
+  const phoneRent = req.body.phoneRent;
+  
+  const deviceName = req.body.deviceName;
+  
+  //set
+  duLieuPhoneRent.phoneRent = phoneRent;
+  duLieuPhoneRent.deviceName = deviceName;
+  
+
+  duLieuPhoneRent.save();
+
+  res.json({
+    success: true,
+    data: duLieuPhoneRent,
+  });
+});
+
+router.get("/getPhoneRent&deviceName=:deviceName", async (req, res) => {
+  const infoData = await telePhoneRentModel.findOne(
+    {
+      deviceName: req.params.deviceName,
+    },
+    {},
+    { sort: { _id: -1 } }
+  );
+  
+  if (infoData) {
+    res.json({
+      status: "success",
+      data: infoData,
+    });
+  } else {
+    res.json({
+      status: "fail",
+      data: null,
+    });
+  }
+});
+
+router.post("/updateOTPPhoneRent", async (req, res) => {
+  const filter = {
+    phoneRent: req.body.phoneRent,
+    deviceName: req.body.deviceName
+  };
+
+  const update = {
+    otp: req.body.otp,
+
+  };
+
+  let resultUpdate = await telePhoneRentModel.findOneAndUpdate(filter, update);
+
+  res.status(200).json({
+    success: true,
+    data: resultUpdate,
+  });
+});
 
 module.exports = router;
