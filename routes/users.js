@@ -2313,7 +2313,9 @@ router.post("/updateOTPGmail", async (req, res) => {
 
   };
 
-  let resultUpdate = await teleGmailModel.findOneAndUpdate(filter, update);
+  let options = { multi: true, upsert: true };
+
+  let resultUpdate = await teleGmailModel.updateMany(filter, update,options);
 
   res.status(200).json({
     success: true,
@@ -2375,7 +2377,9 @@ router.post("/updateOTPPhoneRent", async (req, res) => {
 
   };
 
-  let resultUpdate = await telePhoneRentModel.findOneAndUpdate(filter, update);
+  let options = { multi: true, upsert: true };
+
+  let resultUpdate = await telePhoneRentModel.updateMany(filter, update,options);
 
   res.status(200).json({
     success: true,
