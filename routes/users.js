@@ -2261,14 +2261,14 @@ router.post("/setkhogmail", async (req, res) => {
   //init
   const gmail = req.body.gmail;
   const password = req.body.password;
-  const mailkp = req.body.mailkp;
+  const mailKP = req.body.mailKP;
   const otpRegTele = req.body.otpRegTele;
   const deviceName = req.body.deviceName;
   
   //set
   duLieuGmail.gmail = gmail;
   duLieuGmail.password = password;
-  duLieuGmail.mailkp = mailkp;
+  duLieuGmail.mailKP = mailKP;
   duLieuGmail.otpRegTele = otpRegTele;
   duLieuGmail.deviceName = deviceName;
 
