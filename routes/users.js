@@ -24,7 +24,6 @@ const cauHinhFakeModel = require("../models/CauHinhFakeModel");
 const teleGmailModel = require("../models/TeleGmailModel");
 const telePhoneRentModel = require("../models/TelePhoneRentModel");
 
-
 const fs = require("fs");
 const multer = require("multer");
 const path = require("path");
@@ -45,7 +44,6 @@ const KhoDuLieuDatHang = require("../models/KhoDatHangModel");
 
 var Imap = require("imap"),
   inspect = require("util").inspect;
-
 
 /* GET users listing. */
 
@@ -159,16 +157,30 @@ router.get("/fullname", async (req, res) => {
 });
 
 router.get("/nametelegram", async (req, res) => {
-  const fileData = await readFilePro(`${__dirname}/../config/output.json`);
-  const dataJson = JSON.parse(fileData);
+  const dataFirstname = fs
+    .readFileSync("./config/Firstname.txt", "utf-8")
+    .toString()
+    .split("\r\n");
+  let indexDinhDangFirstname = Math.floor(
+    Math.random() * dataFirstname.length
+  );
 
-  let randomIndex = Math.floor(Math.random() * dataJson.length);
-  console.log(dataJson[randomIndex]);
+  const Firstname = dataFirstname[indexDinhDangFirstname];
+
+  const dataLastname = fs
+    .readFileSync("./config/Lastname.txt", "utf-8")
+    .toString()
+    .split("\r\n");
+  let indexDinhDangLastname = Math.floor(
+    Math.random() * dataLastname.length
+  );
+
+  const Lastname = dataLastname[indexDinhDangLastname];
 
   res.status(200).json({
     status: "success",
-    firstName: dataJson[randomIndex].first_name,
-    lastName: dataJson[randomIndex].last_name,
+    firstName: Firstname,
+    lastName: Lastname,
   });
 });
 
@@ -314,23 +326,20 @@ function getRndInteger(min, max) {
 
 function removeDuplicateCharacters(string) {
   return string
-    .split('')
-    .filter(function(item, pos, self) {
+    .split("")
+    .filter(function (item, pos, self) {
       return self.indexOf(item) == pos;
     })
-    .join('');
+    .join("");
 }
 
 router.get("/datagmail", async (req, res) => {
   const listMatKhau = fs
-      .readFileSync("./config/dataMatKhau.txt", "utf-8")
-      .toString()
-      .split("\n");
-    const matKhauRandom =
+    .readFileSync("./config/dataMatKhau.txt", "utf-8")
+    .toString()
+    .split("\n");
+  const matKhauRandom =
     listMatKhau[[getRndInteger(0, listMatKhau.length)]].trim();
-
-    
-
 
   const fileData = await readFilePro(`${__dirname}/../config/output.json`);
   const dataJson = JSON.parse(fileData);
@@ -342,27 +351,24 @@ router.get("/datagmail", async (req, res) => {
   let randomKiTu1 = Math.floor(Math.random() * arrayKiTu.length);
   let randomKiTu2 = Math.floor(Math.random() * arrayKiTu1.length);
 
-  
-  var password = removeVietnameseTones(dataJson[randomIndex].last_name_group) +
-  removeVietnameseTones(dataJson[randomIndex].first_name) +
-    (getRndInteger(1000, 9999).toString()) +
-    arrayKiTu[randomKiTu1] + arrayKiTu1[randomKiTu2];
+  var password =
+    removeVietnameseTones(dataJson[randomIndex].last_name_group) +
+    removeVietnameseTones(dataJson[randomIndex].first_name) +
+    getRndInteger(1000, 9999).toString() +
+    arrayKiTu[randomKiTu1] +
+    arrayKiTu1[randomKiTu2];
 
-  var passwordChuanHoa = removeDuplicateCharacters(password)
+  var passwordChuanHoa = removeDuplicateCharacters(password);
 
-  console.log("Pass: " + password)
-  console.log("Pass chuan hoa: " + passwordChuanHoa)
+  console.log("Pass: " + password);
+  console.log("Pass chuan hoa: " + passwordChuanHoa);
 
   var gmail =
     removeVietnameseTones(dataJson[randomIndex].last_name_group) +
     removeVietnameseTones(dataJson[randomIndex].first_name).toLowerCase() +
     getRandomString(getRndInteger(2, 4)) +
     getRandomNumber(getRndInteger(2, 4));
-  var arrayPhone = [
-    "0564975233",
-    "0564975451",
-    
-  ];
+  var arrayPhone = ["0564975233", "0564975451"];
 
   var addressName = ["Tô Hiến Thành", "Hòa Hưng"];
 
@@ -544,8 +550,6 @@ router.get("/nghia", async (req, res) => {
 });
 
 router.post("/addAccountTelegram", async (req, res) => {
-
-
   const hoVietNam = await randomHo();
   const tenVietNam = await randomTen();
 
@@ -822,7 +826,7 @@ router.get("/dataTanPhu", async (req, res) => {
     phoneNumber: phoneNumber,
     address: diaChiTemp3,
     hoVietNam: hoVietNam,
-    tenVietNam: tenVietNam
+    tenVietNam: tenVietNam,
   });
 });
 
@@ -1603,19 +1607,26 @@ router.get("/checkImeiA52s&imei=:imei", async (req, res) => {
       message: "Không có imei " + imeiNumber + " trong hệ thống",
     });
   } else if (result.data.Item.Message == "Activated") {
-
     const ngayKichHoat = convertToDate(result.data.Item.SurveyDate);
     const ngay = parseInt(ngayKichHoat.date);
     const thang = parseInt(ngayKichHoat.month);
     const nam = parseInt(ngayKichHoat.year);
 
     const modelMay = result.data.Item.ModelCode;
-    
-    //print
-    console.log("Model May: " + modelMay + " Date: " + ngay.toString() + "-" + thang.toString() + "-" + nam.toString());
 
-    if (modelMay.search("SM-A52") != -1)
-    {
+    //print
+    console.log(
+      "Model May: " +
+        modelMay +
+        " Date: " +
+        ngay.toString() +
+        "-" +
+        thang.toString() +
+        "-" +
+        nam.toString()
+    );
+
+    if (modelMay.search("SM-A52") != -1) {
       const resp = {
         imei: result.data.Item.Imei,
         model: result.data.Item.ModelCode,
@@ -1624,65 +1635,57 @@ router.get("/checkImeiA52s&imei=:imei", async (req, res) => {
       };
 
       if (thang == 12 && ngay >= 15) {
-      
         const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
         if (checkExists == false) {
           //update content
           resp.content = "Imei Xịn. Đã Thêm Vào Database";
-  
-          //chua co du lieu. Them vao database
-          const duLieuImei = new imeiGiftModel();
-          duLieuImei.imei = resp.imei;
-          duLieuImei.model = resp.model;
-          duLieuImei.ngayKichHoat = resp.ngayKichHoat;
-          duLieuImei.content = resp.content;
-  
-          duLieuImei.save();
-        } else {
-          resp.content = "Imei Đã Có Trong Database Rồi !!!";
-        }
-  
-        return res.json({
-          success: true,
-          data: resp,
-        });
-      }
 
-      else if (thang == 1 && nam == 2022){
-        const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
-        if (checkExists == false) {
-          //update content
-          resp.content = "Imei Xịn. Đã Thêm Vào Database";
-  
           //chua co du lieu. Them vao database
           const duLieuImei = new imeiGiftModel();
           duLieuImei.imei = resp.imei;
           duLieuImei.model = resp.model;
           duLieuImei.ngayKichHoat = resp.ngayKichHoat;
           duLieuImei.content = resp.content;
-  
+
           duLieuImei.save();
         } else {
           resp.content = "Imei Đã Có Trong Database Rồi !!!";
         }
-  
+
         return res.json({
           success: true,
           data: resp,
         });
-      }
-  
-      else {
+      } else if (thang == 1 && nam == 2022) {
+        const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
+        if (checkExists == false) {
+          //update content
+          resp.content = "Imei Xịn. Đã Thêm Vào Database";
+
+          //chua co du lieu. Them vao database
+          const duLieuImei = new imeiGiftModel();
+          duLieuImei.imei = resp.imei;
+          duLieuImei.model = resp.model;
+          duLieuImei.ngayKichHoat = resp.ngayKichHoat;
+          duLieuImei.content = resp.content;
+
+          duLieuImei.save();
+        } else {
+          resp.content = "Imei Đã Có Trong Database Rồi !!!";
+        }
+
+        return res.json({
+          success: true,
+          data: resp,
+        });
+      } else {
         resp.content = "KHÔNG THỎA ĐIỀU KIỆN";
         return res.status(200).json({
           success: true,
           data: resp,
         });
       }
-
-
     }
-
   }
 });
 
@@ -1703,19 +1706,24 @@ router.get("/checkImeiA32&imei=:imei", async (req, res) => {
       message: "Không có imei " + imeiNumber + " trong hệ thống",
     });
   } else if (result.data.Item.Message == "Activated") {
-
     const ngayKichHoat = convertToDate(result.data.Item.SurveyDate);
     const ngay = parseInt(ngayKichHoat.date);
     const thang = parseInt(ngayKichHoat.month);
     const nam = parseInt(ngayKichHoat.year);
 
     const modelMay = result.data.Item.ModelCode;
-    
-    //print
-    console.log("Model May: " + modelMay + " Date: " + ngay.toString() + "-" + thang.toString());
 
-    if (modelMay.search("SM-A32") != -1)
-    {
+    //print
+    console.log(
+      "Model May: " +
+        modelMay +
+        " Date: " +
+        ngay.toString() +
+        "-" +
+        thang.toString()
+    );
+
+    if (modelMay.search("SM-A32") != -1) {
       const resp = {
         imei: result.data.Item.Imei,
         model: result.data.Item.ModelCode,
@@ -1724,69 +1732,61 @@ router.get("/checkImeiA32&imei=:imei", async (req, res) => {
       };
 
       if (thang == 12 && ngay >= 15) {
-      
         const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
         if (checkExists == false) {
           //update content
           resp.content = "Imei Xịn. Đã Thêm Vào Database";
-  
-          //chua co du lieu. Them vao database
-          const duLieuImei = new imeiGiftModel();
-          duLieuImei.imei = resp.imei;
-          duLieuImei.model = resp.model;
-          duLieuImei.ngayKichHoat = resp.ngayKichHoat;
-          duLieuImei.content = resp.content;
-  
-          duLieuImei.save();
-        } else {
-          resp.content = "Imei Đã Có Trong Database Rồi !!!";
-        }
-  
-        return res.json({
-          success: true,
-          data: resp,
-        });
-      }
 
-      else if (thang == 1 && nam == 2022){
-        const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
-        if (checkExists == false) {
-          //update content
-          resp.content = "Imei Xịn. Đã Thêm Vào Database";
-  
           //chua co du lieu. Them vao database
           const duLieuImei = new imeiGiftModel();
           duLieuImei.imei = resp.imei;
           duLieuImei.model = resp.model;
           duLieuImei.ngayKichHoat = resp.ngayKichHoat;
           duLieuImei.content = resp.content;
-  
+
           duLieuImei.save();
         } else {
           resp.content = "Imei Đã Có Trong Database Rồi !!!";
         }
-  
+
         return res.json({
           success: true,
           data: resp,
         });
-      }
-  
-      else  {
+      } else if (thang == 1 && nam == 2022) {
+        const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
+        if (checkExists == false) {
+          //update content
+          resp.content = "Imei Xịn. Đã Thêm Vào Database";
+
+          //chua co du lieu. Them vao database
+          const duLieuImei = new imeiGiftModel();
+          duLieuImei.imei = resp.imei;
+          duLieuImei.model = resp.model;
+          duLieuImei.ngayKichHoat = resp.ngayKichHoat;
+          duLieuImei.content = resp.content;
+
+          duLieuImei.save();
+        } else {
+          resp.content = "Imei Đã Có Trong Database Rồi !!!";
+        }
+
+        return res.json({
+          success: true,
+          data: resp,
+        });
+      } else {
         resp.content = "KHÔNG THỎA ĐIỀU KIỆN";
         return res.status(200).json({
           success: true,
           data: resp,
         });
       }
-
-
     }
-
   }
 });
 
-router.post("/imeiA53", async(req,res)=>{
+router.post("/imeiA53", async (req, res) => {
   const imeiNumber = req.body.imei;
   const url = `https://csone.vn/api/mcs?ownerType=3&owner=0911111111&imei=${imeiNumber}`;
 
@@ -1802,19 +1802,24 @@ router.post("/imeiA53", async(req,res)=>{
       message: "Không có imei " + imeiNumber + " trong hệ thống",
     });
   } else if (result.data.Item.Message == "Activated") {
-
     const ngayKichHoat = convertToDate(result.data.Item.SurveyDate);
     const ngay = parseInt(ngayKichHoat.date);
     const thang = parseInt(ngayKichHoat.month);
     const nam = parseInt(ngayKichHoat.year);
 
     const modelMay = result.data.Item.ModelCode;
-    
-    //print
-    console.log("Model May: " + modelMay + " Date: " + ngay.toString() + "-" + thang.toString());
 
-    if (modelMay.search("SM-A536") != -1)
-    {
+    //print
+    console.log(
+      "Model May: " +
+        modelMay +
+        " Date: " +
+        ngay.toString() +
+        "-" +
+        thang.toString()
+    );
+
+    if (modelMay.search("SM-A536") != -1) {
       const resp = {
         imei: result.data.Item.Imei,
         model: result.data.Item.ModelCode,
@@ -1823,71 +1828,63 @@ router.post("/imeiA53", async(req,res)=>{
       };
 
       if (thang == 3 && ngay >= 25) {
-      
         const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
         if (checkExists == false) {
           //update content
           resp.content = "Imei Xịn. Đã Thêm Vào Database";
-  
-          //chua co du lieu. Them vao database
-          const duLieuImei = new imeiGiftModel();
-          duLieuImei.imei = resp.imei;
-          duLieuImei.model = resp.model;
-          duLieuImei.ngayKichHoat = resp.ngayKichHoat;
-          duLieuImei.content = resp.content;
-  
-          duLieuImei.save();
-        } else {
-          resp.content = "Imei Đã Có Trong Database Rồi !!!";
-        }
-  
-        return res.json({
-          success: true,
-          data: resp,
-        });
-      }
 
-      else if (thang >= 4 && nam == 2022){
-        const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
-        if (checkExists == false) {
-          //update content
-          resp.content = "Imei Xịn. Đã Thêm Vào Database";
-  
           //chua co du lieu. Them vao database
           const duLieuImei = new imeiGiftModel();
           duLieuImei.imei = resp.imei;
           duLieuImei.model = resp.model;
           duLieuImei.ngayKichHoat = resp.ngayKichHoat;
           duLieuImei.content = resp.content;
-  
+
           duLieuImei.save();
         } else {
           resp.content = "Imei Đã Có Trong Database Rồi !!!";
         }
-  
+
         return res.json({
           success: true,
           data: resp,
         });
-      }
-  
-      else  {
+      } else if (thang >= 4 && nam == 2022) {
+        const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
+        if (checkExists == false) {
+          //update content
+          resp.content = "Imei Xịn. Đã Thêm Vào Database";
+
+          //chua co du lieu. Them vao database
+          const duLieuImei = new imeiGiftModel();
+          duLieuImei.imei = resp.imei;
+          duLieuImei.model = resp.model;
+          duLieuImei.ngayKichHoat = resp.ngayKichHoat;
+          duLieuImei.content = resp.content;
+
+          duLieuImei.save();
+        } else {
+          resp.content = "Imei Đã Có Trong Database Rồi !!!";
+        }
+
+        return res.json({
+          success: true,
+          data: resp,
+        });
+      } else {
         resp.content = "KHÔNG THỎA ĐIỀU KIỆN";
         return res.status(200).json({
           success: true,
           data: resp,
         });
       }
-
     }
-
   }
-
-})
+});
 
 /////// Check Imei A73
 
-router.post("/imeiA73", async(req,res)=>{
+router.post("/imeiA73", async (req, res) => {
   const imeiNumber = req.body.imei;
   const url = `https://csone.vn/api/mcs?ownerType=3&owner=0911111111&imei=${imeiNumber}`;
 
@@ -1903,19 +1900,24 @@ router.post("/imeiA73", async(req,res)=>{
       message: "Không có imei " + imeiNumber + " trong hệ thống",
     });
   } else if (result.data.Item.Message == "Activated") {
-
     const ngayKichHoat = convertToDate(result.data.Item.SurveyDate);
     const ngay = parseInt(ngayKichHoat.date);
     const thang = parseInt(ngayKichHoat.month);
     const nam = parseInt(ngayKichHoat.year);
 
     const modelMay = result.data.Item.ModelCode;
-    
-    //print
-    console.log("Model May: " + modelMay + " Date: " + ngay.toString() + "-" + thang.toString());
 
-    if (modelMay.search("SM-A736") != -1)
-    {
+    //print
+    console.log(
+      "Model May: " +
+        modelMay +
+        " Date: " +
+        ngay.toString() +
+        "-" +
+        thang.toString()
+    );
+
+    if (modelMay.search("SM-A736") != -1) {
       const resp = {
         imei: result.data.Item.Imei,
         model: result.data.Item.ModelCode,
@@ -1924,75 +1926,65 @@ router.post("/imeiA73", async(req,res)=>{
       };
 
       if (thang == 4 && ngay >= 21) {
-      
         const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
         if (checkExists == false) {
           //update content
           resp.content = "Imei Xịn. Đã Thêm Vào Database";
-  
-          //chua co du lieu. Them vao database
-          const duLieuImei = new imeiGiftModel();
-          duLieuImei.imei = resp.imei;
-          duLieuImei.model = resp.model;
-          duLieuImei.ngayKichHoat = resp.ngayKichHoat;
-          duLieuImei.content = resp.content;
-  
-          duLieuImei.save();
-        } else {
-          resp.content = "Imei Đã Có Trong Database Rồi !!!";
-        }
-  
-        return res.json({
-          success: true,
-          data: resp,
-        });
-      }
 
-      else if (thang == 5 && nam == 2022){
-        const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
-        if (checkExists == false) {
-          //update content
-          resp.content = "Imei Xịn. Đã Thêm Vào Database";
-  
           //chua co du lieu. Them vao database
           const duLieuImei = new imeiGiftModel();
           duLieuImei.imei = resp.imei;
           duLieuImei.model = resp.model;
           duLieuImei.ngayKichHoat = resp.ngayKichHoat;
           duLieuImei.content = resp.content;
-  
+
           duLieuImei.save();
         } else {
           resp.content = "Imei Đã Có Trong Database Rồi !!!";
         }
-  
+
         return res.json({
           success: true,
           data: resp,
         });
-      }
-  
-      else  {
+      } else if (thang == 5 && nam == 2022) {
+        const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
+        if (checkExists == false) {
+          //update content
+          resp.content = "Imei Xịn. Đã Thêm Vào Database";
+
+          //chua co du lieu. Them vao database
+          const duLieuImei = new imeiGiftModel();
+          duLieuImei.imei = resp.imei;
+          duLieuImei.model = resp.model;
+          duLieuImei.ngayKichHoat = resp.ngayKichHoat;
+          duLieuImei.content = resp.content;
+
+          duLieuImei.save();
+        } else {
+          resp.content = "Imei Đã Có Trong Database Rồi !!!";
+        }
+
+        return res.json({
+          success: true,
+          data: resp,
+        });
+      } else {
         resp.content = "KHÔNG THỎA ĐIỀU KIỆN";
         return res.status(200).json({
           success: true,
           data: resp,
         });
       }
-
     }
-
   }
-
-})
+});
 
 ///////
 
-
-
 /////// Check Imei A33
 
-router.post("/imeiA33", async(req,res)=>{
+router.post("/imeiA33", async (req, res) => {
   const imeiNumber = req.body.imei;
   const url = `https://csone.vn/api/mcs?ownerType=3&owner=0911111111&imei=${imeiNumber}`;
 
@@ -2008,19 +2000,24 @@ router.post("/imeiA33", async(req,res)=>{
       message: "Không có imei " + imeiNumber + " trong hệ thống",
     });
   } else if (result.data.Item.Message == "Activated") {
-
     const ngayKichHoat = convertToDate(result.data.Item.SurveyDate);
     const ngay = parseInt(ngayKichHoat.date);
     const thang = parseInt(ngayKichHoat.month);
     const nam = parseInt(ngayKichHoat.year);
 
     const modelMay = result.data.Item.ModelCode;
-    
-    //print
-    console.log("Model May: " + modelMay + " Date: " + ngay.toString() + "-" + thang.toString());
 
-    if (modelMay.search("SM-A336") != -1)
-    {
+    //print
+    console.log(
+      "Model May: " +
+        modelMay +
+        " Date: " +
+        ngay.toString() +
+        "-" +
+        thang.toString()
+    );
+
+    if (modelMay.search("SM-A336") != -1) {
       const resp = {
         imei: result.data.Item.Imei,
         model: result.data.Item.ModelCode,
@@ -2029,71 +2026,61 @@ router.post("/imeiA33", async(req,res)=>{
       };
 
       if (thang == 4 && ngay >= 22) {
-      
         const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
         if (checkExists == false) {
           //update content
           resp.content = "Imei Xịn. Đã Thêm Vào Database";
-  
-          //chua co du lieu. Them vao database
-          const duLieuImei = new imeiGiftModel();
-          duLieuImei.imei = resp.imei;
-          duLieuImei.model = resp.model;
-          duLieuImei.ngayKichHoat = resp.ngayKichHoat;
-          duLieuImei.content = resp.content;
-  
-          duLieuImei.save();
-        } else {
-          resp.content = "Imei Đã Có Trong Database Rồi !!!";
-        }
-  
-        return res.json({
-          success: true,
-          data: resp,
-        });
-      }
 
-      else if (thang == 5 && nam == 2022){
-        const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
-        if (checkExists == false) {
-          //update content
-          resp.content = "Imei Xịn. Đã Thêm Vào Database";
-  
           //chua co du lieu. Them vao database
           const duLieuImei = new imeiGiftModel();
           duLieuImei.imei = resp.imei;
           duLieuImei.model = resp.model;
           duLieuImei.ngayKichHoat = resp.ngayKichHoat;
           duLieuImei.content = resp.content;
-  
+
           duLieuImei.save();
         } else {
           resp.content = "Imei Đã Có Trong Database Rồi !!!";
         }
-  
+
         return res.json({
           success: true,
           data: resp,
         });
-      }
-  
-      else  {
+      } else if (thang == 5 && nam == 2022) {
+        const checkExists = await imeiGiftModel.exists({ imei: resp.imei });
+        if (checkExists == false) {
+          //update content
+          resp.content = "Imei Xịn. Đã Thêm Vào Database";
+
+          //chua co du lieu. Them vao database
+          const duLieuImei = new imeiGiftModel();
+          duLieuImei.imei = resp.imei;
+          duLieuImei.model = resp.model;
+          duLieuImei.ngayKichHoat = resp.ngayKichHoat;
+          duLieuImei.content = resp.content;
+
+          duLieuImei.save();
+        } else {
+          resp.content = "Imei Đã Có Trong Database Rồi !!!";
+        }
+
+        return res.json({
+          success: true,
+          data: resp,
+        });
+      } else {
         resp.content = "KHÔNG THỎA ĐIỀU KIỆN";
         return res.status(200).json({
           success: true,
           data: resp,
         });
       }
-
     }
-
   }
-
-})
+});
 
 ///////
-
-
 
 router.get("/getAllImei", async (req, res) => {
   const allListImei = await imeiGiftModel.find();
@@ -2186,7 +2173,6 @@ router.post("/setCauHinhFake", async (req, res) => {
 });
 
 router.get("/getCauHinhFake&owner=:owner", async (req, res) => {
-
   const infoGetCauHinh = await cauHinhFakeModel
     .find({ owner: req.params.owner })
     .sort({ _id: -1 });
@@ -2202,7 +2188,6 @@ router.get("/getCauHinhFake&owner=:owner", async (req, res) => {
 });
 
 router.get("/danhSachDiaChi&soLuong=:soLuong", async (req, res) => {
-
   num = req.params.soLuong;
 
   var result = "";
@@ -2234,26 +2219,22 @@ router.get("/danhSachDiaChi&soLuong=:soLuong", async (req, res) => {
 
     address = diaChiTemp3;
 
-    result += address
-    result += "<br/>"
+    result += address;
+    result += "<br/>";
   }
 
-  res.send(result)
+  res.send(result);
+});
 
-
-
-})
-
-router.post("/checkSoLuongImei", async (req,res) =>{
+router.post("/checkSoLuongImei", async (req, res) => {
   const tenMauMay = req.body.modelMay;
-  
 
-  const listImei = await imeiGiftModel.find({model: {$regex: tenMauMay, $options: 'i'}}).exec();
-  console.log("helo: " + listImei.length)
-  res.json({total: listImei.length})
-})
-
-
+  const listImei = await imeiGiftModel
+    .find({ model: { $regex: tenMauMay, $options: "i" } })
+    .exec();
+  console.log("helo: " + listImei.length);
+  res.json({ total: listImei.length });
+});
 
 router.post("/setkhogmail", async (req, res) => {
   let duLieuGmail = new teleGmailModel();
@@ -2264,7 +2245,7 @@ router.post("/setkhogmail", async (req, res) => {
   const mailKP = req.body.mailKP;
   const otpRegTele = req.body.otpRegTele;
   const deviceName = req.body.deviceName;
-  
+
   //set
   duLieuGmail.gmail = gmail;
   duLieuGmail.password = password;
@@ -2288,7 +2269,7 @@ router.get("/getGmailTele&deviceName=:deviceName", async (req, res) => {
     {},
     { sort: { _id: -1 } }
   );
-  
+
   if (infoData) {
     res.json({
       status: "success",
@@ -2305,17 +2286,16 @@ router.get("/getGmailTele&deviceName=:deviceName", async (req, res) => {
 router.post("/updateOTPGmail", async (req, res) => {
   const filter = {
     gmail: req.body.gmail,
-    deviceName: req.body.deviceName
+    deviceName: req.body.deviceName,
   };
 
   const update = {
     otpRegTele: req.body.otpRegTele,
-
   };
 
   let options = { multi: true, upsert: true };
 
-  let resultUpdate = await teleGmailModel.updateMany(filter, update,options);
+  let resultUpdate = await teleGmailModel.updateMany(filter, update, options);
 
   res.status(200).json({
     success: true,
@@ -2328,13 +2308,12 @@ router.post("/setphonerent", async (req, res) => {
 
   //init
   const phoneRent = req.body.phoneRent;
-  
+
   const deviceName = req.body.deviceName;
-  
+
   //set
   duLieuPhoneRent.phoneRent = phoneRent;
   duLieuPhoneRent.deviceName = deviceName;
-  
 
   duLieuPhoneRent.save();
 
@@ -2352,7 +2331,7 @@ router.get("/getPhoneRent&deviceName=:deviceName", async (req, res) => {
     {},
     { sort: { _id: -1 } }
   );
-  
+
   if (infoData) {
     res.json({
       status: "success",
@@ -2369,17 +2348,20 @@ router.get("/getPhoneRent&deviceName=:deviceName", async (req, res) => {
 router.post("/updateOTPPhoneRent", async (req, res) => {
   const filter = {
     phoneRent: req.body.phoneRent,
-    deviceName: req.body.deviceName
+    deviceName: req.body.deviceName,
   };
 
   const update = {
     otp: req.body.otp,
-
   };
 
   let options = { multi: true, upsert: true };
 
-  let resultUpdate = await telePhoneRentModel.updateMany(filter, update,options);
+  let resultUpdate = await telePhoneRentModel.updateMany(
+    filter,
+    update,
+    options
+  );
 
   res.status(200).json({
     success: true,
