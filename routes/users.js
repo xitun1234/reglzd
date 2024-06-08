@@ -157,25 +157,23 @@ router.get("/fullname", async (req, res) => {
 });
 
 router.get("/nametelegram", async (req, res) => {
-  const dataFirstname = fs
-    .readFileSync("./config/Firstname.txt", "utf-8")
-    .toString()
-    .split("\r\n");
+  
+  const fileDataFirstname = await readFilePro(`${__dirname}/../config/firstname.json`);
+  const dataJsonFirstname = JSON.parse(fileDataFirstname);
+
   let indexDinhDangFirstname = Math.floor(
-    Math.random() * dataFirstname.length
+    Math.random() * dataJsonFirstname.length
   );
+  const Firstname = dataJsonFirstname[indexDinhDangFirstname].firstname;
 
-  const Firstname = dataFirstname[indexDinhDangFirstname];
+  const fileDataLastname = await readFilePro(`${__dirname}/../config/lastname.json`);
+  const dataJsonLastname = JSON.parse(fileDataLastname);
 
-  const dataLastname = fs
-    .readFileSync("./config/Lastname.txt", "utf-8")
-    .toString()
-    .split("\r\n");
   let indexDinhDangLastname = Math.floor(
-    Math.random() * dataLastname.length
+    Math.random() * dataJsonLastname.length
   );
+  const Lastname = dataJsonLastname[indexDinhDangLastname].lastname;
 
-  const Lastname = dataLastname[indexDinhDangLastname];
 
   res.status(200).json({
     status: "success",
